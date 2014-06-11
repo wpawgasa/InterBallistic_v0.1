@@ -5,6 +5,7 @@
  */
 package dti.internalballistics;
 
+import com.apple.eawt.Application;
 import dti.internalballistics.cad.CAD;
 import dti.internalballistics.cad.OnClickAction;
 import dti.internalballistics.cad.OnLoadAction;
@@ -26,6 +27,7 @@ import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.ButtonGroup;
+import javax.swing.ImageIcon;
 import javax.swing.JComponent;
 import javax.swing.JDialog;
 import javax.swing.JFileChooser;
@@ -62,6 +64,9 @@ public class MainWindow extends javax.swing.JFrame {
      * Creates new form MainWindow
      */
     public MainWindow() {
+        
+        Application.getApplication().setDockIconImage(new ImageIcon(getClass().getResource("/dti/icon/InternalBallisticNew-Logo.png")).getImage());
+        this.setIconImage(new ImageIcon(getClass().getResource("/dti/icon/InternalBallisticNew-Logo.png")).getImage());
         initComponents();
         setSpinner(rocketDiameterSp);
         setSpinner(rocketLengthSp);
