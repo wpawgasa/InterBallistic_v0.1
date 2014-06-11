@@ -1,0 +1,4 @@
+Manifest-Version: 1.0
+SplashScreen-Image: dti/image/splash3.png
+X-COMMENT: Main-Class will be added automatically by build
+

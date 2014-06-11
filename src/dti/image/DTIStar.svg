@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="336.81117705797175 -307.1226997384647  366.5464596193795 366.54645961937956" version="1.0" overflow="visible">
+    <defs>
+        <g id="ID__#42_Model_Space"/>
+        <g id="ID__#42_Paper_Space0"/>
+        <g id="ID__#42_Paper_Space"/>
+    </defs>
+    <g id="draft" transform="matrix(1 0 0 -1 0 0)" stroke-width="0.02%">
+        <g id="Defpoints" color="rgb(0,0,0)" stroke="currentColor" fill="none"/>
+        <g id="ID_0" color="rgb(0,0,0)" stroke="currentColor" fill="none">
+            <path d="M 435.4727198001599 7.391473588501228 L 467.7915084144756 106.8584772482276 " color="rgb(0,0,0)" stroke="currentColor" id="ID_8F5"/>
+            <path d="M 552.4031954819771 168.3324662690486 L 656.9889923883488 168.3324662690486 L 572.3773053208473 106.8584772482275 " color="rgb(0,0,0)" stroke="currentColor" id="ID_8F6"/>
+            <path d="M 467.7915084144757 106.8584772482276 L 383.1798213469742 168.3324662690487 L 487.7656182533458 168.3324662690486 L 487.7656182533458 168.3324662690486 L 520.0844068676615 267.7994699287749 L 552.4031954819771 168.3324662690486 " color="rgb(0,0,0)" stroke="currentColor" id="ID_8F7"/>
+            <path d="M 520.0844068676615 68.86546260932232 L 435.4727198001599 7.391473588501242 " color="rgb(0,0,0)" stroke="currentColor" id="ID_8F8"/>
+            <path d="M 572.3773053208474 106.8584772482275 L 604.696093935163 7.391473588501185 L 520.0844068676615 68.86546260932226 " color="rgb(0,0,0)" stroke="currentColor" id="ID_8F9"/>
+            <circle cx="520.0844068676615" cy="123.8494699287749" r="179.6796370683233" color="rgb(128,128,128)" stroke="currentColor" id="ID_8E0"/>
+        </g>
+    </g>
+</svg>
