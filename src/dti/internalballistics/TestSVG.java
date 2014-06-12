@@ -57,7 +57,7 @@ public class TestSVG {
             });
             f.setSize(400, 400);
             f.setVisible(true);
-            is = t.getClass().getClassLoader().getResource("dti/image/DTIStar.dxf").openStream();
+            is = t.getClass().getClassLoader().getResource("dti/image/DTIEightStar.dxf").openStream();
             Parser dxfParser = ParserBuilder.createDefaultParser();
             dxfParser.parse(is, DXFParser.DEFAULT_ENCODING);
             DXFDocument dXFDocument = dxfParser.getDocument();

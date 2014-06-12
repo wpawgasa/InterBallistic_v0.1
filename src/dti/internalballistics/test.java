@@ -48,7 +48,7 @@ public class test extends JFrame{
 
             
             t.setVisible(true);
-            is = t.getClass().getClassLoader().getResource("dti/image/DTIWheel.dxf").openStream();
+            is = t.getClass().getClassLoader().getResource("dti/image/DTIEightStar.dxf").openStream();
             Parser dxfParser = ParserBuilder.createDefaultParser();
             dxfParser.parse(is, DXFParser.DEFAULT_ENCODING);
             DXFDocument dXFDocument = dxfParser.getDocument();
@@ -72,7 +72,7 @@ public class test extends JFrame{
             tag.setAttribute("stroke-width", "0.3%");
              Element tagColor = sVGDocument.getElementById("ID_0");
        tagColor.setAttribute("color", "rgb(239,13,54)");
-            File file = new File("/Users/amabird/NetBeansProjects/InternalBallistics/src/dti/image/DTIWheel.svg");
+            File file = new File("/Users/amabird/NetBeansProjects/InternalBallistics/src/dti/image/DTIEightStar.svg");
             FileOutputStream fileOutputStream = new FileOutputStream(file);
             if(!file.exists()){
                 file.createNewFile();
