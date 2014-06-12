@@ -162,7 +162,7 @@ public class InternalBallistics {
             splashProgress(pctDone);
             try
             {
-                Thread.sleep(1000);
+                Thread.sleep(200);
             }
             catch (InterruptedException ex)
             {
