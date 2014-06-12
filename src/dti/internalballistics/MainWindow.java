@@ -5,11 +5,13 @@
  */
 package dti.internalballistics;
 
-import com.apple.eawt.Application;
+//import com.apple.eawt.Application;
 import dti.internalballistics.cad.CAD;
 import dti.internalballistics.cad.OnClickAction;
 import dti.internalballistics.cad.OnLoadAction;
 import dti.internalballistics.cad.SvgOnHoverAction;
+import java.awt.Image;
+import java.awt.Toolkit;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.WindowAdapter;
@@ -65,8 +67,13 @@ public class MainWindow extends javax.swing.JFrame {
      */
     public MainWindow() {
         
-        Application.getApplication().setDockIconImage(new ImageIcon(getClass().getResource("/dti/icon/InternalBallisticNew-Logo.png")).getImage());
-        this.setIconImage(new ImageIcon(getClass().getResource("/dti/icon/InternalBallisticNew-Logo.png")).getImage());
+        //Application.getApplication().setDockIconImage(new ImageIcon(getClass().getResource("/dti/icon/InternalBallisticNew-Logo.png")).getImage());
+        //this.setIconImage(new ImageIcon(getClass().getResource("/dti/icon/InternalBallisticNew-Logo.png")).getImage());
+        
+        java.net.URL url = ClassLoader.getSystemResource("dti/icon/InternalBallisticNew-Logo.png");
+        Toolkit kit = Toolkit.getDefaultToolkit();
+        Image img = kit.createImage(url);
+        setIconImage(img);
         initComponents();
         setSpinner(rocketDiameterSp);
         setSpinner(rocketLengthSp);
