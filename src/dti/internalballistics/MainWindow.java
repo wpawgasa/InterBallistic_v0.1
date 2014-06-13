@@ -55,6 +55,7 @@ import org.w3c.dom.events.EventListener;
 import org.w3c.dom.events.EventTarget;
 import org.w3c.dom.svg.SVGDocument;
 import org.w3c.dom.svg.SVGElement;
+import sun.lwawt.LWToolkit;
 
 /**
  *
@@ -114,6 +115,8 @@ public class MainWindow extends javax.swing.JFrame {
                 setSectionInfoView();
             }
         }, false);
+        
+        //System.out
         //System.out.println("def");
     }
 
@@ -208,6 +211,10 @@ public class MainWindow extends javax.swing.JFrame {
         saveConfItem = new javax.swing.JMenuItem();
         exitItem = new javax.swing.JMenuItem();
 
+        diameterSpinnerNumberModel = new SpinnerNumberModel(0.0, -1000.0, 1000.0, 0.1);
+        lengthSpinnerNumberModel = new SpinnerNumberModel(0.0, -1000.0, 1000.0, 0.1);
+        rocketDiameterSp = new JSpinner(diameterSpinnerNumberModel);
+        rocketLengthSp = new JSpinner(lengthSpinnerNumberModel);
         
 
 //        sectionPropertiesTabbedPanel.setEnabled(false);
@@ -243,12 +250,12 @@ public class MainWindow extends javax.swing.JFrame {
         });
 
         removeSectionBT.setText("Remove Section");
-        removeSectionBT.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                removeSectionBTMouseClicked(evt);
+
+        removeSectionBT.addActionListener(new java.awt.event.ActionListener() {
+             public void actionPerformed(java.awt.event.ActionEvent evt) {
+                removeSectionBTActionPerformed(evt);
             }
         });
-
         jLabel3.setText("mm");
 
         jLabel4.setText("mm");
@@ -325,12 +332,13 @@ public class MainWindow extends javax.swing.JFrame {
         });
 
         removePropellantBt.setText("Remove");
-        removePropellantBt.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                removePropellantBtMouseClicked(evt);
+
+        removePropellantBt.addActionListener(new java.awt.event.ActionListener() {
+            
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                removeSectionBTActionPerformed(evt);
             }
         });
-
         burningRateLB.setText("Burning rate (m/s) ");
 
         jLabel19.setText("/1000 ");
@@ -1165,7 +1173,7 @@ public class MainWindow extends javax.swing.JFrame {
                     svgRoot.appendChild(innerPort);
                     drawCanvas.setDocument(document);
 
-                    selectedSection = new SectionInfo(diam, Double.valueOf(innerPortSectionString), sectionName);
+                    selectedSection = new SectionInfo(diam, Double.valueOf(innerPortSectionString), sectionName, innerPortName );
 
                     sectionList.add(selectedSection);
 
@@ -1182,6 +1190,24 @@ public class MainWindow extends javax.swing.JFrame {
         //System.out.println(diameterSectionStr);
     }//GEN-LAST:event_addSectionBTActionPerformed
 
+                                           
+     
+    private void removeSectionBTActionPerformed(java.awt.event.ActionEvent evt) {                                             
+        String sectionId = selectedSection.getSection_id();
+        String innerPortID = selectedSection.getInnerPort_id();
+       
+        Element targetSection = document.getElementById(sectionId);
+        Node targetSectionNode = (Node)targetSection;
+        
+        Element targetInnerPort = document.getElementById(innerPortID);
+        Node targetInnerPortNode = (Node)targetInnerPort;
+        
+        targetSectionNode.getParentNode().removeChild(targetSectionNode);
+        targetInnerPortNode.getParentNode().removeChild(targetInnerPortNode);
+        drawCanvas.setDocument(document);
+        sectionList.remove(selectedSection);
+        
+    }                            
     private void setSectionInfoView() {
         DefaultTableModel model = (DefaultTableModel) propellantTable.getModel();
         model.setRowCount(0);

@@ -187,4 +187,19 @@ public class AddSectionPopup extends javax.swing.JFrame {
     public String getInnerPortSectionStr() {
         return innerPortAddSecSpin.getValue().toString();
     }
+//    
+//     public void setDiameterSection(String dismeterSection) {
+//        diameterAddSecSpin.setValue(dismeterSection);
+//    }
+//
+//    /**
+//     * @return the lengthSectionStr
+//     */
+//    public void setLengthSection(String lengthSection) {
+//        lengthAddSecSpin.setValue(lengthSection);
+//    }
+//
+//    public void setInnerPortSection(String InnerPortSection) {
+//        innerPortAddSecSpin.setValue(InnerPortSection);
+//    }
 }

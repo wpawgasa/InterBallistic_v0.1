@@ -3,7 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package dti.internalballistics;
 
 import dti.internalballistics.cad.CAD;
@@ -21,22 +20,25 @@ import org.w3c.dom.svg.SVGDocument;
  * @author amabird
  */
 public class SectionInfo {
-    
-    
+
     private int rowNo = 0;
-    
+
     private Double newInnerDiameter;
     private Double newOuterDiameter;
     private boolean isCircle = false;
-    
+
+    private Double diameterSection;
+    private Double lengthSection;
+    private Double innerPortSection;
     //CADPanel cADPanel = new CADPanel(); 
     public SVGDocument CADDoc;
-    
-    private List<PropellantLayer> layers = new ArrayList<PropellantLayer>();
-    
-    private String section_id;
 
-    public SectionInfo(double outer, double inner, String id) {
+    private List<PropellantLayer> layers = new ArrayList<PropellantLayer>();
+
+    private String section_id;
+    private String innerPort_id;
+
+    public SectionInfo(double outer, double inner, String id, String innerPort_id) {
         rowNo = 1;
         PropellantLayer layer = new PropellantLayer();
         layer.setLayerId(rowNo);
@@ -54,12 +56,16 @@ public class SectionInfo {
         newOuterDiameter = outer;
         newInnerDiameter = inner;
         section_id = id;
+        this.innerPort_id = innerPort_id;
+        this.diameterSection = diameterSection;
+        this.innerPortSection = innerPortSection;
+        this.lengthSection = lengthSection;
     }
 
     public List<PropellantLayer> getLayers() {
         return layers;
     }
-    
+
     public PropellantLayer addNewLayer() {
         rowNo++;
         PropellantLayer layer = new PropellantLayer();
@@ -77,7 +83,7 @@ public class SectionInfo {
         layers.add(layer);
         return layer;
     }
-    
+
     public void removeLayer(PropellantLayer layer) {
         rowNo--;
         layers.remove(layer);
@@ -103,19 +109,61 @@ public class SectionInfo {
     public void setSection_id(String section_id) {
         this.section_id = section_id;
     }
-    
-    
-    
-    
-    
-    
 
-    
+    /**
+     * @return the innerPort_id
+     */
+    public String getInnerPort_id() {
+        return innerPort_id;
+    }
 
-    
-    
-    
-    
-   
-    
+    /**
+     * @param innerPort_id the innerPort_id to set
+     */
+    public void setInnerPort_id(String innerPort_id) {
+        this.innerPort_id = innerPort_id;
+    }
+
+    /**
+     * @return the diameterSection
+     */
+    public Double getDiameterSection() {
+        return diameterSection;
+    }
+
+    /**
+     * @param diameterSection the diameterSection to set
+     */
+    public void setDiameterSection(Double diameterSection) {
+        this.diameterSection = diameterSection;
+    }
+
+    /**
+     * @return the lengthSection
+     */
+    public Double getLengthSection() {
+        return lengthSection;
+    }
+
+    /**
+     * @param lengthSection the lengthSection to set
+     */
+    public void setLengthSection(Double lengthSection) {
+        this.lengthSection = lengthSection;
+    }
+
+    /**
+     * @return the innerPortSection
+     */
+    public Double getInnerPortSection() {
+        return innerPortSection;
+    }
+
+    /**
+     * @param innerPortSection the innerPortSection to set
+     */
+    public void setInnerPortSection(Double innerPortSection) {
+        this.innerPortSection = innerPortSection;
+    }
+
 }
