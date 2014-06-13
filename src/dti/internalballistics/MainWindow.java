@@ -5,7 +5,7 @@
  */
 package dti.internalballistics;
 
-import com.apple.eawt.Application;
+//import com.apple.eawt.Application;
 import dti.internalballistics.cad.CAD;
 import dti.internalballistics.cad.OnClickAction;
 import dti.internalballistics.cad.OnLoadAction;
@@ -67,7 +67,7 @@ public class MainWindow extends javax.swing.JFrame {
      */
     public MainWindow() {
 
-        Application.getApplication().setDockIconImage(new ImageIcon(getClass().getResource("/dti/icon/InternalBallisticNew-Logo.png")).getImage());
+        //Application.getApplication().setDockIconImage(new ImageIcon(getClass().getResource("/dti/icon/InternalBallisticNew-Logo.png")).getImage());
         this.setIconImage(new ImageIcon(getClass().getResource("/dti/icon/InternalBallisticNew-Logo.png")).getImage());
         initComponents();
         setSpinner(rocketDiameterSp);
