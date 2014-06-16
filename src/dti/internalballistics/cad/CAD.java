@@ -103,11 +103,11 @@ public class CAD {
         }
         return svgDoc;
     }
-    
-    public void resizeShape(){
-        
+
+    public void resizeShape() {
+
     }
-    
+
     public void convertToSVG(ByteArrayOutputStream byteArrayOutputStream, JSVGCanvas jSVGCanvas) {
         byte[] data = byteArrayOutputStream.toByteArray();
         ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(data);
@@ -151,9 +151,15 @@ public class CAD {
         //dXFCircle.setRadius(newInnerRadius*2);
     }
 
-    public void setOuterShape(double newRadius, JSVGCanvas jSVGCanvas) {
-        Element radius = sVGDocument.getElementById("ID_8ED");
+    public void setOuterShape(double newRadius, JSVGCanvas jSVGCanvas,SVGDocument svgDoc) {
+        Element radius = svgDoc.getElementById("ID_8E0");
         radius.setAttribute("r", String.valueOf(newRadius / 2));
-        jSVGCanvas.setDocument(sVGDocument);
+        jSVGCanvas.setDocument(svgDoc);
+    }
+
+    public void setInnerShape(double newRadius, JSVGCanvas jSVGCanvas,SVGDocument svgDoc) {
+        Element radius = svgDoc.getElementById("ID_8ED");
+        radius.setAttribute("r", String.valueOf(newRadius / 2));
+        jSVGCanvas.setDocument(svgDoc);
     }
 }

@@ -38,7 +38,7 @@ public class SectionInfo {
     private String section_id;
     private String innerPort_id;
 
-    public SectionInfo(double outer, double inner, String id, String innerPort_id) {
+    public SectionInfo(double outer, double inner, String id, String innerPort_id, Double lengthSection) {
         rowNo = 1;
         PropellantLayer layer = new PropellantLayer();
         layer.setLayerId(rowNo);
@@ -57,8 +57,6 @@ public class SectionInfo {
         newInnerDiameter = inner;
         section_id = id;
         this.innerPort_id = innerPort_id;
-        this.diameterSection = diameterSection;
-        this.innerPortSection = innerPortSection;
         this.lengthSection = lengthSection;
     }
 
@@ -79,7 +77,7 @@ public class SectionInfo {
         layer.setGasTemp(0.0);
         layer.setHeatRatio(0.0);
         layer.setPressureExponent(0.0);
-        layer.setMaxBurningDistance(newOuterDiameter);
+        layer.setMaxBurningDistance(getNewOuterDiameter());
         layers.add(layer);
         return layer;
     }
@@ -127,16 +125,6 @@ public class SectionInfo {
     /**
      * @return the diameterSection
      */
-    public Double getDiameterSection() {
-        return diameterSection;
-    }
-
-    /**
-     * @param diameterSection the diameterSection to set
-     */
-    public void setDiameterSection(Double diameterSection) {
-        this.diameterSection = diameterSection;
-    }
 
     /**
      * @return the lengthSection
@@ -153,17 +141,33 @@ public class SectionInfo {
     }
 
     /**
-     * @return the innerPortSection
+     * @return the newInnerDiameter
      */
-    public Double getInnerPortSection() {
-        return innerPortSection;
+    public Double getNewInnerDiameter() {
+        return newInnerDiameter;
     }
 
     /**
-     * @param innerPortSection the innerPortSection to set
+     * @param newInnerDiameter the newInnerDiameter to set
      */
-    public void setInnerPortSection(Double innerPortSection) {
-        this.innerPortSection = innerPortSection;
+    public void setNewInnerDiameter(Double newInnerDiameter) {
+        this.newInnerDiameter = newInnerDiameter;
     }
+
+    /**
+     * @return the newOuterDiameter
+     */
+    public Double getNewOuterDiameter() {
+        return newOuterDiameter;
+    }
+
+    /**
+     * @param newOuterDiameter the newOuterDiameter to set
+     */
+    public void setNewOuterDiameter(Double newOuterDiameter) {
+        this.newOuterDiameter = newOuterDiameter;
+    }
+
+
 
 }
