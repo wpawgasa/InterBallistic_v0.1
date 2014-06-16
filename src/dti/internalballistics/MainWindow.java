@@ -5,7 +5,7 @@
  */
 package dti.internalballistics;
 
-import com.apple.eawt.Application;
+//import com.apple.eawt.Application;
 import dti.internalballistics.cad.CAD;
 import dti.internalballistics.cad.OnClickAction;
 import dti.internalballistics.cad.OnLoadAction;
