@@ -26,6 +26,9 @@ import org.apache.batik.dom.svg.SAXSVGDocumentFactory;
 import org.apache.batik.swing.JSVGCanvas;
 import org.apache.batik.util.XMLResourceDescriptor;
 import org.kabeja.batik.tools.SAXPNGSerializer;
+import org.kabeja.dxf.DXFCircle;
+import org.kabeja.dxf.DXFColor;
+import org.kabeja.dxf.DXFConstants;
 import org.kabeja.dxf.DXFDocument;
 import org.kabeja.dxf.DXFLayer;
 import org.kabeja.parser.DXFParseException;
@@ -35,12 +38,10 @@ import org.kabeja.parser.ParserBuilder;
 import org.kabeja.svg.SVGGenerator;
 import org.kabeja.xml.SAXGenerator;
 import org.kabeja.xml.SAXSerializer;
-import org.kabeja.dxf.DXFCircle;
-import org.kabeja.dxf.DXFColor;
-import org.kabeja.dxf.DXFConstants;
 import org.kabeja.xslt.SAXXMLSerializer;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
 import org.w3c.dom.svg.SVGDocument;
 
 /**
@@ -152,14 +153,32 @@ public class CAD {
     }
 
     public void setOuterShape(double newRadius, JSVGCanvas jSVGCanvas,SVGDocument svgDoc) {
-        Element radius = svgDoc.getElementById("ID_8E0");
-        radius.setAttribute("r", String.valueOf(newRadius / 2));
+//        Element radius = svgDoc.getElementById("ID_8E0");
+        Node node0 = (Node) svgDoc.getElementById("ID_0");
+        NodeList nodes = node0.getChildNodes();
+        for(int i=0;i<nodes.getLength();i++) {
+            Node n = nodes.item(i);
+            Element elm = (Element) n;
+            if(elm.getTagName().equalsIgnoreCase("circle")&&elm.getAttribute("id").equalsIgnoreCase("ID_8E0")) {
+                elm.setAttribute("r", String.valueOf(newRadius / 2));
+            }
+        }
+        
         jSVGCanvas.setDocument(svgDoc);
     }
 
     public void setInnerShape(double newRadius, JSVGCanvas jSVGCanvas,SVGDocument svgDoc) {
-        Element radius = svgDoc.getElementById("ID_8ED");
-        radius.setAttribute("r", String.valueOf(newRadius / 2));
+//        Element radius = svgDoc.getElementById("ID_8E0");
+        Node node0 = (Node) svgDoc.getElementById("ID_0");
+        NodeList nodes = node0.getChildNodes();
+        for(int i=0;i<nodes.getLength();i++) {
+            Node n = nodes.item(i);
+            Element elm = (Element) n;
+            if(elm.getTagName().equalsIgnoreCase("circle")&&elm.getAttribute("id").equalsIgnoreCase("ID_8ED")) {
+                elm.setAttribute("r", String.valueOf(newRadius / 2));
+            }
+        }
+        
         jSVGCanvas.setDocument(svgDoc);
     }
 }

@@ -68,7 +68,7 @@ public class MainWindow extends javax.swing.JFrame {
      */
     public MainWindow() {
         
-        Application.getApplication().setDockIconImage(new ImageIcon(getClass().getResource("/dti/icon/InternalBallisticNew-Logo.png")).getImage());
+        //Application.getApplication().setDockIconImage(new ImageIcon(getClass().getResource("/dti/icon/InternalBallisticNew-Logo.png")).getImage());
         this.setIconImage(new ImageIcon(getClass().getResource("/dti/icon/InternalBallisticNew-Logo.png")).getImage());
         initComponents();
         setSpinner(rocketDiameterSp);
@@ -107,9 +107,13 @@ public class MainWindow extends javax.swing.JFrame {
                 String sectionNo = target.getAttribute("id");
                 
                 for (SectionInfo section : sectionList) {
+                    
                     if (section.getSection_id().equalsIgnoreCase(sectionNo)) {
                         selectedSection = section;
                         target.setAttribute("stroke-width", "2");
+                    } else {
+                        Element elm = document.getElementById(section.getSection_id());
+                        elm.setAttribute("stroke-width", "1");
                     }
                 }
                 setSectionInfoView();
@@ -1207,6 +1211,8 @@ public class MainWindow extends javax.swing.JFrame {
                     selectedSection = new SectionInfo(Double.valueOf(diameterSectionStr), Double.valueOf(innerPortSectionString), sectionName, innerPortName, lengthSection);
                     
                     sectionList.add(selectedSection);
+                    circleToggleButton.setSelected(true);
+                    defaultDrawCircle();
                     
                     setSectionInfoView();
                     registerListeners(sectionName);
@@ -1216,8 +1222,7 @@ public class MainWindow extends javax.swing.JFrame {
                     //innerDiameterSpinner.setValue(Double.valueOf(innerPortSectionString));
                     //lengthSectionSpinner.setValue(lengthSection);
                     
-                    circleToggleButton.setSelected(true);
-                    defaultDrawCircle();
+                    
                 }
                 addSectionPopup.dispose();
             }
