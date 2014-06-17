@@ -5,7 +5,7 @@
  */
 package dti.internalballistics;
 
-//import com.apple.eawt.Application;
+import com.apple.eawt.Application;
 import dti.internalballistics.cad.CAD;
 import dti.internalballistics.cad.OnClickAction;
 import dti.internalballistics.cad.OnLoadAction;
@@ -67,8 +67,8 @@ public class MainWindow extends javax.swing.JFrame {
      * Creates new form MainWindow
      */
     public MainWindow() {
-        
-        //Application.getApplication().setDockIconImage(new ImageIcon(getClass().getResource("/dti/icon/InternalBallisticNew-Logo.png")).getImage());
+
+        Application.getApplication().setDockIconImage(new ImageIcon(getClass().getResource("/dti/icon/InternalBallisticNew-Logo.png")).getImage());
         this.setIconImage(new ImageIcon(getClass().getResource("/dti/icon/InternalBallisticNew-Logo.png")).getImage());
         initComponents();
         setSpinner(rocketDiameterSp);
@@ -84,30 +84,30 @@ public class MainWindow extends javax.swing.JFrame {
                 //System.out.println("sssssss");
             }
         });
-        
+
         setCanvas();
-        
+
     }
-    
+
     public void registerListeners(String id) {
         // Gets an element from the loaded document.
         Element elt = document.getElementById(id);
-        
+
         EventTarget t = (EventTarget) elt;
 
-        // Adds a 'onload' listener
+        // Adds oldLengthSection 'onload' listener
         t.addEventListener("SVGLoad", new OnLoadAction(), false);
 
-        // Adds a 'onclick' listener
+        // Adds oldLengthSection 'onclick' listener
         t.addEventListener("click", new EventListener() {
-            
+
             @Override
             public void handleEvent(Event event) {
                 Element target = (Element) event.getCurrentTarget();
                 String sectionNo = target.getAttribute("id");
-                
+
                 for (SectionInfo section : sectionList) {
-                    
+
                     if (section.getSection_id().equalsIgnoreCase(sectionNo)) {
                         selectedSection = section;
                         target.setAttribute("stroke-width", "2");
@@ -132,7 +132,7 @@ public class MainWindow extends javax.swing.JFrame {
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">
     private void initComponents() {
-        
+
         mainTabbedPanel = new javax.swing.JTabbedPane();
         geometricTab = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
@@ -155,7 +155,7 @@ public class MainWindow extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         propellantTable = new javax.swing.JTable();
         addPropellantBt = new javax.swing.JButton();
-        
+
         removePropellantBt = new javax.swing.JButton();
         propellantPanel = new javax.swing.JPanel();
         burningRateLB = new javax.swing.JLabel();
@@ -217,12 +217,12 @@ public class MainWindow extends javax.swing.JFrame {
         lengthLB = new javax.swing.JLabel();
         lengthSectionSpinner = new javax.swing.JSpinner();
         mmLengthLabel = new javax.swing.JLabel();
-        
+
         diameterSpinnerNumberModel = new SpinnerNumberModel(0.0, -1000.0, 1000.0, 0.1);
         lengthSpinnerNumberModel = new SpinnerNumberModel(0.0, -1000.0, 1000.0, 0.1);
         rocketDiameterSp = new JSpinner(diameterSpinnerNumberModel);
         rocketLengthSp = new JSpinner(lengthSpinnerNumberModel);
-        
+
         diameterSectionSpinnerNumberModel = new SpinnerNumberModel(0.0, -1000.0, 1000.0, 0.1);
         lengthSectionSpinnerNumberModel = new SpinnerNumberModel(0.0, -1000.0, 1000.0, 0.1);
         innerDiameterSectionSpinnerNumberModel = new SpinnerNumberModel(0.0, -1000.0, 1000.0, 0.1);
@@ -244,11 +244,11 @@ public class MainWindow extends javax.swing.JFrame {
 //        savePropertiesBT.setEnabled(false);
 //        propellantTable.setEnabled(false);
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        
+
         jLabel1.setText("Rocket Diameter :");
-        
+
         jLabel2.setText("Rocket Length :");
-        
+
         addSectionBT.setText("Add Section");
         addSectionBT.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -260,30 +260,30 @@ public class MainWindow extends javax.swing.JFrame {
                 addSectionBTActionPerformed(evt);
             }
         });
-        
+
         removeSectionBT.setText("Remove Section");
-        
+
         removeSectionBT.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 removeSectionBTActionPerformed(evt);
             }
         });
         jLabel3.setText("mm");
-        
+
         jLabel4.setText("mm");
-        
+
         rocketDiameterSp.addChangeListener(new javax.swing.event.ChangeListener() {
             public void stateChanged(javax.swing.event.ChangeEvent evt) {
                 rocketDiameterSpStateChanged(evt);
             }
         });
-        
+
         rocketLengthSp.addChangeListener(new javax.swing.event.ChangeListener() {
             public void stateChanged(javax.swing.event.ChangeEvent evt) {
                 rocketLengthSpStateChanged(evt);
             }
         });
-        
+
         javax.swing.GroupLayout drawCanvasLayout = new javax.swing.GroupLayout(drawCanvas);
         drawCanvas.setLayout(drawCanvasLayout);
         drawCanvasLayout.setHorizontalGroup(
@@ -294,27 +294,27 @@ public class MainWindow extends javax.swing.JFrame {
                 drawCanvasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGap(0, 0, Short.MAX_VALUE)
         );
-        
+
         jLabel14.setText("Igniter Mass :");
-        
+
         jLabel15.setText("Igniter burn rate :");
-        
+
         rocketLengthSp1.addChangeListener(new javax.swing.event.ChangeListener() {
             public void stateChanged(javax.swing.event.ChangeEvent evt) {
                 rocketLengthSp1StateChanged(evt);
             }
         });
-        
+
         rocketDiameterSp1.addChangeListener(new javax.swing.event.ChangeListener() {
             public void stateChanged(javax.swing.event.ChangeEvent evt) {
                 rocketDiameterSp1StateChanged(evt);
             }
         });
-        
+
         jLabel16.setText("kg");
-        
+
         jLabel17.setText("kg/s");
-        
+
         propellantTable.setModel(new javax.swing.table.DefaultTableModel(
                 new Object[][]{},
                 new String[]{
@@ -324,7 +324,7 @@ public class MainWindow extends javax.swing.JFrame {
             boolean[] canEdit = new boolean[]{
                 false, true, true
             };
-            
+
             public boolean isCellEditable(int rowIndex, int columnIndex) {
                 return canEdit[columnIndex];
             }
@@ -335,44 +335,44 @@ public class MainWindow extends javax.swing.JFrame {
             }
         });
         jScrollPane1.setViewportView(propellantTable);
-        
+
         addPropellantBt.setText("Add");
         addPropellantBt.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 addPropellantBtMouseClicked(evt);
             }
         });
-        
+
         removePropellantBt.setText("Remove");
-        
+
         removePropellantBt.addActionListener(new java.awt.event.ActionListener() {
-            
+
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 removeSectionBTActionPerformed(evt);
             }
         });
         burningRateLB.setText("Burning rate (m/s) ");
-        
+
         jLabel19.setText("/1000 ");
-        
+
         pressureExponentLB.setText("Pressure Exponent");
-        
+
         densityLB.setText("Density (kg/m^3)");
-        
+
         jLabel22.setText("*1000 ");
-        
+
         alphaConstLB.setText("Alpha erosive burning const.");
-        
+
         jLabel24.setText("/10^7");
-        
+
         gasConstLB.setText("Individual gas const. (J/(kg*K))");
-        
+
         gasTempLB.setText("Gas temperature (K)");
-        
+
         heatRatioLB.setText("Heat Capacity Ratio");
-        
+
         maxBurntLB.setText("Max. Burning Distance (mm)");
-        
+
         javax.swing.GroupLayout propellantPanelLayout = new javax.swing.GroupLayout(propellantPanel);
         propellantPanel.setLayout(propellantPanelLayout);
         propellantPanelLayout.setHorizontalGroup(
@@ -461,7 +461,7 @@ public class MainWindow extends javax.swing.JFrame {
                                 .addComponent(maxBurntLB))
                         .addContainerGap(12, Short.MAX_VALUE))
         );
-        
+
         savePropertiesBT.setText("Save");
         savePropertiesBT.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -473,7 +473,7 @@ public class MainWindow extends javax.swing.JFrame {
                 savePropertiesBTActionPerformed(evt);
             }
         });
-        
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -504,13 +504,13 @@ public class MainWindow extends javax.swing.JFrame {
                         .addComponent(savePropertiesBT)
                         .addGap(0, 6, Short.MAX_VALUE))
         );
-        
+
         sectionPropertiesTabbedPanel.addTab("Propellant Properties", jPanel1);
-        
+
         jLabel28.setText("Outer Diameter :");
-        
+
         jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder("Shape :"));
-        
+
         circleToggleButton.setBackground(new java.awt.Color(0, 0, 0));
         circleToggleButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/dti/icon/DTICircleIcon.png"))); // NOI18N
         circleToggleButton.addItemListener(new java.awt.event.ItemListener() {
@@ -518,7 +518,7 @@ public class MainWindow extends javax.swing.JFrame {
                 circleToggleButtonItemStateChanged(evt);
             }
         });
-        
+
         wheelToggleButton.setBackground(new java.awt.Color(0, 0, 0));
         wheelToggleButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/dti/icon/DTIWheelIcon.png"))); // NOI18N
         wheelToggleButton.addItemListener(new java.awt.event.ItemListener() {
@@ -526,7 +526,7 @@ public class MainWindow extends javax.swing.JFrame {
                 wheelToggleButtonItemStateChanged(evt);
             }
         });
-        
+
         starToggleButton.setBackground(new java.awt.Color(0, 0, 0));
         starToggleButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/dti/icon/DTIStarIcon.png"))); // NOI18N
         starToggleButton.addItemListener(new java.awt.event.ItemListener() {
@@ -534,7 +534,7 @@ public class MainWindow extends javax.swing.JFrame {
                 starToggleButtonItemStateChanged(evt);
             }
         });
-        
+
         hexaToggleButton.setBackground(new java.awt.Color(0, 0, 0));
         hexaToggleButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/dti/icon/DTIHexagonIcon.png"))); // NOI18N
         hexaToggleButton.addItemListener(new java.awt.event.ItemListener() {
@@ -542,7 +542,7 @@ public class MainWindow extends javax.swing.JFrame {
                 hexaToggleButtonItemStateChanged(evt);
             }
         });
-        
+
         pentaToggleButton.setBackground(new java.awt.Color(0, 0, 0));
         pentaToggleButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/dti/icon/DTIPentagonIcon.png"))); // NOI18N
         pentaToggleButton.addItemListener(new java.awt.event.ItemListener() {
@@ -550,7 +550,7 @@ public class MainWindow extends javax.swing.JFrame {
                 pentaToggleButtonItemStateChanged(evt);
             }
         });
-        
+
         eightStarToggleButton.setBackground(new java.awt.Color(0, 0, 0));
         eightStarToggleButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/dti/icon/DTIEightStarIcon.png"))); // NOI18N
         eightStarToggleButton.addItemListener(new java.awt.event.ItemListener() {
@@ -558,7 +558,7 @@ public class MainWindow extends javax.swing.JFrame {
                 eightStarToggleButtonItemStateChanged(evt);
             }
         });
-        
+
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
@@ -595,9 +595,9 @@ public class MainWindow extends javax.swing.JFrame {
                                 .addComponent(eightStarToggleButton))
                         .addContainerGap(16, Short.MAX_VALUE))
         );
-        
+
         cadPanelShape.setBackground(new java.awt.Color(255, 255, 255));
-        
+
         javax.swing.GroupLayout cadPanelShapeLayout = new javax.swing.GroupLayout(cadPanelShape);
         cadPanelShape.setLayout(cadPanelShapeLayout);
         cadPanelShapeLayout.setHorizontalGroup(
@@ -608,43 +608,35 @@ public class MainWindow extends javax.swing.JFrame {
                 cadPanelShapeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGap(0, 287, Short.MAX_VALUE)
         );
-        
+
         diameterInner.setText("Inner Diameter:");
-        
+
         innerDiameterSpinner.addChangeListener(new javax.swing.event.ChangeListener() {
             public void stateChanged(javax.swing.event.ChangeEvent evt) {
                 innerDiameterSpinStateChanged(evt);
             }
         });
-        
+
         outerDiameterSpinner.addChangeListener(new javax.swing.event.ChangeListener() {
             public void stateChanged(javax.swing.event.ChangeEvent evt) {
                 outerDiameterSpinStateChanged(evt);
             }
         });
-        
+
         lengthSectionSpinner.addChangeListener(new javax.swing.event.ChangeListener() {
             public void stateChanged(javax.swing.event.ChangeEvent evt) {
                 lengthSpinStateChanged(evt);
             }
         });
-        innerDiameterSpinner.addInputMethodListener(new java.awt.event.InputMethodListener() {
-            public void caretPositionChanged(java.awt.event.InputMethodEvent evt) {
-            }
-            
-            public void inputMethodTextChanged(java.awt.event.InputMethodEvent evt) {
-                innerDiameterSpinInputMethodTextChanged(evt);
-            }
-        });
-        
+
         mmLabel.setText("mm");
-        
+
         mmLabel1.setText("mm");
-        
+
         lengthLB.setText("Length :");
-        
+
         mmLengthLabel.setText("mm");
-        
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -694,9 +686,9 @@ public class MainWindow extends javax.swing.JFrame {
                         .addComponent(cadPanelShape, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
-        
+
         sectionPropertiesTabbedPanel.addTab("Propellant Geometric", jPanel2);
-        
+
         javax.swing.GroupLayout geometricTabLayout = new javax.swing.GroupLayout(geometricTab);
         geometricTab.setLayout(geometricTabLayout);
         geometricTabLayout.setHorizontalGroup(
@@ -778,34 +770,34 @@ public class MainWindow extends javax.swing.JFrame {
                                 .addComponent(drawCanvas, 600, 600, 600))
                         .addContainerGap(24, Short.MAX_VALUE))
         );
-        
+
         mainTabbedPanel.addTab("Geometric", geometricTab);
-        
+
         jLabel5.setText("Guess Pressure :");
-        
+
         jLabel6.setText("Specific Impulse :");
-        
+
         jLabel7.setText("Stop Pressure :");
-        
+
         jLabel8.setText("Stop Time :");
-        
+
         jLabel9.setText("Number of Segments :");
-        
+
         jLabel10.setText("PSI");
-        
+
         jLabel11.setText("s");
-        
+
         jLabel12.setText("PSI");
-        
+
         jLabel13.setText("s");
-        
+
         jButton3.setText("Simulate");
         jButton3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton3ActionPerformed(evt);
             }
         });
-        
+
         javax.swing.GroupLayout simulationTabLayout = new javax.swing.GroupLayout(simulationTab);
         simulationTab.setLayout(simulationTabLayout);
         simulationTabLayout.setHorizontalGroup(
@@ -873,11 +865,11 @@ public class MainWindow extends javax.swing.JFrame {
                         .addComponent(jButton3)
                         .addContainerGap(539, Short.MAX_VALUE))
         );
-        
+
         mainTabbedPanel.addTab("Simulation", simulationTab);
-        
+
         fileMenu.setText("File");
-        
+
         loadConfItem.setText("Load Configuration");
         loadConfItem.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -885,7 +877,7 @@ public class MainWindow extends javax.swing.JFrame {
             }
         });
         fileMenu.add(loadConfItem);
-        
+
         saveConfItem.setText("Save Configuration");
         saveConfItem.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -893,7 +885,7 @@ public class MainWindow extends javax.swing.JFrame {
             }
         });
         fileMenu.add(saveConfItem);
-        
+
         exitItem.setText("Exit");
         exitItem.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -901,11 +893,11 @@ public class MainWindow extends javax.swing.JFrame {
             }
         });
         fileMenu.add(exitItem);
-        
+
         mainMenuBar.add(fileMenu);
-        
+
         setJMenuBar(mainMenuBar);
-        
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -922,13 +914,13 @@ public class MainWindow extends javax.swing.JFrame {
                         .addComponent(mainTabbedPanel)
                         .addContainerGap())
         );
-        
+
         enableComponents(sectionPropertiesTabbedPanel, false);
         pack();
     }// </editor-fold>                        
 
     public void setButtonGroup() {
-        
+
         ButtonGroup buttonGroup = new ButtonGroup();
         buttonGroup.add(circleToggleButton);
         buttonGroup.add(wheelToggleButton);
@@ -936,16 +928,16 @@ public class MainWindow extends javax.swing.JFrame {
         buttonGroup.add(pentaToggleButton);
         buttonGroup.add(hexaToggleButton);
         buttonGroup.add(eightStarToggleButton);
-        
+
     }
-    
+
     public void setCanvas() {
         DOMImplementation dOMImplementation = SVGDOMImplementation.getDOMImplementation();
-        
+
         document = dOMImplementation.createDocument(svgNS, "svg", null);
-        
+
         svgRoot = document.getDocumentElement();
-        
+
         svgRoot.setAttributeNS(null, "width", "1000");
         svgRoot.setAttributeNS(null, "height", "450");
         String rocketDiameterStr = String.valueOf(rocketDiameter);
@@ -953,7 +945,7 @@ public class MainWindow extends javax.swing.JFrame {
         String xPositionStr = String.valueOf(xPosition);
         String yPositionStr = String.valueOf(yPosition);
         String yMotorPositionStr = String.valueOf(yMotorPosition);
-        
+
         Element motorCase = document.createElementNS(svgNS, "rect");
         motorCase.setAttributeNS(null, "x", "50");
         motorCase.setAttributeNS(null, "y", yMotorPositionStr);
@@ -962,7 +954,7 @@ public class MainWindow extends javax.swing.JFrame {
         motorCase.setAttributeNS(null, "stroke", "black");
         motorCase.setAttributeNS(null, "fill", "#CCCCCC");
         motorCase.setAttribute("id", "motorCase");
-        
+
         Element igniter = document.createElementNS(svgNS, "rect");
         igniter.setAttributeNS(null, "x", xPositionStr);
         igniter.setAttributeNS(null, "y", yPositionStr);
@@ -971,7 +963,7 @@ public class MainWindow extends javax.swing.JFrame {
         igniter.setAttributeNS(null, "stroke", "black");
         igniter.setAttributeNS(null, "fill", "red");
         igniter.setAttribute("id", "igniter");
-        
+
         svgRoot.appendChild(motorCase);
         svgRoot.appendChild(igniter);
         registerListeners("motorCase");
@@ -981,9 +973,9 @@ public class MainWindow extends javax.swing.JFrame {
 //        Number lengthNumb = Double.valueOf(motorCase.getAttribute("height").toString());
         rocketDiameterSp.setValue(rocketDiameter);
         rocketLengthSp.setValue(rocketLength);
-        
+
     }
-    
+
     private void setSpinner(JSpinner spinner) {
         JComponent comp = spinner.getEditor();
         JFormattedTextField field = (JFormattedTextField) comp.getComponent(0);
@@ -1001,16 +993,16 @@ public class MainWindow extends javax.swing.JFrame {
 
     private void loadConfItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loadConfItemActionPerformed
         JFileChooser chooserLoad = new JFileChooser();
-        
+
         FileFilter loadFilter = new ExtensionFileFilter("Text Document(*.txt)", new String[]{"TXT"});
         chooserLoad.setFileFilter(loadFilter);
-        
+
         int returnVal = chooserLoad.showOpenDialog(MainWindow.this);
-        
+
         if (returnVal == JFileChooser.APPROVE_OPTION) {
             File file = chooserLoad.getSelectedFile();
             readFromFile(file.getPath());
-            //This is where a real application would open the file.
+            //This is where oldLengthSection real application would open the file.
             //log.append("Opening: " + file.getName() + "." + newline);
         } else {
             //log.append("Open command cancelled by user." + newline);
@@ -1018,7 +1010,7 @@ public class MainWindow extends javax.swing.JFrame {
         //log.setCaretPosition(log.getDocument().getLength());
 
     }//GEN-LAST:event_loadConfItemActionPerformed
-    
+
     void saveToFile() throws Exception {
         BufferedWriter outfile = new BufferedWriter(new FileWriter(yourFile + ".txt"));
         outfile.write("Rocket_Diameter=" + Double.parseDouble(rocketDiameterSp.getValue().toString()) + "\n");
@@ -1026,21 +1018,21 @@ public class MainWindow extends javax.swing.JFrame {
         System.out.println(rocketLengthSp.getValue().toString());
         outfile.close();
     }
-    
+
     void readFromFile(String readingFilePath) {
         FileInputStream fis;
         String rocketDiameter;
         String rocketLength;
-        
+
         try {
             fis = new FileInputStream(readingFilePath);
             Scanner scanner = new Scanner(fis);
-            
+
             do {
                 rocketDiameter = scanner.nextLine();
                 rocketLength = scanner.nextLine();
             } while (scanner.hasNextLine());
-            
+
             String rocketDiameterSub = rocketDiameter.substring(rocketDiameter.lastIndexOf("=") + 1);
             String rocketLengthSub = rocketLength.substring(rocketLength.lastIndexOf("=") + 1);
             rocketDiameterSp.setValue(new Integer(rocketDiameterSub));
@@ -1049,7 +1041,7 @@ public class MainWindow extends javax.swing.JFrame {
         } catch (FileNotFoundException ex) {
             Logger.getLogger(MainWindow.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
+
     }
 
 //Read more: http://javarevisited.blogspot.com/2012/07/read-file-line-by-line-java-example-scanner.html#ixzz32pEnNHAw
@@ -1083,7 +1075,7 @@ public class MainWindow extends javax.swing.JFrame {
             yourFile = chooserSave.getSelectedFile();
             try {
                 saveToFile();
-                //This is where a real application would save the file.
+                //This is where oldLengthSection real application would save the file.
                 //log.append("Saving: " + file.getName() + "." + newline);
 
             } catch (Exception ex) {
@@ -1116,7 +1108,7 @@ public class MainWindow extends javax.swing.JFrame {
         String yPositionStr = String.valueOf(yPosition);
         Element igniter = document.getElementById("igniter");
         igniter.setAttribute("y", yPositionStr);
-        
+
         drawCanvas.setDocument(document);
     }//GEN-LAST:event_rocketDiameterSpStateChanged
 
@@ -1128,7 +1120,7 @@ public class MainWindow extends javax.swing.JFrame {
     }//GEN-LAST:event_rocketLengthSpStateChanged
 
     private void addSectionBTMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_addSectionBTMouseClicked
-        
+
 
     }//GEN-LAST:event_addSectionBTMouseClicked
 
@@ -1141,7 +1133,7 @@ public class MainWindow extends javax.swing.JFrame {
         //String diameterSectionStr;
         //String lengthSectionStr;
         final AddSectionPopup addSectionPopup = new AddSectionPopup();
-        
+
         addSectionPopup.addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent e) {
@@ -1153,34 +1145,25 @@ public class MainWindow extends javax.swing.JFrame {
                     String diameterSectionStr = addSectionPopup.getDiameterSectionStr();
                     String lengthSectionStr = addSectionPopup.getLengthSectionStr();
                     String innerPortSectionString = addSectionPopup.getInnerPortSectionStr();
-                    
-                    enableComponents((Container) sectionPropertiesTabbedPanel, true);
-//                    sectionPropertiesTabbedPanel.setEnabled(true);
-//                    addPropellantBt.setEnabled(true);
-//                    removePropellantBt.setEnabled(true);
-//                    burningRateTB.setEnabled(true);
-//                    pressureExponentTB.setEnabled(true);
-//                    densityTB.setEnabled(true);
-//                    alphaConstTB.setEnabled(true);
-//                    gasTempTB.setEnabled(true);
-//                    gasConstTB.setEnabled(true);
-//                    heatRatioTB.setEnabled(true);
-//                    maxBurntTB.setEnabled(true);
-//                    savePropertiesBT.setEnabled(true);
-//                    propellantTable.setEnabled(true);
 
+                    enableComponents((Container) sectionPropertiesTabbedPanel, true);
+                    Double totalLength = 0.0;
+                    for (SectionInfo section : sectionList) {
+                        totalLength += section.getLengthSection();
+
+                    }
                     lengthSection = Double.valueOf(lengthSectionStr);
-                    String sectionName = "section" + sectionNo++;
-                    String innerPortName = "innerPort" + sectionNo++;
-                    
+                    String sectionName = "section" + sectionNo;
+                    String innerPortName = "innerPort" + sectionNo;
+                    sectionNo++;
                     Double diam = (Double) rocketDiameterSp.getValue();
-                    
-                    String xPositionStr = String.valueOf(xPosition + xAddMoreSection);
+
+                    String xPositionStr = String.valueOf(xPosition + totalLength);
                     String ySectionPosition = String.valueOf(yMotorPosition + (diam / 2.0) - (Double.valueOf(diameterSectionStr) / 2.0));
                     String yInnerPortPosition = String.valueOf((diam / 2.0) - (Double.valueOf(innerPortSectionString) / 2.0) + yMotorPosition);
-                    
+
                     int randomColor = new Random().nextInt(colors.length);
-                    
+
                     Element section = document.createElementNS(svgNS, "rect");
                     section.setAttributeNS(null, "x", xPositionStr);
                     section.setAttributeNS(null, "y", ySectionPosition);
@@ -1191,9 +1174,9 @@ public class MainWindow extends javax.swing.JFrame {
                     section.setAttributeNS(null, "fill-opacity", "0.5");
                     section.setAttribute("id", sectionName);
                     //Node sectionNode = (Node) section;
-                    
+
                     xAddMoreSection = xAddMoreSection + lengthSection;
-                    
+
                     Element innerPort = document.createElementNS(svgNS, "rect");
                     innerPort.setAttributeNS(null, "x", xPositionStr);
                     innerPort.setAttributeNS(null, "y", yInnerPortPosition);
@@ -1207,13 +1190,13 @@ public class MainWindow extends javax.swing.JFrame {
                     svgRoot.appendChild(section);
                     svgRoot.appendChild(innerPort);
                     drawCanvas.setDocument(document);
-                    
-                    selectedSection = new SectionInfo(Double.valueOf(diameterSectionStr), Double.valueOf(innerPortSectionString), sectionName, innerPortName, lengthSection);
-                    
+
+                    selectedSection = new SectionInfo(Double.valueOf(diameterSectionStr), Double.valueOf(innerPortSectionString), sectionName, innerPortName, lengthSection, Double.valueOf(xPositionStr));
+
                     sectionList.add(selectedSection);
                     circleToggleButton.setSelected(true);
                     defaultDrawCircle();
-                    
+
                     setSectionInfoView();
                     registerListeners(sectionName);
                     registerListeners(innerPortName);
@@ -1221,35 +1204,41 @@ public class MainWindow extends javax.swing.JFrame {
                     System.out.println("inner port " + innerPortSectionString);
                     //innerDiameterSpinner.setValue(Double.valueOf(innerPortSectionString));
                     //lengthSectionSpinner.setValue(lengthSection);
-                    
-                    
+
                 }
                 addSectionPopup.dispose();
             }
-            
+
         });
-        
+
         addSectionPopup.setVisible(true);
         //System.out.println(diameterSectionStr);
     }//GEN-LAST:event_addSectionBTActionPerformed
-    
+
     private void removeSectionBTActionPerformed(java.awt.event.ActionEvent evt) {
         String sectionId = selectedSection.getSection_id();
         String innerPortID = selectedSection.getInnerPort_id();
-        
+
         Element targetSection = document.getElementById(sectionId);
         Node targetSectionNode = (Node) targetSection;
-        
+
         Element targetInnerPort = document.getElementById(innerPortID);
         Node targetInnerPortNode = (Node) targetInnerPort;
-        
+
         targetSectionNode.getParentNode().removeChild(targetSectionNode);
         targetInnerPortNode.getParentNode().removeChild(targetInnerPortNode);
         drawCanvas.setDocument(document);
         sectionList.remove(selectedSection);
-        
+
     }
-    
+
+    private void findCenter() {
+        SVGDocument document = selectedSection.getCADDoc();
+        Element circle = document.getElementById("ID_8E0");
+        selectedSection.setCx(Double.valueOf(circle.getAttribute("cx")));
+        selectedSection.setCy(Double.valueOf(circle.getAttribute("cy")));
+    }
+
     private void setSectionInfoView() {
         DefaultTableModel model = (DefaultTableModel) propellantTable.getModel();
         model.setRowCount(0);
@@ -1263,15 +1252,15 @@ public class MainWindow extends javax.swing.JFrame {
         outerDiameterSpinner.setValue(selectedSection.getNewOuterDiameter());
         innerDiameterSpinner.setValue(selectedSection.getNewInnerDiameter());
         lengthSectionSpinner.setValue(selectedSection.getLengthSection());
-        
+
         propellantTable.setRowSelectionInterval(0, 0);
         setPropertiesView(layers.get(0));
         cadPanelShape.setDocument(selectedSection.getCADDoc());
-        
+
     }
-    
+
     private void setPropertiesView(PropellantLayer layer) {
-        
+
         burningRateTB.setText(String.valueOf(layer.getBurningRate()));
         pressureExponentTB.setText(String.valueOf(layer.getPressureExponent()));
         densityTB.setText(String.valueOf(layer.getDensity()));
@@ -1280,7 +1269,7 @@ public class MainWindow extends javax.swing.JFrame {
         gasConstTB.setText(String.valueOf(layer.getGasConst()));
         heatRatioTB.setText(String.valueOf(layer.getHeatRatio()));
         maxBurntTB.setText(String.valueOf(layer.getMaxBurningDistance()));
-        
+
         selectedLayer = layer;
     }
 
@@ -1293,10 +1282,10 @@ public class MainWindow extends javax.swing.JFrame {
     }//GEN-LAST:event_rocketDiameterSp1StateChanged
 
     private void propellantTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_propellantTableMouseClicked
-        
+
         DefaultTableModel model = (DefaultTableModel) propellantTable.getModel();
         int selectedRow = propellantTable.getSelectedRow();
-        
+
         if (selectedRow != -1) {
             int selectedId = (int) model.getValueAt(selectedRow, 0);
             List<PropellantLayer> layers = selectedSection.getLayers();
@@ -1306,18 +1295,18 @@ public class MainWindow extends javax.swing.JFrame {
                     layer = propellantLayer;
                 }
             }
-            
+
             setPropertiesView(layer);
-            
+
         }
     }//GEN-LAST:event_propellantTableMouseClicked
 
     private void addPropellantBtMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_addPropellantBtMouseClicked
         PropellantLayer layer = selectedSection.addNewLayer();
-        
+
         DefaultTableModel model = (DefaultTableModel) propellantTable.getModel();
         model.addRow(new Object[]{layer.getLayerId(), layer.getLayerName(), layer.getLayerMaterial()});
-        
+
         setPropertiesView(layer);
     }//GEN-LAST:event_addPropellantBtMouseClicked
 
@@ -1328,13 +1317,13 @@ public class MainWindow extends javax.swing.JFrame {
         if (selectedRow != -1) {
             sectionList.remove(propellantTable.getSelectedRow());
             model.removeRow(propellantTable.getSelectedRow());
-            
+
         }
         int totalRow = propellantTable.getRowCount();
-        
+
         for (int countRow = 0; countRow < totalRow; countRow++) {
             model.setValueAt(countRow + 1, countRow, 0);
-            
+
         }
     }//GEN-LAST:event_removePropellantBtMouseClicked
 
@@ -1355,54 +1344,62 @@ public class MainWindow extends javax.swing.JFrame {
 
     private void circleToggleButtonItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_circleToggleButtonItemStateChanged
         String path = "dti/image/DTICircle.dxf";
-        
+
         if (circleToggleButton.isSelected()) {
             setCADShape(path);
             showSVG(cadPanelShape);
+            findCenter();
             cad.setInnerShape(selectedSection.getNewInnerDiameter(), cadPanelShape, selectedSection.getCADDoc());
             cad.setOuterShape(selectedSection.getNewOuterDiameter(), cadPanelShape, selectedSection.getCADDoc());
-            
+
     }//GEN-LAST:event_circleToggleButtonItemStateChanged
     }
-    
-    private void defaultDrawCircle(){
+
+    private void defaultDrawCircle() {
         String path = "dti/image/DTICircle.dxf";
-        
-            setCADShape(path);
-            showSVG(cadPanelShape);
-            cad.setInnerShape(selectedSection.getNewInnerDiameter(), cadPanelShape, selectedSection.getCADDoc());
-            cad.setOuterShape(selectedSection.getNewOuterDiameter(), cadPanelShape, selectedSection.getCADDoc());
-            
-      
+
+        setCADShape(path);
+        showSVG(cadPanelShape);
+        findCenter();
+
+        cad.setInnerShape(selectedSection.getNewInnerDiameter(), cadPanelShape, selectedSection.getCADDoc());
+        cad.setOuterShape(selectedSection.getNewOuterDiameter(), cadPanelShape, selectedSection.getCADDoc());
+
     }
     private void wheelToggleButtonItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_wheelToggleButtonItemStateChanged
         String path = "dti/image/DTIWheel.dxf";
         setCADShape(path);
+
         showSVG(cadPanelShape);
+        findCenter();
     }//GEN-LAST:event_wheelToggleButtonItemStateChanged
 
     private void starToggleButtonItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_starToggleButtonItemStateChanged
         String path = "dti/image/DTIStar.dxf";
         setCADShape(path);
         showSVG(cadPanelShape);
+        findCenter();
     }//GEN-LAST:event_starToggleButtonItemStateChanged
 
     private void hexaToggleButtonItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_hexaToggleButtonItemStateChanged
         String path = "dti/image/DTIHexagon.dxf";
         setCADShape(path);
         showSVG(cadPanelShape);
+        findCenter();
     }//GEN-LAST:event_hexaToggleButtonItemStateChanged
 
     private void pentaToggleButtonItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_pentaToggleButtonItemStateChanged
         String path = "dti/image/DTIPentagon.dxf";
         setCADShape(path);
         showSVG(cadPanelShape);
+        findCenter();
     }//GEN-LAST:event_pentaToggleButtonItemStateChanged
-    
+
     private void eightStarToggleButtonItemStateChanged(java.awt.event.ItemEvent evt) {
         String path = "dti/image/DTIEightStar.dxf";
         setCADShape(path);
         showSVG(cadPanelShape);
+        findCenter();
     }
 
     private void innerDiameterSpinStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_innerDiameterSpinStateChanged
@@ -1411,61 +1408,94 @@ public class MainWindow extends javax.swing.JFrame {
         String newInnerDiameterStr = innerDiameterSpinner.getValue().toString();
         Double diam = (Double) rocketDiameterSp.getValue();
         String yInnerPortPosition = String.valueOf((diam / 2.0) - (Double.valueOf(newInnerDiameterStr) / 2.0) + yMotorPosition);
-        
+
         Element innerPort = document.getElementById(selectedSection.getInnerPort_id());
         innerPort.setAttribute("height", newInnerDiameterStr);
         innerPort.setAttribute("y", yInnerPortPosition);
-        
+
         drawCanvas.setDocument(document);
         selectedSection.setNewInnerDiameter(newInnerDiameter);
         if (circleToggleButton.isSelected()) {
             cad.setInnerShape(newInnerDiameter, cadPanelShape, selectedSection.getCADDoc());
         }
     }//GEN-LAST:event_innerDiameterSpinStateChanged
-    
+
     private void outerDiameterSpinStateChanged(javax.swing.event.ChangeEvent evt) {
-        
+
         Double newOuterDiameter = (Double) outerDiameterSpinner.getValue();
         String newOuterDiameterStr = outerDiameterSpinner.getValue().toString();
         Double diam = (Double) rocketDiameterSp.getValue();
         String ySectionPosition = String.valueOf(yMotorPosition + (diam / 2.0) - (Double.valueOf(newOuterDiameterStr) / 2.0));
         Element section = document.getElementById(selectedSection.getSection_id());
-        
+
         section.setAttributeNS(null, "height", newOuterDiameterStr);
         section.setAttribute("y", ySectionPosition);
-        
+
         drawCanvas.setDocument(document);
         selectedSection.setNewOuterDiameter(newOuterDiameter);
         if (circleToggleButton.isSelected()) {
-            cad.setInnerShape(newOuterDiameter, cadPanelShape, selectedSection.getCADDoc());
+            cad.setOuterShape(newOuterDiameter, cadPanelShape, selectedSection.getCADDoc());
         }
     }
-    
+
     private void lengthSpinStateChanged(javax.swing.event.ChangeEvent evt) {
-        
-        lengthSection = (Double) lengthSectionSpinner.getValue();
-        String newLengthSectionStr = lengthSection.toString();
+
+        Double newLengthSection = (Double) lengthSectionSpinner.getValue();
+        Double oldLengthSection = selectedSection.getLengthSection();
+        Double diff = newLengthSection - oldLengthSection;
+        selectedSection.setLengthSection(newLengthSection);
+        String newLengthSectionStr = selectedSection.getLengthSection().toString();
+
         Double diam = (Double) rocketDiameterSp.getValue();
+
         // String ySectionPosition = String.valueOf(yMotorPosition + (diam / 2.0) - (Double.valueOf(newOuterDiameterStr) / 2.0));
-        Element section = document.getElementById(selectedSection.getSection_id());
-        section.setAttributeNS(null, "width", newLengthSectionStr);
-        
-        selectedSection.setLengthSection(lengthSection);
+        //String newX = String.valueOf(selectedSection.getxPosition() + diff);
+        Element thisSection = document.getElementById(selectedSection.getSection_id());
+        thisSection.setAttribute("width", newLengthSectionStr);
+
+        String thisInnerPortName = "innerPort" + selectedSection.getSection_id().substring(selectedSection.getSection_id().length() - 1);
+        Element this_innerPort = document.getElementById(thisInnerPortName);
+        this_innerPort.setAttribute("width", newLengthSectionStr);
+        //int rowNo = selectedSection.getRowNo();
+        int idx = 0;
+        for (SectionInfo section : sectionList) {
+
+            if (section.getSection_id() == selectedSection.getSection_id()) {
+                idx = sectionList.indexOf(section);
+
+            }
+
+        }
+        for (int i = idx + 1; i < sectionList.size(); i++) {
+            SectionInfo section = sectionList.get(i);
+            Element next_section = document.getElementById(section.getSection_id());
+            String innerPortName = "innerPort" + section.getSection_id().substring(section.getSection_id().length() - 1);
+            System.out.println(section.getSection_id());
+            System.out.println(innerPortName);
+            Double oldX = section.getxPosition();
+            next_section.setAttribute("x", String.valueOf(oldX + diff));
+
+            Element next_innerPort = document.getElementById(innerPortName);
+            next_innerPort.setAttribute("x", String.valueOf(oldX + diff));
+            section.setxPosition(oldX + diff);
+        }
+
+        //selectedSection.setLengthSection(lengthSection);
         drawCanvas.setDocument(document);
     }
     private void innerDiameterSpinInputMethodTextChanged(java.awt.event.InputMethodEvent evt) {//GEN-FIRST:event_innerDiameterSpinInputMethodTextChanged
         // TODO add your handling code here:
     }//GEN-LAST:event_innerDiameterSpinInputMethodTextChanged
-    
+
     public void setCADShape(String path) {
         cad.parseFile(path);
-        
+
     }
-    
+
     public void showSVG(JSVGCanvas canvas) {
         selectedSection.setCADDoc(cad.outputSVG(canvas));
     }
-    
+
     public void enableComponents(Container container, boolean enable) {
         Component[] components = container.getComponents();
         for (Component component : components) {
@@ -1475,17 +1505,17 @@ public class MainWindow extends javax.swing.JFrame {
             }
         }
     }
-    
+
     class ExtensionFileFilter extends FileFilter {
-        
+
         String description;
-        
+
         String extensions[];
-        
+
         public ExtensionFileFilter(String description, String extension) {
             this(description, new String[]{extension});
         }
-        
+
         public ExtensionFileFilter(String description, String extensions[]) {
             if (description == null) {
                 this.description = extensions[0];
@@ -1495,17 +1525,17 @@ public class MainWindow extends javax.swing.JFrame {
             this.extensions = (String[]) extensions.clone();
             toLower(this.extensions);
         }
-        
+
         private void toLower(String array[]) {
             for (int i = 0, n = array.length; i < n; i++) {
                 array[i] = array[i].toLowerCase();
             }
         }
-        
+
         public String getDescription() {
             return description;
         }
-        
+
         public boolean accept(File file) {
             if (file.isDirectory()) {
                 return true;
@@ -1520,7 +1550,7 @@ public class MainWindow extends javax.swing.JFrame {
             }
             return false;
         }
-        
+
     }
 
     /**
@@ -1529,7 +1559,7 @@ public class MainWindow extends javax.swing.JFrame {
     File yourFile;
     SpinnerNumberModel diameterSpinnerNumberModel;
     SpinnerNumberModel lengthSpinnerNumberModel;
-    
+
     SpinnerNumberModel diameterSectionSpinnerNumberModel;
     SpinnerNumberModel lengthSectionSpinnerNumberModel;
     SpinnerNumberModel innerDiameterSectionSpinnerNumberModel;
@@ -1547,9 +1577,9 @@ public class MainWindow extends javax.swing.JFrame {
     Double xAddMoreSection = 0.0;
     int sectionNo = 0;
     AddSectionPopup addSectionPopup;
-    
+
     double newInnerDiameter;
-    
+
     List<SectionInfo> sectionList = new ArrayList<SectionInfo>();
     //List<SizeOfShape> sizeOfShapesList = new ArrayList<SizeOfShape>();
     ByteArrayInputStream inputStream;

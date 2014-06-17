@@ -26,10 +26,14 @@ public class SectionInfo {
     private Double newInnerDiameter;
     private Double newOuterDiameter;
     private boolean isCircle = false;
+    private Double cx;
+    private Double cy;
+
 
     private Double diameterSection;
     private Double lengthSection;
     private Double innerPortSection;
+    private Double xPosition;
     //CADPanel cADPanel = new CADPanel(); 
     public SVGDocument CADDoc;
 
@@ -38,7 +42,7 @@ public class SectionInfo {
     private String section_id;
     private String innerPort_id;
 
-    public SectionInfo(double outer, double inner, String id, String innerPort_id, Double lengthSection) {
+    public SectionInfo(double outer, double inner, String id, String innerPort_id, Double lengthSection, Double xPosition) {
         rowNo = 1;
         PropellantLayer layer = new PropellantLayer();
         layer.setLayerId(rowNo);
@@ -58,6 +62,7 @@ public class SectionInfo {
         section_id = id;
         this.innerPort_id = innerPort_id;
         this.lengthSection = lengthSection;
+        this.xPosition = xPosition;
     }
 
     public List<PropellantLayer> getLayers() {
@@ -65,9 +70,9 @@ public class SectionInfo {
     }
 
     public PropellantLayer addNewLayer() {
-        rowNo++;
+        setRowNo(getRowNo() + 1);
         PropellantLayer layer = new PropellantLayer();
-        layer.setLayerId(rowNo);
+        layer.setLayerId(getRowNo());
         layer.setLayerName("");
         layer.setLayerMaterial("");
         layer.setBurningRate(0.0);
@@ -83,7 +88,7 @@ public class SectionInfo {
     }
 
     public void removeLayer(PropellantLayer layer) {
-        rowNo--;
+        setRowNo(getRowNo() - 1);
         layers.remove(layer);
         int i = 1;
         for (PropellantLayer propellantLayer : layers) {
@@ -166,6 +171,62 @@ public class SectionInfo {
      */
     public void setNewOuterDiameter(Double newOuterDiameter) {
         this.newOuterDiameter = newOuterDiameter;
+    }
+
+    /**
+     * @return the rowNo
+     */
+    public int getRowNo() {
+        return rowNo;
+    }
+
+    /**
+     * @param rowNo the rowNo to set
+     */
+    public void setRowNo(int rowNo) {
+        this.rowNo = rowNo;
+    }
+
+    /**
+     * @return the xPosition
+     */
+    public Double getxPosition() {
+        return xPosition;
+    }
+
+    /**
+     * @param xPosition the xPosition to set
+     */
+    public void setxPosition(Double xPosition) {
+        this.xPosition = xPosition;
+    }
+
+    /**
+     * @return the cx
+     */
+    public Double getCx() {
+        return cx;
+    }
+
+    /**
+     * @param cx the cx to set
+     */
+    public void setCx(Double cx) {
+        this.cx = cx;
+    }
+
+    /**
+     * @return the cy
+     */
+    public Double getCy() {
+        return cy;
+    }
+
+    /**
+     * @param cy the cy to set
+     */
+    public void setCy(Double cy) {
+        this.cy = cy;
     }
 
 

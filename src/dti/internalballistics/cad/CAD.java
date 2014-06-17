@@ -98,6 +98,8 @@ public class CAD {
         SVGDocument svgDoc = null;
         try {
             svgDoc = sAXSVGDocumentFactory.createSVGDocument(null, byteArrayInputStream);
+            Element x = svgDoc.getElementById("ID_8E0");
+            x.setAttribute("stroke", "red");
             jSVGCanvas.setSVGDocument(svgDoc);
         } catch (IOException ex) {
             Logger.getLogger(CAD.class.getName()).log(Level.SEVERE, null, ex);
@@ -160,6 +162,7 @@ public class CAD {
             Node n = nodes.item(i);
             Element elm = (Element) n;
             if(elm.getTagName().equalsIgnoreCase("circle")&&elm.getAttribute("id").equalsIgnoreCase("ID_8E0")) {
+                System.out.println("outer "+newRadius);
                 elm.setAttribute("r", String.valueOf(newRadius / 2));
             }
         }
@@ -175,6 +178,7 @@ public class CAD {
             Node n = nodes.item(i);
             Element elm = (Element) n;
             if(elm.getTagName().equalsIgnoreCase("circle")&&elm.getAttribute("id").equalsIgnoreCase("ID_8ED")) {
+                System.out.println("inner "+newRadius);
                 elm.setAttribute("r", String.valueOf(newRadius / 2));
             }
         }
