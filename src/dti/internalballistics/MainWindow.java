@@ -105,9 +105,9 @@ public class MainWindow extends javax.swing.JFrame {
             public void handleEvent(Event event) {
                 Element target = (Element) event.getCurrentTarget();
                 String sectionNo = target.getAttribute("id");
-
+                
                 for (SectionInfo section : sectionList) {
-
+                    
                     if (section.getSection_id().equalsIgnoreCase(sectionNo)) {
                         selectedSection = section;
                         target.setAttribute("stroke-width", "2");
@@ -1103,12 +1103,28 @@ public class MainWindow extends javax.swing.JFrame {
         String rocketDiameter = rocketDiameterSp.getValue().toString();
         Double diam = (Double) rocketDiameterSp.getValue();
         Element motorCase = document.getElementById("motorCase");
+        Double oldDiam = Double.valueOf(motorCase.getAttribute("height"));
         motorCase.setAttribute("height", rocketDiameter);
         yPosition = yMotorPosition + diam / 2 - 10;
         String yPositionStr = String.valueOf(yPosition);
         Element igniter = document.getElementById("igniter");
         igniter.setAttribute("y", yPositionStr);
 
+        for (SectionInfo section : sectionList) {
+            Double oldYPosition = section.getyPosition();
+            Double newYPosition = yMotorPosition + diam / 2 - section.getNewOuterDiameter() / 2;
+
+            Element target = document.getElementById(section.getSection_id());
+            target.setAttribute("y", newYPosition.toString());
+            section.setyPosition(newYPosition);
+
+            Double newInnerPortYPosition = newYPosition = yMotorPosition + diam / 2 - section.getNewInnerDiameter() / 2;
+            String innerPortName = "innerPort" + section.getSection_id().substring(section.getSection_id().length() - 1);
+
+            Element targetInnerPort = document.getElementById(innerPortName);
+            targetInnerPort.setAttribute("y", String.valueOf(newInnerPortYPosition.toString()));
+
+        }
         drawCanvas.setDocument(document);
     }//GEN-LAST:event_rocketDiameterSpStateChanged
 
@@ -1139,9 +1155,7 @@ public class MainWindow extends javax.swing.JFrame {
             public void windowClosing(WindowEvent e) {
                 System.out.println(addSectionPopup.isOK);
                 if (addSectionPopup.isOK) {
-                    //diameterSection = (Double) addSectionPopup.diameterAddSecSpin.getValue();
-                    //lengthSection = (Double) addSectionPopup.lengthAddSecSpin.getValue();
-                    System.out.println("OK+++");
+                    
                     String diameterSectionStr = addSectionPopup.getDiameterSectionStr();
                     String lengthSectionStr = addSectionPopup.getLengthSectionStr();
                     String innerPortSectionString = addSectionPopup.getInnerPortSectionStr();
@@ -1150,6 +1164,7 @@ public class MainWindow extends javax.swing.JFrame {
                     Double totalLength = 0.0;
                     for (SectionInfo section : sectionList) {
                         totalLength += section.getLengthSection();
+                        
 
                     }
                     lengthSection = Double.valueOf(lengthSectionStr);
@@ -1158,15 +1173,52 @@ public class MainWindow extends javax.swing.JFrame {
                     sectionNo++;
                     Double diam = (Double) rocketDiameterSp.getValue();
 
-                    String xPositionStr = String.valueOf(xPosition + totalLength);
-                    String ySectionPosition = String.valueOf(yMotorPosition + (diam / 2.0) - (Double.valueOf(diameterSectionStr) / 2.0));
+                    //String xPositionSectionStr = String.valueOf(xPosition + totalLength);
+                    
+                    //svgRoot = document.getElementsByTagName('svg');
+                    String xPositionSectionStr ="";
+                    String no ="";
+                    if (selectedSection != null){
+                        no = selectedSection.getSection_id().substring(selectedSection.getSection_id().length() - 1);  
+                    }
+                     if (selectedSection == null || no.equalsIgnoreCase(String.valueOf(sectionList.size()-1))) {
+                         xPositionSectionStr = String.valueOf(xPosition + totalLength);
+                    } else {
+                        int idx = 0;
+                        Double totalLengthBefore = 0.0;
+                        for (SectionInfo thisSection : sectionList) {
+                            Double length = thisSection.getLengthSection();
+                            totalLengthBefore += length;
+                            if (thisSection.getSection_id() == selectedSection.getSection_id()) {
+                                idx = sectionList.indexOf(thisSection);
+                                xPositionSectionStr = String.valueOf(xPosition + totalLengthBefore);
+                                 break;
+                            }
+
+                        }
+                        for (int i = idx + 1; i < sectionList.size(); i++) {
+                            SectionInfo thisSection = sectionList.get(i);
+                            Element next_section = document.getElementById(thisSection.getSection_id());
+                            String thisInnerPortName = "innerPort" + (thisSection.getSection_id().substring(thisSection.getSection_id().length() - 1));
+                            System.out.println(thisSection.getSection_id());
+                            System.out.println(innerPortName);
+                            Double oldX = thisSection.getxPosition();
+                            next_section.setAttribute("x", String.valueOf(oldX + lengthSection));
+
+                            Element next_innerPort = document.getElementById(thisInnerPortName);
+                            next_innerPort.setAttribute("x", String.valueOf(oldX + lengthSection));
+                            thisSection.setxPosition(oldX + thisSection.getLengthSection());
+                        }
+                    }
+                     
+                    String yPositionSectionStr = String.valueOf(yMotorPosition + (diam / 2.0) - (Double.valueOf(diameterSectionStr) / 2.0));
                     String yInnerPortPosition = String.valueOf((diam / 2.0) - (Double.valueOf(innerPortSectionString) / 2.0) + yMotorPosition);
 
                     int randomColor = new Random().nextInt(colors.length);
 
                     Element section = document.createElementNS(svgNS, "rect");
-                    section.setAttributeNS(null, "x", xPositionStr);
-                    section.setAttributeNS(null, "y", ySectionPosition);
+                    section.setAttributeNS(null, "x", xPositionSectionStr);
+                    section.setAttributeNS(null, "y", yPositionSectionStr);
                     section.setAttributeNS(null, "width", lengthSectionStr);
                     section.setAttributeNS(null, "height", diameterSectionStr);
                     section.setAttributeNS(null, "stroke", "black");
@@ -1178,7 +1230,7 @@ public class MainWindow extends javax.swing.JFrame {
                     xAddMoreSection = xAddMoreSection + lengthSection;
 
                     Element innerPort = document.createElementNS(svgNS, "rect");
-                    innerPort.setAttributeNS(null, "x", xPositionStr);
+                    innerPort.setAttributeNS(null, "x", xPositionSectionStr);
                     innerPort.setAttributeNS(null, "y", yInnerPortPosition);
                     innerPort.setAttributeNS(null, "width", lengthSectionStr);
                     innerPort.setAttributeNS(null, "height", innerPortSectionString);
@@ -1186,24 +1238,38 @@ public class MainWindow extends javax.swing.JFrame {
                     innerPort.setAttributeNS(null, "fill", "grey");
                     innerPort.setAttributeNS(null, "fill-opacity", "0.8");
                     innerPort.setAttribute("id", innerPortName);
-                    //svgRoot = document.getElementsByTagName('svg');
                     svgRoot.appendChild(section);
                     svgRoot.appendChild(innerPort);
                     drawCanvas.setDocument(document);
-
-                    selectedSection = new SectionInfo(Double.valueOf(diameterSectionStr), Double.valueOf(innerPortSectionString), sectionName, innerPortName, lengthSection, Double.valueOf(xPositionStr));
-
-                    sectionList.add(selectedSection);
-                    circleToggleButton.setSelected(true);
-                    defaultDrawCircle();
-
-                    setSectionInfoView();
+                    SectionInfo newSection = new SectionInfo(Double.valueOf(diameterSectionStr), Double.valueOf(innerPortSectionString), sectionName, innerPortName, lengthSection, Double.valueOf(xPositionSectionStr), Double.valueOf(yPositionSectionStr));
+                    defaultDrawCircle(newSection);
+                    
+                    //if(selectedSection==null) {
+                            selectedSection = newSection;
+                            sectionList.add(newSection);
+                            circleToggleButton.setSelected(true);
+                            Element target = document.getElementById(selectedSection.getSection_id());
+                            target.setAttribute("stroke-width", "2");
+                        for (SectionInfo sec : sectionList) {
+                    
+                    if (!sec.getSection_id().equalsIgnoreCase(selectedSection.getSection_id())) {
+                        
+                        Element elm = document.getElementById(sec.getSection_id());
+                        elm.setAttribute("stroke-width", "1");
+                    }
+                }
+                    
+                
+                            setSectionInfoView();
+                    //}
+                    
                     registerListeners(sectionName);
                     registerListeners(innerPortName);
                     //outerDiameterSpinner.setValue(Double.valueOf(diameterSectionStr));
                     System.out.println("inner port " + innerPortSectionString);
                     //innerDiameterSpinner.setValue(Double.valueOf(innerPortSectionString));
                     //lengthSectionSpinner.setValue(lengthSection);
+                   
 
                 }
                 addSectionPopup.dispose();
@@ -1218,7 +1284,7 @@ public class MainWindow extends javax.swing.JFrame {
     private void removeSectionBTActionPerformed(java.awt.event.ActionEvent evt) {
         String sectionId = selectedSection.getSection_id();
         String innerPortID = selectedSection.getInnerPort_id();
-
+        Double lengthRemoveSection = selectedSection.getLengthSection();
         Element targetSection = document.getElementById(sectionId);
         Node targetSectionNode = (Node) targetSection;
 
@@ -1228,15 +1294,39 @@ public class MainWindow extends javax.swing.JFrame {
         targetSectionNode.getParentNode().removeChild(targetSectionNode);
         targetInnerPortNode.getParentNode().removeChild(targetInnerPortNode);
         drawCanvas.setDocument(document);
-        sectionList.remove(selectedSection);
 
+        int idx = 0;
+        for (SectionInfo section : sectionList) {
+
+            if (section.getSection_id() == selectedSection.getSection_id()) {
+                idx = sectionList.indexOf(section);
+
+            }
+
+        }
+
+        for (int i = idx + 1; i < sectionList.size(); i++) {
+            SectionInfo section = sectionList.get(i);
+            Element next_section = document.getElementById(section.getSection_id());
+
+            String innerPortName = "innerPort" + section.getSection_id().substring(section.getSection_id().length() - 1);
+            System.out.println(section.getSection_id());
+            System.out.println(innerPortName);
+            Double oldX = section.getxPosition();
+            next_section.setAttribute("x", String.valueOf(oldX - lengthRemoveSection));
+
+            Element next_innerPort = document.getElementById(innerPortName);
+            next_innerPort.setAttribute("x", String.valueOf(oldX - lengthRemoveSection));
+            section.setxPosition(oldX - lengthRemoveSection);
+        }
+        sectionList.remove(selectedSection);
     }
 
-    private void findCenter() {
-        SVGDocument document = selectedSection.getCADDoc();
+    private void findCenter(SectionInfo section) {
+        SVGDocument document = section.getCADDoc();
         Element circle = document.getElementById("ID_8E0");
-        selectedSection.setCx(Double.valueOf(circle.getAttribute("cx")));
-        selectedSection.setCy(Double.valueOf(circle.getAttribute("cy")));
+        section.setCx(Double.valueOf(circle.getAttribute("cx")));
+        section.setCy(Double.valueOf(circle.getAttribute("cy")));
     }
 
     private void setSectionInfoView() {
@@ -1348,22 +1438,22 @@ public class MainWindow extends javax.swing.JFrame {
         if (circleToggleButton.isSelected()) {
             setCADShape(path);
             showSVG(cadPanelShape);
-            findCenter();
+            findCenter(selectedSection);
             cad.setInnerShape(selectedSection.getNewInnerDiameter(), cadPanelShape, selectedSection.getCADDoc());
             cad.setOuterShape(selectedSection.getNewOuterDiameter(), cadPanelShape, selectedSection.getCADDoc());
 
     }//GEN-LAST:event_circleToggleButtonItemStateChanged
     }
 
-    private void defaultDrawCircle() {
+    private void defaultDrawCircle(SectionInfo section) {
         String path = "dti/image/DTICircle.dxf";
 
         setCADShape(path);
-        showSVG(cadPanelShape);
-        findCenter();
+        section.setCADDoc(cad.outputSVG());
+        findCenter(section);
 
-        cad.setInnerShape(selectedSection.getNewInnerDiameter(), cadPanelShape, selectedSection.getCADDoc());
-        cad.setOuterShape(selectedSection.getNewOuterDiameter(), cadPanelShape, selectedSection.getCADDoc());
+        cad.setInnerShape(section.getNewInnerDiameter(), cadPanelShape, section.getCADDoc());
+        cad.setOuterShape(section.getNewOuterDiameter(), cadPanelShape, section.getCADDoc());
 
     }
     private void wheelToggleButtonItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_wheelToggleButtonItemStateChanged
@@ -1371,35 +1461,36 @@ public class MainWindow extends javax.swing.JFrame {
         setCADShape(path);
 
         showSVG(cadPanelShape);
-        findCenter();
+        findCenter(selectedSection);
     }//GEN-LAST:event_wheelToggleButtonItemStateChanged
 
     private void starToggleButtonItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_starToggleButtonItemStateChanged
         String path = "dti/image/DTIStar.dxf";
         setCADShape(path);
         showSVG(cadPanelShape);
-        findCenter();
+        findCenter(selectedSection);
     }//GEN-LAST:event_starToggleButtonItemStateChanged
 
     private void hexaToggleButtonItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_hexaToggleButtonItemStateChanged
         String path = "dti/image/DTIHexagon.dxf";
         setCADShape(path);
         showSVG(cadPanelShape);
-        findCenter();
+        findCenter(selectedSection);
+
     }//GEN-LAST:event_hexaToggleButtonItemStateChanged
 
     private void pentaToggleButtonItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_pentaToggleButtonItemStateChanged
         String path = "dti/image/DTIPentagon.dxf";
         setCADShape(path);
         showSVG(cadPanelShape);
-        findCenter();
+        findCenter(selectedSection);
     }//GEN-LAST:event_pentaToggleButtonItemStateChanged
 
     private void eightStarToggleButtonItemStateChanged(java.awt.event.ItemEvent evt) {
         String path = "dti/image/DTIEightStar.dxf";
         setCADShape(path);
         showSVG(cadPanelShape);
-        findCenter();
+        findCenter(selectedSection);
     }
 
     private void innerDiameterSpinStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_innerDiameterSpinStateChanged
@@ -1448,7 +1539,7 @@ public class MainWindow extends javax.swing.JFrame {
 
         Double diam = (Double) rocketDiameterSp.getValue();
 
-        // String ySectionPosition = String.valueOf(yMotorPosition + (diam / 2.0) - (Double.valueOf(newOuterDiameterStr) / 2.0));
+        // String yPositionSectionStr = String.valueOf(yMotorPosition + (diam / 2.0) - (Double.valueOf(newOuterDiameterStr) / 2.0));
         //String newX = String.valueOf(selectedSection.getxPosition() + diff);
         Element thisSection = document.getElementById(selectedSection.getSection_id());
         thisSection.setAttribute("width", newLengthSectionStr);
@@ -1493,7 +1584,8 @@ public class MainWindow extends javax.swing.JFrame {
     }
 
     public void showSVG(JSVGCanvas canvas) {
-        selectedSection.setCADDoc(cad.outputSVG(canvas));
+        selectedSection.setCADDoc(cad.outputSVG());
+        canvas.setSVGDocument(selectedSection.getCADDoc());
     }
 
     public void enableComponents(Container container, boolean enable) {

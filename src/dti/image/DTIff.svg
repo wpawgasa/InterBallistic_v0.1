@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="330.69575950019583 -313.2381172962406  378.77729473493144 378.7772947349315" version="1.0" overflow="visible">
+    <defs>
+        <g id="ID__#42_Model_Space"/>
+        <g id="ID__#42_Paper_Space0"/>
+        <g id="ID__#42_Paper_Space"/>
+    </defs>
+    <g id="draft" transform="matrix(1 0 0 -1 0 0)" stroke-width="0.02%">
+        <g id="Defpoints" color="rgb(0,0,0)" stroke="currentColor" fill="none"/>
+        <g id="ID_0" color="rgb(0,0,0)" stroke="currentColor" fill="none">
+            <path d="M 395.4200499928916 195.8244699287749 L 520.0844068676615 267.7994699287749 L 644.7487637424315 195.8244699287748 L 644.7487637424315 51.87446992877483 L 520.0844068676615 -20.10053007122509 L 395.4200499928916 51.87446992877494 L 395.4200499928916 195.8244699287749 " color="rgb(0,0,0)" stroke="currentColor" id="ID_8F2"/>
+            <circle cx="520.0844068676615" cy="123.8494699287749" r="185.6751444779076" color="rgb(0,0,0)" stroke="currentColor" id="ID_8E0"/>
+        </g>
+    </g>
+</svg>

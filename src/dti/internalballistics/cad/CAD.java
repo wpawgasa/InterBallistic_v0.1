@@ -80,7 +80,7 @@ public class CAD {
         }
     }
 
-    public SVGDocument outputSVG(JSVGCanvas jSVGCanvas) {
+    public SVGDocument outputSVG() {
 
         SAXGenerator sAXGenerator = new SVGGenerator();
         SAXSerializer sAXSerializer = new SAXXMLSerializer();
@@ -100,7 +100,7 @@ public class CAD {
             svgDoc = sAXSVGDocumentFactory.createSVGDocument(null, byteArrayInputStream);
             Element x = svgDoc.getElementById("ID_8E0");
             x.setAttribute("stroke", "red");
-            jSVGCanvas.setSVGDocument(svgDoc);
+            //jSVGCanvas.setSVGDocument(svgDoc);
         } catch (IOException ex) {
             Logger.getLogger(CAD.class.getName()).log(Level.SEVERE, null, ex);
         }
