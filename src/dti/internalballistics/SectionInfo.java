@@ -34,6 +34,7 @@ public class SectionInfo {
     private Double lengthSection;
     private Double innerPortSection;
     private Double xPosition;
+    private Double yPosition;
     //CADPanel cADPanel = new CADPanel(); 
     public SVGDocument CADDoc;
 
@@ -42,7 +43,7 @@ public class SectionInfo {
     private String section_id;
     private String innerPort_id;
 
-    public SectionInfo(double outer, double inner, String id, String innerPort_id, Double lengthSection, Double xPosition) {
+    public SectionInfo(double outer, double inner, String id, String innerPort_id, Double lengthSection, Double xPosition, Double yPostion) {
         rowNo = 1;
         PropellantLayer layer = new PropellantLayer();
         layer.setLayerId(rowNo);
@@ -63,6 +64,7 @@ public class SectionInfo {
         this.innerPort_id = innerPort_id;
         this.lengthSection = lengthSection;
         this.xPosition = xPosition;
+        this.yPosition = yPostion;
     }
 
     public List<PropellantLayer> getLayers() {
@@ -227,6 +229,20 @@ public class SectionInfo {
      */
     public void setCy(Double cy) {
         this.cy = cy;
+    }
+
+    /**
+     * @return the yPosition
+     */
+    public Double getyPosition() {
+        return yPosition;
+    }
+
+    /**
+     * @param yPosition the yPosition to set
+     */
+    public void setyPosition(Double yPosition) {
+        this.yPosition = yPosition;
     }
 
 
