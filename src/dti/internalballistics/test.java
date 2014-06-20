@@ -3,7 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package dti.internalballistics;
 
 import java.io.ByteArrayInputStream;
@@ -36,19 +35,18 @@ import org.w3c.dom.svg.SVGDocument;
  *
  * @author amabird
  */
-public class test extends JFrame{
+public class test extends JFrame {
+
     public static void main(String[] args) {
-         InputStream is = null;
+        InputStream is = null;
         try {
             TestSVG2 t = new TestSVG2();
             t.canvas = new JSVGCanvas();
-            t.setSize(300,300);
+            t.setSize(300, 300);
             t.getContentPane().add(t.canvas);
-            
 
-            
             t.setVisible(true);
-            is = t.getClass().getClassLoader().getResource("dti/image/DTIEightStar.dxf").openStream();
+            is = t.getClass().getClassLoader().getResource("dti/image/DTIHexagon.dxf").openStream();
             Parser dxfParser = ParserBuilder.createDefaultParser();
             dxfParser.parse(is, DXFParser.DEFAULT_ENCODING);
             DXFDocument dXFDocument = dxfParser.getDocument();
@@ -70,11 +68,14 @@ public class test extends JFrame{
             System.out.println(root.getAttribute("width"));
             Element tag = sVGDocument.getElementById("draft");
             tag.setAttribute("stroke-width", "0.3%");
-             Element tagColor = sVGDocument.getElementById("ID_0");
-       tagColor.setAttribute("color", "rgb(239,13,54)");
-            File file = new File("/Users/amabird/NetBeansProjects/InternalBallistics/src/dti/image/DTIEightStar.svg");
+            Element tagColor = sVGDocument.getElementById("ID_0");
+            tagColor.setAttribute("color", "rgb(239,13,54)");
+            Element resize = sVGDocument.getElementById("ID_8F2");
+            resize.setAttribute("transform", "scale(2)");
+          
+            File file = new File("/Users/amabird/NetBeansProjects/InterBallistic_v0.1/src/dti/image/DTIff.svg");
             FileOutputStream fileOutputStream = new FileOutputStream(file);
-            if(!file.exists()){
+            if (!file.exists()) {
                 file.createNewFile();
             }
             fileOutputStream.write(data);

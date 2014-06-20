@@ -105,12 +105,13 @@ public class MainWindow extends javax.swing.JFrame {
             public void handleEvent(Event event) {
                 Element target = (Element) event.getCurrentTarget();
                 String sectionNo = target.getAttribute("id");
-                
+
                 for (SectionInfo section : sectionList) {
-                    
+
                     if (section.getSection_id().equalsIgnoreCase(sectionNo)) {
                         selectedSection = section;
                         target.setAttribute("stroke-width", "2");
+                        selectedSomething = true;
                     } else {
                         Element elm = document.getElementById(section.getSection_id());
                         elm.setAttribute("stroke-width", "1");
@@ -1155,7 +1156,7 @@ public class MainWindow extends javax.swing.JFrame {
             public void windowClosing(WindowEvent e) {
                 System.out.println(addSectionPopup.isOK);
                 if (addSectionPopup.isOK) {
-                    
+
                     String diameterSectionStr = addSectionPopup.getDiameterSectionStr();
                     String lengthSectionStr = addSectionPopup.getLengthSectionStr();
                     String innerPortSectionString = addSectionPopup.getInnerPortSectionStr();
@@ -1164,7 +1165,6 @@ public class MainWindow extends javax.swing.JFrame {
                     Double totalLength = 0.0;
                     for (SectionInfo section : sectionList) {
                         totalLength += section.getLengthSection();
-                        
 
                     }
                     lengthSection = Double.valueOf(lengthSectionStr);
@@ -1174,29 +1174,46 @@ public class MainWindow extends javax.swing.JFrame {
                     Double diam = (Double) rocketDiameterSp.getValue();
 
                     //String xPositionSectionStr = String.valueOf(xPosition + totalLength);
-                    
                     //svgRoot = document.getElementsByTagName('svg');
-                    String xPositionSectionStr ="";
-                    String no ="";
-                    if (selectedSection != null){
-                        no = selectedSection.getSection_id().substring(selectedSection.getSection_id().length() - 1);  
-                    }
-                     if (selectedSection == null || no.equalsIgnoreCase(String.valueOf(sectionList.size()-1))) {
-                         xPositionSectionStr = String.valueOf(xPosition + totalLength);
+                    String xPositionSectionStr = "";
+                    String no = "";
+                    int idx = sectionList.size();
+                    if (selectedSomething != true) {
+//                         if (selectedSection == null ) {
+                            xPositionSectionStr = String.valueOf(xPosition + totalLength);
+//                        }
+//                         else{
+//                        no = selectedSection.getSection_id().substring(selectedSection.getSection_id().length() - 1);
+//                        xPositionSectionStr = String.valueOf(xPosition + totalLength);
+//                         }
                     } else {
-                        int idx = 0;
+                        //idx = 0;
                         Double totalLengthBefore = 0.0;
+                        Double currX = selectedSection.getxPosition();
+                        Double currLength = selectedSection.getLengthSection();
+                        xPositionSectionStr = String.valueOf(currX+currLength);
+//                        for (SectionInfo thisSection : sectionList) {
+//                            Double length = thisSection.getLengthSection();
+//                            String sectionId = thisSection.getSection_id();
+//                            
+//                            totalLengthBefore += length;
+//                            if (thisSection.getSection_id() == selectedSection.getSection_id()) {
+//                                idx = sectionList.indexOf(thisSection);
+//                                
+//                                xPositionSectionStr = String.valueOf(xPosition + totalLengthBefore);
+//                                break;
+//                            }
+//    
+//                        }
                         for (SectionInfo thisSection : sectionList) {
-                            Double length = thisSection.getLengthSection();
-                            totalLengthBefore += length;
-                            if (thisSection.getSection_id() == selectedSection.getSection_id()) {
-                                idx = sectionList.indexOf(thisSection);
-                                xPositionSectionStr = String.valueOf(xPosition + totalLengthBefore);
-                                 break;
-                            }
+                        if (thisSection.getSection_id() == selectedSection.getSection_id()) {
+                            idx = sectionList.indexOf(thisSection)+1;
 
+                            
+                            break;
                         }
-                        for (int i = idx + 1; i < sectionList.size(); i++) {
+                        }
+                        for (int i = idx; i < sectionList.size(); i++) {
                             SectionInfo thisSection = sectionList.get(i);
                             Element next_section = document.getElementById(thisSection.getSection_id());
                             String thisInnerPortName = "innerPort" + (thisSection.getSection_id().substring(thisSection.getSection_id().length() - 1));
@@ -1210,7 +1227,7 @@ public class MainWindow extends javax.swing.JFrame {
                             thisSection.setxPosition(oldX + thisSection.getLengthSection());
                         }
                     }
-                     
+
                     String yPositionSectionStr = String.valueOf(yMotorPosition + (diam / 2.0) - (Double.valueOf(diameterSectionStr) / 2.0));
                     String yInnerPortPosition = String.valueOf((diam / 2.0) - (Double.valueOf(innerPortSectionString) / 2.0) + yMotorPosition);
 
@@ -1243,34 +1260,34 @@ public class MainWindow extends javax.swing.JFrame {
                     drawCanvas.setDocument(document);
                     SectionInfo newSection = new SectionInfo(Double.valueOf(diameterSectionStr), Double.valueOf(innerPortSectionString), sectionName, innerPortName, lengthSection, Double.valueOf(xPositionSectionStr), Double.valueOf(yPositionSectionStr));
                     defaultDrawCircle(newSection);
-                    
+
                     //if(selectedSection==null) {
-                            selectedSection = newSection;
-                            sectionList.add(newSection);
-                            circleToggleButton.setSelected(true);
-                            Element target = document.getElementById(selectedSection.getSection_id());
-                            target.setAttribute("stroke-width", "2");
-                        for (SectionInfo sec : sectionList) {
-                    
-                    if (!sec.getSection_id().equalsIgnoreCase(selectedSection.getSection_id())) {
-                        
-                        Element elm = document.getElementById(sec.getSection_id());
-                        elm.setAttribute("stroke-width", "1");
+                    selectedSection = newSection;
+                    sectionList.add(idx,newSection);
+                    circleToggleButton.setSelected(true);
+                    selectedSomething = true;
+                    Element target = document.getElementById(selectedSection.getSection_id());
+                    target.setAttribute("stroke-width", "2");
+                    for (SectionInfo sec : sectionList) {
+
+                        if (!sec.getSection_id().equalsIgnoreCase(selectedSection.getSection_id())) {
+
+                            Element elm = document.getElementById(sec.getSection_id());
+                            elm.setAttribute("stroke-width", "1");
+                        }
                     }
-                }
-                    
-                
-                            setSectionInfoView();
+
+                    setSectionInfoView();
                     //}
-                    
+
                     registerListeners(sectionName);
                     registerListeners(innerPortName);
                     //outerDiameterSpinner.setValue(Double.valueOf(diameterSectionStr));
                     System.out.println("inner port " + innerPortSectionString);
                     //innerDiameterSpinner.setValue(Double.valueOf(innerPortSectionString));
-                    //lengthSectionSpinner.setValue(lengthSection);
-                   
+                    //lengt/hSectionSpinner.setValue(lengthSection);
 
+                    //selectedSomething = false;
                 }
                 addSectionPopup.dispose();
             }
@@ -1670,6 +1687,7 @@ public class MainWindow extends javax.swing.JFrame {
     int sectionNo = 0;
     AddSectionPopup addSectionPopup;
 
+    Boolean selectedSomething = false;
     double newInnerDiameter;
 
     List<SectionInfo> sectionList = new ArrayList<SectionInfo>();
