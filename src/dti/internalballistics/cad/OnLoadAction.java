@@ -17,7 +17,7 @@ public class OnLoadAction implements EventListener {
 
     @Override
     public void handleEvent(Event event) {
-        System.out.println("SVG document loaded");
+        //System.out.println("SVG document loaded");
     }
     
     

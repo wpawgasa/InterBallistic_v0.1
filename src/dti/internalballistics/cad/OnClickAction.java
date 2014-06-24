@@ -20,7 +20,7 @@ public class OnClickAction implements EventListener {
 
     @Override
     public void handleEvent(Event event) {
-        System.out.println("Click*****");
+       // System.out.println("Click*****");
         Element target = (Element) event.getCurrentTarget();
         System.out.println("ID:"+target.getAttribute("id"));
         Node parent = target.getParentNode();
