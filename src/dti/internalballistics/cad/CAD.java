@@ -252,7 +252,27 @@ public class CAD {
     public SVGDocument rearrangePath(SVGDocument svgDoc) {
         Element elm0 = svgDoc.getElementById("ID_0");
         NodeList nodes = elm0.getElementsByTagName("path");
-        for (int i = 0; i < nodes.getLength(); i++) {
+        
+        
+        for (int i = 1; i < nodes.getLength(); i++) {
+            Node path0 = nodes.item(0);
+        Element elm = (Element) path0;
+        String d = elm.getAttribute("d");
+        String[] dPoints = d.split("\\s+");
+        Point firstP = new Point();
+        firstP.setX(Double.valueOf(dPoints[1]));
+        firstP.setY(Double.valueOf(dPoints[2]));
+        Point lastP = new Point();
+        lastP.setX(Double.valueOf(dPoints[dPoints.length-2]));
+        lastP.setY(Double.valueOf(dPoints[dPoints.length-1]));
+        
+            Node path = nodes.item(i);
+            elm = (Element) path;
+            d = elm.getAttribute("d");
+            dPoints = d.split("\\s+");
+            Point nP = new Point();
+            nP.setX(Double.valueOf(dPoints[1]));
+            nP.setY(Double.valueOf(dPoints[2]));
             
         }
         return svgDoc;
