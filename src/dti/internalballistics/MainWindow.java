@@ -224,6 +224,10 @@ public class MainWindow extends javax.swing.JFrame {
         lengthLB = new javax.swing.JLabel();
         lengthSectionSpinner = new javax.swing.JSpinner();
         mmLengthLabel = new javax.swing.JLabel();
+        startBurningDistanceLb = new javax.swing.JLabel();
+        startBurningDistanceTb = new javax.swing.JTextField();
+        zoomInPropellantBt = new javax.swing.JButton();
+        zoomOutPropellantBt = new javax.swing.JButton();
 
         diameterSpinnerNumberModel = new SpinnerNumberModel(0.0, -1000.0, 1000.0, 0.1);
         lengthSpinnerNumberModel = new SpinnerNumberModel(0.0, -1000.0, 1000.0, 0.1);
@@ -379,6 +383,8 @@ public class MainWindow extends javax.swing.JFrame {
         heatRatioLB.setText("Heat Capacity Ratio");
 
         maxBurntLB.setText("Max. Burning Distance (mm)");
+        
+        startBurningDistanceLb.setText("Start Burning Distance (mm)");
 
         javax.swing.GroupLayout propellantPanelLayout = new javax.swing.GroupLayout(propellantPanel);
         propellantPanel.setLayout(propellantPanelLayout);
@@ -403,6 +409,10 @@ public class MainWindow extends javax.swing.JFrame {
                                         .addComponent(maxBurntLB)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                         .addComponent(maxBurntTB, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGroup(propellantPanelLayout.createSequentialGroup()
+                                        .addComponent(startBurningDistanceLb)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(startBurningDistanceTb, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, propellantPanelLayout.createSequentialGroup()
                                         .addComponent(pressureExponentLB)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -466,6 +476,10 @@ public class MainWindow extends javax.swing.JFrame {
                         .addGroup(propellantPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                 .addComponent(maxBurntTB, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addComponent(maxBurntLB))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(propellantPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(startBurningDistanceTb, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(startBurningDistanceLb))
                         .addContainerGap(12, Short.MAX_VALUE))
         );
 
@@ -565,7 +579,10 @@ public class MainWindow extends javax.swing.JFrame {
                 eightStarToggleButtonItemStateChanged(evt);
             }
         });
-
+        
+        zoomInPropellantBt.setText("+");
+        zoomOutPropellantBt.setText("-");
+        
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
@@ -609,11 +626,11 @@ public class MainWindow extends javax.swing.JFrame {
         cadPanelShape.setLayout(cadPanelShapeLayout);
         cadPanelShapeLayout.setHorizontalGroup(
                 cadPanelShapeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGap(0, 0, Short.MAX_VALUE)
+                .addGap(0, 10, Short.MAX_VALUE)
         );
         cadPanelShapeLayout.setVerticalGroup(
                 cadPanelShapeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGap(0, 287, Short.MAX_VALUE)
+                .addGap(0, 20, Short.MAX_VALUE)
         );
 
         diameterInner.setText("Inner Diameter:");
@@ -670,6 +687,10 @@ public class MainWindow extends javax.swing.JFrame {
                                         .addComponent(mmLengthLabel))
                                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                         .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addGroup(jPanel2Layout.createSequentialGroup()
+                                        .addComponent(zoomInPropellantBt)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(zoomOutPropellantBt))
                                         .addComponent(cadPanelShape, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -689,8 +710,12 @@ public class MainWindow extends javax.swing.JFrame {
                                 .addComponent(mmLengthLabel))
                         .addGap(18, 18, 18)
                         .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(cadPanelShape, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(15, 15, 15)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(zoomInPropellantBt)
+                                .addComponent(zoomOutPropellantBt))
+                        .addGap(15, 15, 15)
+                        .addComponent(cadPanelShape, 250,350, 450)
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -699,85 +724,24 @@ public class MainWindow extends javax.swing.JFrame {
         javax.swing.GroupLayout geometricTabLayout = new javax.swing.GroupLayout(geometricTab);
         geometricTab.setLayout(geometricTabLayout);
         geometricTabLayout.setHorizontalGroup(
-                geometricTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(geometricTabLayout.createSequentialGroup()
-                        .addGroup(geometricTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addGroup(geometricTabLayout.createSequentialGroup()
-                                        .addContainerGap()
-                                        .addGroup(geometricTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                                .addComponent(jLabel1)
-                                                .addComponent(jLabel2)
-                                                .addComponent(addSectionBT))
-                                        .addGap(18, 18, 18)
-                                        .addGroup(geometricTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                                .addComponent(removeSectionBT)
-                                                .addGroup(geometricTabLayout.createSequentialGroup()
-                                                        .addGroup(geometricTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                                                .addGroup(geometricTabLayout.createSequentialGroup()
-                                                                        .addComponent(rocketLengthSp, javax.swing.GroupLayout.PREFERRED_SIZE, 67, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                                                        .addComponent(jLabel4))
-                                                                .addGroup(geometricTabLayout.createSequentialGroup()
-                                                                        .addComponent(rocketDiameterSp, javax.swing.GroupLayout.PREFERRED_SIZE, 67, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                                                        .addComponent(jLabel3)))
-                                                        .addGap(62, 62, 62)
-                                                        .addGroup(geometricTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                                                .addComponent(jLabel14)
-                                                                .addComponent(jLabel15))
-                                                        .addGap(18, 18, 18)
-                                                        .addGroup(geometricTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                                                .addGroup(geometricTabLayout.createSequentialGroup()
-                                                                        .addComponent(rocketLengthSp1, javax.swing.GroupLayout.PREFERRED_SIZE, 67, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                                                        .addComponent(jLabel17))
-                                                                .addGroup(geometricTabLayout.createSequentialGroup()
-                                                                        .addComponent(rocketDiameterSp1, javax.swing.GroupLayout.PREFERRED_SIZE, 67, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                                                        .addComponent(jLabel16))))))
-                                .addGroup(geometricTabLayout.createSequentialGroup()
-                                        .addGap(12, 12, 12)
-                                        .addComponent(drawCanvas, 650, 650, 650)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(sectionPropertiesTabbedPanel, 450, 600, 750)))
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            geometricTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(geometricTabLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(leftGeoPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(rigthGeoPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
         );
         geometricTabLayout.setVerticalGroup(
-                geometricTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(geometricTabLayout.createSequentialGroup()
-                        .addContainerGap()
-                        .addGroup(geometricTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addGroup(geometricTabLayout.createSequentialGroup()
-                                        .addGroup(geometricTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                                .addComponent(jLabel1)
-                                                .addComponent(jLabel3)
-                                                .addComponent(rocketDiameterSp, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addGroup(geometricTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                                .addComponent(jLabel2)
-                                                .addComponent(jLabel4)
-                                                .addComponent(rocketLengthSp, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                .addGroup(geometricTabLayout.createSequentialGroup()
-                                        .addGroup(geometricTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                                .addComponent(jLabel14)
-                                                .addComponent(jLabel16)
-                                                .addComponent(rocketDiameterSp1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addGroup(geometricTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                                .addComponent(jLabel15)
-                                                .addComponent(jLabel17)
-                                                .addComponent(rocketLengthSp1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                .addGroup(geometricTabLayout.createSequentialGroup()
-                                        .addGroup(geometricTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                        .addComponent(sectionPropertiesTabbedPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 600, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                        .addGap(18, 18, 18)
-                        .addGroup(geometricTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                .addComponent(addSectionBT)
-                                .addComponent(removeSectionBT))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(drawCanvas, 600, 600, 600)
-                        .addContainerGap(24, Short.MAX_VALUE))
+            geometricTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, geometricTabLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(geometricTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addComponent(leftGeoPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(rigthGeoPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
+        
 
         mainTabbedPanel.addTab("Geometric", geometricTab);
 
@@ -876,59 +840,102 @@ public class MainWindow extends javax.swing.JFrame {
 
         javax.swing.GroupLayout leftGeoPanelLayout = new javax.swing.GroupLayout(leftGeoPanel);
         leftGeoPanel.setLayout(leftGeoPanelLayout);
+        
         leftGeoPanelLayout.setHorizontalGroup(
-            leftGeoPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(leftGeoPanelLayout.createSequentialGroup()
-                .addGap(16, 16, 16)
-                .addComponent(geometricTab, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(79, Short.MAX_VALUE))
+                leftGeoPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(leftGeoPanelLayout.createSequentialGroup()
+                        .addGroup(leftGeoPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addGroup(leftGeoPanelLayout.createSequentialGroup()
+                                        .addContainerGap()
+                                        .addGroup(leftGeoPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                .addComponent(jLabel1)
+                                                .addComponent(jLabel2)
+                                                .addComponent(addSectionBT))
+                                        .addGap(18, 18, 18)
+                                        .addGroup(leftGeoPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                .addComponent(removeSectionBT)
+                                                .addGroup(leftGeoPanelLayout.createSequentialGroup()
+                                                        .addGroup(leftGeoPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                                .addGroup(leftGeoPanelLayout.createSequentialGroup()
+                                                                        .addComponent(rocketLengthSp, javax.swing.GroupLayout.PREFERRED_SIZE, 67, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                                        .addComponent(jLabel4))
+                                                                .addGroup(leftGeoPanelLayout.createSequentialGroup()
+                                                                        .addComponent(rocketDiameterSp, javax.swing.GroupLayout.PREFERRED_SIZE, 67, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                                        .addComponent(jLabel3)))
+                                                        .addGap(62, 62, 62)
+                                                        .addGroup(leftGeoPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                                .addComponent(jLabel14)
+                                                                .addComponent(jLabel15))
+                                                        .addGap(18, 18, 18)
+                                                        .addGroup(leftGeoPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                                .addGroup(leftGeoPanelLayout.createSequentialGroup()
+                                                                        .addComponent(rocketLengthSp1, javax.swing.GroupLayout.PREFERRED_SIZE, 67, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                                        .addComponent(jLabel17))
+                                                                .addGroup(leftGeoPanelLayout.createSequentialGroup()
+                                                                        .addComponent(rocketDiameterSp1, javax.swing.GroupLayout.PREFERRED_SIZE, 67, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                                        .addComponent(jLabel16))))))
+                                .addGroup(leftGeoPanelLayout.createSequentialGroup()
+                                        .addGap(12, 12, 12)
+                                        .addComponent(drawCanvas, 650, 650, 650)))
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         leftGeoPanelLayout.setVerticalGroup(
-            leftGeoPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(leftGeoPanelLayout.createSequentialGroup()
-                .addGap(20, 20, 20)
-                .addComponent(geometricTab, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(322, Short.MAX_VALUE))
+                leftGeoPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(leftGeoPanelLayout.createSequentialGroup()
+                        .addContainerGap()
+                        .addGroup(leftGeoPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addGroup(leftGeoPanelLayout.createSequentialGroup()
+                                        .addGroup(leftGeoPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                                .addComponent(jLabel1)
+                                                .addComponent(jLabel3)
+                                                .addComponent(rocketDiameterSp, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addGroup(leftGeoPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                                .addComponent(jLabel2)
+                                                .addComponent(jLabel4)
+                                                .addComponent(rocketLengthSp, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addGroup(leftGeoPanelLayout.createSequentialGroup()
+                                        .addGroup(leftGeoPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                                .addComponent(jLabel14)
+                                                .addComponent(jLabel16)
+                                                .addComponent(rocketDiameterSp1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addGroup(leftGeoPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                                .addComponent(jLabel15)
+                                                .addComponent(jLabel17)
+                                                .addComponent(rocketLengthSp1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                )
+                        .addGap(18, 18, 18)
+                        .addGroup(leftGeoPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(addSectionBT)
+                                .addComponent(removeSectionBT))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(drawCanvas, 600, 600, 600)
+                        .addContainerGap(24, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout rightGeoPanelLayout = new javax.swing.GroupLayout(rigthGeoPanel);
-        rigthGeoPanel.setLayout(jPanel2Layout);
+        rigthGeoPanel.setLayout(rightGeoPanelLayout);
         rightGeoPanelLayout.setHorizontalGroup(
             rightGeoPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(rightGeoPanelLayout.createSequentialGroup()
                 .addGap(16, 16, 16)
-                .addComponent(sectionPropertiesTabbedPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(sectionPropertiesTabbedPanel, 450, 600, 750)
                 .addContainerGap(79, Short.MAX_VALUE))
         );
         rightGeoPanelLayout.setVerticalGroup(
             rightGeoPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(rightGeoPanelLayout.createSequentialGroup()
                 .addGap(20, 20, 20)
-                .addComponent(sectionPropertiesTabbedPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(322, Short.MAX_VALUE))
+                .addComponent(sectionPropertiesTabbedPanel, 600, 650, 650)
+                .addContainerGap(20, Short.MAX_VALUE))
         );
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap())
-        );
-
+        
         
         mainTabbedPanel.addTab("Simulation", simulationTab);
 
@@ -1851,7 +1858,11 @@ public class MainWindow extends javax.swing.JFrame {
     private javax.swing.JLabel lengthLB;
     private javax.swing.JLabel mmLengthLabel;
     private javax.swing.JSpinner lengthSectionSpinner;
-
+    private javax.swing.JLabel startBurningDistanceLb;
+    private javax.swing.JTextField startBurningDistanceTb;
+    private javax.swing.JButton zoomInPropellantBt;
+    private javax.swing.JButton zoomOutPropellantBt;
+    
     private javax.swing.JPanel leftGeoPanel;
     private javax.swing.JPanel rigthGeoPanel;
     // End of variables declaration    

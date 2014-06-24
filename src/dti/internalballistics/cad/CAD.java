@@ -216,10 +216,10 @@ public class CAD {
                     j = j + 7;
 
                 }
-                
-                if (j < dPoints.length-1 && !dPoints[j + 1].equalsIgnoreCase("a")) {
+
+                if (j < dPoints.length - 1 && !dPoints[j + 1].equalsIgnoreCase("a")) {
                     p.setBulge(0.0);
-                } else if (j < dPoints.length-1 && dPoints[j + 1].equalsIgnoreCase("a")) {
+                } else if (j < dPoints.length - 1 && dPoints[j + 1].equalsIgnoreCase("a")) {
                     Point p2 = new Point();
                     p2.setX(Double.valueOf(dPoints[j + 7]));
                     p2.setY(Double.valueOf(dPoints[j + 8]));
@@ -252,10 +252,7 @@ public class CAD {
     public SVGDocument rearrangePath(SVGDocument svgDoc) {
         Element elm0 = svgDoc.getElementById("ID_0");
         NodeList nodes = elm0.getElementsByTagName("path");
-        
-        
-        for (int i = 1; i < nodes.getLength(); i++) {
-            Node path0 = nodes.item(0);
+        Node path0 = nodes.item(0);
         Element elm = (Element) path0;
         String d = elm.getAttribute("d");
         String[] dPoints = d.split("\\s+");
@@ -263,9 +260,21 @@ public class CAD {
         firstP.setX(Double.valueOf(dPoints[1]));
         firstP.setY(Double.valueOf(dPoints[2]));
         Point lastP = new Point();
-        lastP.setX(Double.valueOf(dPoints[dPoints.length-2]));
-        lastP.setY(Double.valueOf(dPoints[dPoints.length-1]));
-        
+        lastP.setX(Double.valueOf(dPoints[dPoints.length - 2]));
+        lastP.setY(Double.valueOf(dPoints[dPoints.length - 1]));
+
+        for (int i = 1; i < nodes.getLength(); i++) {
+            path0 = nodes.item(0);
+            elm = (Element) path0;
+            d = elm.getAttribute("d");
+            dPoints = d.split("\\s+");
+            firstP = new Point();
+            firstP.setX(Double.valueOf(dPoints[1]));
+            firstP.setY(Double.valueOf(dPoints[2]));
+            lastP = new Point();
+            lastP.setX(Double.valueOf(dPoints[dPoints.length - 2]));
+            lastP.setY(Double.valueOf(dPoints[dPoints.length - 1]));
+
             Node path = nodes.item(i);
             elm = (Element) path;
             d = elm.getAttribute("d");
@@ -273,10 +282,11 @@ public class CAD {
             Point nP = new Point();
             nP.setX(Double.valueOf(dPoints[1]));
             nP.setY(Double.valueOf(dPoints[2]));
-            
+
         }
         return svgDoc;
     }
+
     public SVGDocument resizeInnerPort(double newRadius, SVGDocument svgDoc) {
         Element elm0 = svgDoc.getElementById("ID_0");
         NodeList nodes = elm0.getElementsByTagName("path");
