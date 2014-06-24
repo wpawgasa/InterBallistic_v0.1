@@ -13,6 +13,8 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -249,42 +251,68 @@ public class CAD {
         return bulge;
     }
 
-    public SVGDocument rearrangePath(SVGDocument svgDoc) {
-        Element elm0 = svgDoc.getElementById("ID_0");
-        NodeList nodes = elm0.getElementsByTagName("path");
+    public void rearrangePath(SVGDocument svgDoc) {
+        Element el = svgDoc.getElementById("ID_0");
+        NodeList nodes = el.getElementsByTagName("path");
         Node path0 = nodes.item(0);
-        Element elm = (Element) path0;
-        String d = elm.getAttribute("d");
-        String[] dPoints = d.split("\\s+");
+        Element elm0 = (Element) path0;
+        String d0 = elm0.getAttribute("d");
+        String[] dPoints0 = d0.split("\\s+");
         Point firstP = new Point();
-        firstP.setX(Double.valueOf(dPoints[1]));
-        firstP.setY(Double.valueOf(dPoints[2]));
+        firstP.setX(Double.valueOf(dPoints0[1]));
+        firstP.setY(Double.valueOf(dPoints0[2]));
         Point lastP = new Point();
-        lastP.setX(Double.valueOf(dPoints[dPoints.length - 2]));
-        lastP.setY(Double.valueOf(dPoints[dPoints.length - 1]));
+        lastP.setX(Double.valueOf(dPoints0[dPoints0.length - 2]));
+        lastP.setY(Double.valueOf(dPoints0[dPoints0.length - 1]));
 
         for (int i = 1; i < nodes.getLength(); i++) {
-            path0 = nodes.item(0);
-            elm = (Element) path0;
-            d = elm.getAttribute("d");
-            dPoints = d.split("\\s+");
-            firstP = new Point();
-            firstP.setX(Double.valueOf(dPoints[1]));
-            firstP.setY(Double.valueOf(dPoints[2]));
+            dPoints0 = d0.split("\\s+");
             lastP = new Point();
-            lastP.setX(Double.valueOf(dPoints[dPoints.length - 2]));
-            lastP.setY(Double.valueOf(dPoints[dPoints.length - 1]));
+            lastP.setX(Double.valueOf(dPoints0[dPoints0.length - 2]));
+            lastP.setY(Double.valueOf(dPoints0[dPoints0.length - 1]));
 
             Node path = nodes.item(i);
-            elm = (Element) path;
-            d = elm.getAttribute("d");
-            dPoints = d.split("\\s+");
+            Element elm = (Element) path;
+            String d = elm.getAttribute("d");
+            String [] dPoints = d.split("\\s+");
             Point nP = new Point();
             nP.setX(Double.valueOf(dPoints[1]));
             nP.setY(Double.valueOf(dPoints[2]));
-
+            BigDecimal p1x = new BigDecimal(nP.getX());
+            p1x = p1x.setScale(8, RoundingMode.FLOOR);
+            BigDecimal p1y = new BigDecimal(nP.getY());
+            p1y = p1y.setScale(8, RoundingMode.FLOOR);
+            BigDecimal p2x = new BigDecimal(lastP.getX());
+            p2x = p2x.setScale(8, RoundingMode.FLOOR);
+            BigDecimal p2y = new BigDecimal(lastP.getY());
+            p2y = p2y.setScale(8, RoundingMode.FLOOR);
+            if(p1x.compareTo(p2x)==0&&p1y.compareTo(p2y)==0) {
+                for(int j=3;j<dPoints.length;j++) {
+                    d0 = d0 + " " + dPoints[j];
+                }
+                el.removeChild(path);
+                nodes = el.getElementsByTagName("path");
+                i=0;
+            }
         }
-        return svgDoc;
+        
+        BigDecimal p1x = new BigDecimal(firstP.getX());
+            p1x = p1x.setScale(8, RoundingMode.FLOOR);
+            BigDecimal p1y = new BigDecimal(firstP.getY());
+            p1y = p1y.setScale(8, RoundingMode.FLOOR);
+            BigDecimal p2x = new BigDecimal(lastP.getX());
+            p2x = p2x.setScale(8, RoundingMode.FLOOR);
+            BigDecimal p2y = new BigDecimal(lastP.getY());
+            p2y = p2y.setScale(8, RoundingMode.FLOOR);
+            
+        if(p1x.compareTo(p2x)==0&&p1y.compareTo(p2y)==0) {
+                
+                    d0 = d0 + " L " + dPoints0[1] + " " + dPoints0[2];
+                
+        }
+        elm0.setAttribute("d", d0);
+        
+        //return svgDoc;
     }
 
     public SVGDocument resizeInnerPort(double newRadius, SVGDocument svgDoc) {
