@@ -135,6 +135,8 @@ public class MainWindow extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">
     private void initComponents() {
 
+        leftGeoPanel = new javax.swing.JPanel();
+        rigthGeoPanel = new javax.swing.JPanel();
         mainTabbedPanel = new javax.swing.JTabbedPane();
         geometricTab = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
@@ -161,9 +163,9 @@ public class MainWindow extends javax.swing.JFrame {
 
         removePropellantBt = new javax.swing.JButton();
         propellantPanel = new javax.swing.JPanel();
+        leftPanel = new javax.swing.JPanel();
         burningRateLB = new javax.swing.JLabel();
         burningRateTB = new javax.swing.JTextField();
-
 
         jLabel19 = new javax.swing.JLabel();
         pressureExponentLB = new javax.swing.JLabel();
@@ -764,15 +766,16 @@ public class MainWindow extends javax.swing.JFrame {
                                         .addGroup(geometricTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                                 .addComponent(jLabel15)
                                                 .addComponent(jLabel17)
-                                                .addComponent(rocketLengthSp1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                                .addComponent(rocketLengthSp1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addGroup(geometricTabLayout.createSequentialGroup()
+                                        .addGroup(geometricTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                        .addComponent(sectionPropertiesTabbedPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 600, javax.swing.GroupLayout.PREFERRED_SIZE))))
                         .addGap(18, 18, 18)
                         .addGroup(geometricTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                 .addComponent(addSectionBT)
                                 .addComponent(removeSectionBT))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(geometricTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addComponent(sectionPropertiesTabbedPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 600, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(drawCanvas, 600, 600, 600))
+                        .addComponent(drawCanvas, 600, 600, 600)
                         .addContainerGap(24, Short.MAX_VALUE))
         );
 
@@ -871,6 +874,62 @@ public class MainWindow extends javax.swing.JFrame {
                         .addContainerGap(539, Short.MAX_VALUE))
         );
 
+        javax.swing.GroupLayout leftGeoPanelLayout = new javax.swing.GroupLayout(leftGeoPanel);
+        leftGeoPanel.setLayout(leftGeoPanelLayout);
+        leftGeoPanelLayout.setHorizontalGroup(
+            leftGeoPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(leftGeoPanelLayout.createSequentialGroup()
+                .addGap(16, 16, 16)
+                .addComponent(geometricTab, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(79, Short.MAX_VALUE))
+        );
+        leftGeoPanelLayout.setVerticalGroup(
+            leftGeoPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(leftGeoPanelLayout.createSequentialGroup()
+                .addGap(20, 20, 20)
+                .addComponent(geometricTab, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(322, Short.MAX_VALUE))
+        );
+
+        javax.swing.GroupLayout rightGeoPanelLayout = new javax.swing.GroupLayout(rigthGeoPanel);
+        rigthGeoPanel.setLayout(jPanel2Layout);
+        rightGeoPanelLayout.setHorizontalGroup(
+            rightGeoPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(rightGeoPanelLayout.createSequentialGroup()
+                .addGap(16, 16, 16)
+                .addComponent(sectionPropertiesTabbedPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(79, Short.MAX_VALUE))
+        );
+        rightGeoPanelLayout.setVerticalGroup(
+            rightGeoPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(rightGeoPanelLayout.createSequentialGroup()
+                .addGap(20, 20, 20)
+                .addComponent(sectionPropertiesTabbedPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(322, Short.MAX_VALUE))
+        );
+
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
+        getContentPane().setLayout(layout);
+        layout.setHorizontalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+        layout.setVerticalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
+        );
+
+        
         mainTabbedPanel.addTab("Simulation", simulationTab);
 
         fileMenu.setText("File");
@@ -1248,7 +1307,7 @@ public class MainWindow extends javax.swing.JFrame {
                     section.setAttribute("id", sectionName);
                     //Node sectionNode = (Node) section;
 
-               //     xAddMoreSection = xAddMoreSection + lengthSection;
+                    //     xAddMoreSection = xAddMoreSection + lengthSection;
                     Element innerPort = document.createElementNS(svgNS, "rect");
                     innerPort.setAttributeNS(null, "x", xPositionSectionStr);
                     innerPort.setAttributeNS(null, "y", yInnerPortPosition);
@@ -1480,7 +1539,7 @@ public class MainWindow extends javax.swing.JFrame {
 
         showSVG(cadPanelShape);
         findCenter(selectedSection);
-        cad.extractInnerPort(selectedSection.getCADDoc(),selectedSection.getPoints());
+        cad.extractInnerPort(selectedSection.getCADDoc(), selectedSection.getPoints());
         selectedSection.setIsCircle(false);
     }//GEN-LAST:event_wheelToggleButtonItemStateChanged
 
@@ -1489,8 +1548,8 @@ public class MainWindow extends javax.swing.JFrame {
         setCADShape(path);
         showSVG(cadPanelShape);
         findCenter(selectedSection);
-        cad.extractInnerPort(selectedSection.getCADDoc(),selectedSection.getPoints());
-        
+        cad.extractInnerPort(selectedSection.getCADDoc(), selectedSection.getPoints());
+
         selectedSection.setIsCircle(false);
     }//GEN-LAST:event_starToggleButtonItemStateChanged
 
@@ -1775,6 +1834,7 @@ public class MainWindow extends javax.swing.JFrame {
     private javax.swing.JToggleButton pentaToggleButton;
     private javax.swing.JTextField pressureExponentTB;
     private javax.swing.JPanel propellantPanel;
+    private javax.swing.JPanel leftPanel;
     private javax.swing.JTable propellantTable;
     private javax.swing.JButton removePropellantBt;
     private javax.swing.JButton removeSectionBT;
@@ -1792,6 +1852,8 @@ public class MainWindow extends javax.swing.JFrame {
     private javax.swing.JLabel mmLengthLabel;
     private javax.swing.JSpinner lengthSectionSpinner;
 
+    private javax.swing.JPanel leftGeoPanel;
+    private javax.swing.JPanel rigthGeoPanel;
     // End of variables declaration    
     String[] colors = {"blue", "green", "yellow", "pink"};
 }
