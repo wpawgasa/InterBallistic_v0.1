@@ -6,6 +6,7 @@
 package dti.internalballistics;
 
 import dti.internalballistics.cad.CAD;
+import dti.internalballistics.cad.Point;
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.util.ArrayList;
@@ -26,6 +27,8 @@ public class SectionInfo {
     private Double newInnerDiameter;
     private Double newOuterDiameter;
     private boolean isCircle = false;
+
+    
     private Double cx;
     private Double cy;
 
@@ -39,6 +42,15 @@ public class SectionInfo {
     public SVGDocument CADDoc;
 
     private List<PropellantLayer> layers = new ArrayList<PropellantLayer>();
+    private List<Point> points = new ArrayList<Point>();
+
+    public List<Point> getPoints() {
+        return points;
+    }
+
+    public void setPoints(List<Point> points) {
+        this.points = points;
+    }
 
     private String section_id;
     private String innerPort_id;
@@ -245,6 +257,13 @@ public class SectionInfo {
         this.yPosition = yPosition;
     }
 
+    public boolean isIsCircle() {
+        return isCircle;
+    }
+
+    public void setIsCircle(boolean isCircle) {
+        this.isCircle = isCircle;
+    }
 
 
 }

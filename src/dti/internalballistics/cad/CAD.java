@@ -154,35 +154,118 @@ public class CAD {
         //dXFCircle.setRadius(newInnerRadius*2);
     }
 
-    public void setOuterShape(double newRadius, JSVGCanvas jSVGCanvas,SVGDocument svgDoc) {
+    public void setOuterShape(double newRadius, JSVGCanvas jSVGCanvas, SVGDocument svgDoc) {
 //        Element radius = svgDoc.getElementById("ID_8E0");
         Node node0 = (Node) svgDoc.getElementById("ID_0");
         NodeList nodes = node0.getChildNodes();
-        for(int i=0;i<nodes.getLength();i++) {
+        for (int i = 0; i < nodes.getLength(); i++) {
             Node n = nodes.item(i);
             Element elm = (Element) n;
-            if(elm.getTagName().equalsIgnoreCase("circle")&&elm.getAttribute("id").equalsIgnoreCase("ID_8E0")) {
-                System.out.println("outer "+newRadius);
+            if (elm.getTagName().equalsIgnoreCase("circle") && elm.getAttribute("id").equalsIgnoreCase("ID_8E0")) {
+                System.out.println("outer " + newRadius);
                 elm.setAttribute("r", String.valueOf(newRadius / 2));
             }
         }
-        
+
         jSVGCanvas.setDocument(svgDoc);
     }
 
-    public void setInnerShape(double newRadius, JSVGCanvas jSVGCanvas,SVGDocument svgDoc) {
+    public void setInnerShape(double newRadius, JSVGCanvas jSVGCanvas, SVGDocument svgDoc) {
 //        Element radius = svgDoc.getElementById("ID_8E0");
         Node node0 = (Node) svgDoc.getElementById("ID_0");
         NodeList nodes = node0.getChildNodes();
-        for(int i=0;i<nodes.getLength();i++) {
+        for (int i = 0; i < nodes.getLength(); i++) {
             Node n = nodes.item(i);
             Element elm = (Element) n;
-            if(elm.getTagName().equalsIgnoreCase("circle")&&elm.getAttribute("id").equalsIgnoreCase("ID_8ED")) {
-                System.out.println("inner "+newRadius);
+            if (elm.getTagName().equalsIgnoreCase("circle") && elm.getAttribute("id").equalsIgnoreCase("ID_8ED")) {
+                System.out.println("inner " + newRadius);
                 elm.setAttribute("r", String.valueOf(newRadius / 2));
             }
         }
-        
+
         jSVGCanvas.setDocument(svgDoc);
     }
+
+    public void extractInnerPort(SVGDocument svgDoc, List<Point> points) {
+        Element elm0 = svgDoc.getElementById("ID_0");
+        NodeList nodes = elm0.getElementsByTagName("path");
+        points.clear();
+        for (int i = 0; i < nodes.getLength(); i++) {
+            Node n = nodes.item(i);
+            Element elm = (Element) n;
+            String d = elm.getAttribute("d");
+            String[] dPoints = d.split("\\s+");
+            for (int j = 0; j < dPoints.length; j++) {
+                Point p = new Point();
+                if (dPoints[j].equalsIgnoreCase("m") || dPoints[j].equalsIgnoreCase("l")) {
+                    p.setInstruction(dPoints[j]);
+                    p.setX(Double.valueOf(dPoints[++j]));
+                    p.setY(Double.valueOf(dPoints[++j]));
+
+                } else if (dPoints[j].equalsIgnoreCase("a")) {
+
+                    p.setInstruction(dPoints[j]);
+                    p.setRx(Double.valueOf(dPoints[j + 1]));
+                    p.setRy(Double.valueOf(dPoints[j + 2]));
+                    p.setXrotate(Integer.valueOf(dPoints[j + 3]));
+                    p.setLargearcflag(Integer.valueOf(dPoints[j + 4]));
+                    p.setSweepflag(Integer.valueOf(dPoints[j + 5]));
+
+                    p.setX(Double.valueOf(dPoints[j + 6]));
+                    p.setY(Double.valueOf(dPoints[j + 7]));
+                    j = j + 7;
+
+                }
+                
+                if (j < dPoints.length-1 && !dPoints[j + 1].equalsIgnoreCase("a")) {
+                    p.setBulge(0.0);
+                } else if (j < dPoints.length-1 && dPoints[j + 1].equalsIgnoreCase("a")) {
+                    Point p2 = new Point();
+                    p2.setX(Double.valueOf(dPoints[j + 7]));
+                    p2.setY(Double.valueOf(dPoints[j + 8]));
+                    double r = Double.valueOf(dPoints[j + 2]);
+                    double b = calculateBulge(p, p2, r);
+                    p.setBulge(b);
+                    Arc arc = new Arc();
+                    arc.ArcFromBulge(p, p2, p.getBulge());
+                    p.setArcCx(arc.getCenter().getX());
+                    p.setArcCy(arc.getCenter().getY());
+                    p.setArcR(arc.getRadius());
+                }
+                points.add(p);
+            }
+        }
+
+    }
+
+    public double calculateBulge(Point p1, Point p2, double radius) {
+        double bulge = 0.0;
+        double x1 = p1.getX();
+        double y1 = p1.getY();
+        double x2 = p2.getX();
+        double y2 = p2.getY();
+        double chord_length = Math.sqrt(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2));
+        bulge = Math.tan(0.5 * Math.asin(chord_length / (2 * radius)));
+        return bulge;
+    }
+
+    public SVGDocument rearrangePath(SVGDocument svgDoc) {
+        Element elm0 = svgDoc.getElementById("ID_0");
+        NodeList nodes = elm0.getElementsByTagName("path");
+        for (int i = 0; i < nodes.getLength(); i++) {
+            
+        }
+        return svgDoc;
+    }
+    public SVGDocument resizeInnerPort(double newRadius, SVGDocument svgDoc) {
+        Element elm0 = svgDoc.getElementById("ID_0");
+        NodeList nodes = elm0.getElementsByTagName("path");
+        for (int i = 0; i < nodes.getLength(); i++) {
+            Node n = nodes.item(i);
+            Element elm = (Element) n;
+
+        }
+        return svgDoc;
+    }
+
 }
