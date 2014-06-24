@@ -41,6 +41,7 @@ import javax.swing.SpinnerNumberModel;
 import javax.swing.filechooser.FileFilter;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.text.DefaultFormatter;
+import javax.swing.text.NumberFormatter;
 import org.apache.batik.dom.GenericDOMImplementation;
 import org.apache.batik.dom.svg.SVGDOMImplementation;
 import org.apache.batik.swing.JSVGCanvas;
@@ -143,6 +144,7 @@ public class MainWindow extends javax.swing.JFrame {
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         rocketDiameterSp = new javax.swing.JSpinner();
+
         rocketLengthSp = new javax.swing.JSpinner();
         //drawCanvas = new javax.swing.JPanel();
         jLabel14 = new javax.swing.JLabel();
@@ -161,6 +163,8 @@ public class MainWindow extends javax.swing.JFrame {
         propellantPanel = new javax.swing.JPanel();
         burningRateLB = new javax.swing.JLabel();
         burningRateTB = new javax.swing.JTextField();
+
+
         jLabel19 = new javax.swing.JLabel();
         pressureExponentLB = new javax.swing.JLabel();
         pressureExponentTB = new javax.swing.JTextField();
@@ -1180,7 +1184,7 @@ public class MainWindow extends javax.swing.JFrame {
                     int idx = sectionList.size();
                     if (selectedSomething != true) {
 //                         if (selectedSection == null ) {
-                            xPositionSectionStr = String.valueOf(xPosition + totalLength);
+                        xPositionSectionStr = String.valueOf(xPosition + totalLength);
 //                        }
 //                         else{
 //                        no = selectedSection.getSection_id().substring(selectedSection.getSection_id().length() - 1);
@@ -1191,7 +1195,7 @@ public class MainWindow extends javax.swing.JFrame {
                         Double totalLengthBefore = 0.0;
                         Double currX = selectedSection.getxPosition();
                         Double currLength = selectedSection.getLengthSection();
-                        xPositionSectionStr = String.valueOf(currX+currLength);
+                        xPositionSectionStr = String.valueOf(currX + currLength);
 //                        for (SectionInfo thisSection : sectionList) {
 //                            Double length = thisSection.getLengthSection();
 //                            String sectionId = thisSection.getSection_id();
@@ -1206,12 +1210,11 @@ public class MainWindow extends javax.swing.JFrame {
 //    
 //                        }
                         for (SectionInfo thisSection : sectionList) {
-                        if (thisSection.getSection_id() == selectedSection.getSection_id()) {
-                            idx = sectionList.indexOf(thisSection)+1;
+                            if (thisSection.getSection_id() == selectedSection.getSection_id()) {
+                                idx = sectionList.indexOf(thisSection) + 1;
 
-                            
-                            break;
-                        }
+                                break;
+                            }
                         }
                         for (int i = idx; i < sectionList.size(); i++) {
                             SectionInfo thisSection = sectionList.get(i);
@@ -1220,11 +1223,12 @@ public class MainWindow extends javax.swing.JFrame {
                             System.out.println(thisSection.getSection_id());
                             System.out.println(innerPortName);
                             Double oldX = thisSection.getxPosition();
+
                             next_section.setAttribute("x", String.valueOf(oldX + lengthSection));
 
                             Element next_innerPort = document.getElementById(thisInnerPortName);
                             next_innerPort.setAttribute("x", String.valueOf(oldX + lengthSection));
-                            thisSection.setxPosition(oldX + thisSection.getLengthSection());
+                            thisSection.setxPosition(oldX + lengthSection);
                         }
                     }
 
@@ -1244,8 +1248,7 @@ public class MainWindow extends javax.swing.JFrame {
                     section.setAttribute("id", sectionName);
                     //Node sectionNode = (Node) section;
 
-                    xAddMoreSection = xAddMoreSection + lengthSection;
-
+               //     xAddMoreSection = xAddMoreSection + lengthSection;
                     Element innerPort = document.createElementNS(svgNS, "rect");
                     innerPort.setAttributeNS(null, "x", xPositionSectionStr);
                     innerPort.setAttributeNS(null, "y", yInnerPortPosition);
@@ -1263,7 +1266,7 @@ public class MainWindow extends javax.swing.JFrame {
 
                     //if(selectedSection==null) {
                     selectedSection = newSection;
-                    sectionList.add(idx,newSection);
+                    sectionList.add(idx, newSection);
                     circleToggleButton.setSelected(true);
                     selectedSomething = true;
                     Element target = document.getElementById(selectedSection.getSection_id());
@@ -1282,10 +1285,7 @@ public class MainWindow extends javax.swing.JFrame {
 
                     registerListeners(sectionName);
                     registerListeners(innerPortName);
-                    //outerDiameterSpinner.setValue(Double.valueOf(diameterSectionStr));
                     System.out.println("inner port " + innerPortSectionString);
-                    //innerDiameterSpinner.setValue(Double.valueOf(innerPortSectionString));
-                    //lengt/hSectionSpinner.setValue(lengthSection);
 
                     //selectedSomething = false;
                 }
