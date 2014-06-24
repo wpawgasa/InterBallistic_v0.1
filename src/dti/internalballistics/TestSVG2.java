@@ -15,6 +15,7 @@ import java.io.InputStream;
 import java.util.HashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import org.apache.batik.dom.svg.SAXSVGDocumentFactory;
@@ -60,14 +61,14 @@ public class TestSVG2 extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
+            .addGap(0, 433, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
+            .addGap(0, 317, Short.MAX_VALUE)
         );
 
-        setBounds(0, 0, 400, 322);
+        setBounds(0, 0, 449, 355);
     }// </editor-fold>//GEN-END:initComponents
 
     /**
@@ -102,7 +103,9 @@ public class TestSVG2 extends javax.swing.JFrame {
             TestSVG2 t = new TestSVG2();
             t.canvas = new JSVGCanvas();
             
+            t.setLayout(null);
             t.getContentPane().add(t.canvas);
+            
             
             t.setSize(400, 400);
             
@@ -145,6 +148,7 @@ public class TestSVG2 extends javax.swing.JFrame {
         }
     }
     public JSVGCanvas canvas;
+    public JButton button1;
     // Variables declaration - do not modify//GEN-BEGIN:variables
     // End of variables declaration//GEN-END:variables
 }

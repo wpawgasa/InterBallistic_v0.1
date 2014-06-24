@@ -68,7 +68,7 @@ public class MainWindow extends javax.swing.JFrame {
      */
     public MainWindow() {
 
-        Application.getApplication().setDockIconImage(new ImageIcon(getClass().getResource("/dti/icon/InternalBallisticNew-Logo.png")).getImage());
+        //Application.getApplication().setDockIconImage(new ImageIcon(getClass().getResource("/dti/icon/InternalBallisticNew-Logo.png")).getImage());
         this.setIconImage(new ImageIcon(getClass().getResource("/dti/icon/InternalBallisticNew-Logo.png")).getImage());
         initComponents();
         setSpinner(rocketDiameterSp);
@@ -1456,6 +1456,7 @@ public class MainWindow extends javax.swing.JFrame {
             setCADShape(path);
             showSVG(cadPanelShape);
             findCenter(selectedSection);
+            selectedSection.setIsCircle(true);
             cad.setInnerShape(selectedSection.getNewInnerDiameter(), cadPanelShape, selectedSection.getCADDoc());
             cad.setOuterShape(selectedSection.getNewOuterDiameter(), cadPanelShape, selectedSection.getCADDoc());
 
@@ -1468,7 +1469,7 @@ public class MainWindow extends javax.swing.JFrame {
         setCADShape(path);
         section.setCADDoc(cad.outputSVG());
         findCenter(section);
-
+        section.setIsCircle(true);
         cad.setInnerShape(section.getNewInnerDiameter(), cadPanelShape, section.getCADDoc());
         cad.setOuterShape(section.getNewOuterDiameter(), cadPanelShape, section.getCADDoc());
 
@@ -1479,6 +1480,8 @@ public class MainWindow extends javax.swing.JFrame {
 
         showSVG(cadPanelShape);
         findCenter(selectedSection);
+        cad.extractInnerPort(selectedSection.getCADDoc(),selectedSection.getPoints());
+        selectedSection.setIsCircle(false);
     }//GEN-LAST:event_wheelToggleButtonItemStateChanged
 
     private void starToggleButtonItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_starToggleButtonItemStateChanged
@@ -1486,6 +1489,9 @@ public class MainWindow extends javax.swing.JFrame {
         setCADShape(path);
         showSVG(cadPanelShape);
         findCenter(selectedSection);
+        cad.extractInnerPort(selectedSection.getCADDoc(),selectedSection.getPoints());
+        
+        selectedSection.setIsCircle(false);
     }//GEN-LAST:event_starToggleButtonItemStateChanged
 
     private void hexaToggleButtonItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_hexaToggleButtonItemStateChanged
@@ -1493,7 +1499,7 @@ public class MainWindow extends javax.swing.JFrame {
         setCADShape(path);
         showSVG(cadPanelShape);
         findCenter(selectedSection);
-
+        selectedSection.setIsCircle(false);
     }//GEN-LAST:event_hexaToggleButtonItemStateChanged
 
     private void pentaToggleButtonItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_pentaToggleButtonItemStateChanged
@@ -1501,6 +1507,7 @@ public class MainWindow extends javax.swing.JFrame {
         setCADShape(path);
         showSVG(cadPanelShape);
         findCenter(selectedSection);
+        selectedSection.setIsCircle(false);
     }//GEN-LAST:event_pentaToggleButtonItemStateChanged
 
     private void eightStarToggleButtonItemStateChanged(java.awt.event.ItemEvent evt) {
@@ -1508,6 +1515,7 @@ public class MainWindow extends javax.swing.JFrame {
         setCADShape(path);
         showSVG(cadPanelShape);
         findCenter(selectedSection);
+        selectedSection.setIsCircle(false);
     }
 
     private void innerDiameterSpinStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_innerDiameterSpinStateChanged
