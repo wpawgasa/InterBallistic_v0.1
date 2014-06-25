@@ -259,6 +259,9 @@ public class CAD {
         return bulge;
     }
 
+    public void findVector(Point p1, Point p2) {
+        
+    }
     public void rearrangePath(SVGDocument svgDoc) {
         Element el = svgDoc.getElementById("ID_0");
         NodeList nodes = el.getElementsByTagName("path");
@@ -323,15 +326,38 @@ public class CAD {
         //return svgDoc;
     }
 
-    public SVGDocument resizeInnerPort(double newRadius, SVGDocument svgDoc) {
-        Element elm0 = svgDoc.getElementById("ID_0");
-        NodeList nodes = elm0.getElementsByTagName("path");
-        for (int i = 0; i < nodes.getLength(); i++) {
-            Node n = nodes.item(i);
-            Element elm = (Element) n;
-
+    public void resizeInnerPort(Point center,double Ri, List<Point> points, SVGDocument svgDoc) {
+        //new point = (Ri/Rmax)*(x,y)
+        double Rmax = findMaxRadius(center, points);
+        String d = "";
+        for (int i = 0; i < points.size(); i++) {
+            Point p = points.get(i);
+            p.setX(center.getX()+(Ri/Rmax)*(p.getX()-center.getX()));
+            p.setY((center.getY()+Ri/Rmax)*(p.getY()-center.getY()));
+            if(!p.getInstruction().equalsIgnoreCase("a")) {
+               d = d + " " + p.getInstruction() + " " + p.getX() + " " + p.getY();
+            } else {
+               d = d + " " + p.getInstruction() + " " + p.getRx()+ " " + p.getRy()+ " " + p.getXrotate()+ " " + p.getLargearcflag()+ " " + p.getSweepflag()+ " " + p.getX()+ " " + p.getY(); 
+            }
         }
-        return svgDoc;
+        Element el = svgDoc.getElementById("ID_0");
+        NodeList nodes = el.getElementsByTagName("path");
+        Node path0 = nodes.item(0);
+        Element elm0 = (Element) path0;
+        elm0.setAttribute("d", d);
+        
+    }
+    
+    public double findMaxRadius(Point center,List<Point> points) {
+        double max_radius = 0;
+        for (int i = 0; i < points.size(); i++) {
+            Point p = points.get(i);
+            double radius = Math.sqrt(Math.pow( p.getX()- center.getX(), 2) + Math.pow(p.getY() - center.getY(), 2));
+            if(radius>max_radius) {
+                max_radius = radius;
+            }
+        }
+        return max_radius;
     }
 
     public void zoomIn(JSVGCanvas jSVGCanvas, SVGDocument svgDoc, Double cx, Double cy) {

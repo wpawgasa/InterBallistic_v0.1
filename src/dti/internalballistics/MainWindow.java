@@ -9,6 +9,7 @@ import com.apple.eawt.Application;
 import dti.internalballistics.cad.CAD;
 import dti.internalballistics.cad.OnClickAction;
 import dti.internalballistics.cad.OnLoadAction;
+import dti.internalballistics.cad.Point;
 import dti.internalballistics.cad.SvgOnHoverAction;
 import java.awt.Component;
 import java.awt.Container;
@@ -1410,6 +1411,10 @@ public class MainWindow extends javax.swing.JFrame {
         Element circle = document.getElementById("ID_8E0");
         section.setCx(Double.valueOf(circle.getAttribute("cx")));
         section.setCy(Double.valueOf(circle.getAttribute("cy")));
+        Point center = new Point();
+        center.setX(Double.valueOf(circle.getAttribute("cx")));
+        center.setY(Double.valueOf(circle.getAttribute("cy")));
+        section.setCenter(center);
     }
 
     private void setSectionInfoView() {
@@ -1557,7 +1562,8 @@ public class MainWindow extends javax.swing.JFrame {
         findCenter(selectedSection);
         cad.rearrangePath(selectedSection.getCADDoc());
         cad.extractInnerPort(selectedSection.getCADDoc(), selectedSection.getPoints());
-
+        cad.resizeInnerPort(selectedSection.getCenter(), selectedSection.getNewInnerDiameter(), selectedSection.getPoints(), selectedSection.getCADDoc());
+        cadPanelShape.setSVGDocument(selectedSection.getCADDoc());
         selectedSection.setIsCircle(false);
     }//GEN-LAST:event_starToggleButtonItemStateChanged
 

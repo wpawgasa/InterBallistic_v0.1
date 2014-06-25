@@ -31,6 +31,7 @@ public class SectionInfo {
     
     private Double cx;
     private Double cy;
+    private Point center;
 
 
     private Double diameterSection;
@@ -264,6 +265,16 @@ public class SectionInfo {
     public void setIsCircle(boolean isCircle) {
         this.isCircle = isCircle;
     }
+
+    public Point getCenter() {
+        return center;
+    }
+
+    public void setCenter(Point center) {
+        this.center = center;
+    }
+    
+    
 
 
 }
