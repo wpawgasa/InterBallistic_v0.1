@@ -583,6 +583,16 @@ public class MainWindow extends javax.swing.JFrame {
         zoomInPropellantBt.setText("+");
         zoomOutPropellantBt.setText("-");
         
+        zoomInPropellantBt.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                 zoomInButtonActionPerformed(evt);
+            }
+        });
+         zoomOutPropellantBt.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                 zoomOutButtonActionPerformed(evt);
+            }
+        });
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
@@ -620,18 +630,7 @@ public class MainWindow extends javax.swing.JFrame {
                         .addContainerGap(16, Short.MAX_VALUE))
         );
 
-        cadPanelShape.setBackground(new java.awt.Color(255, 255, 255));
-
-        javax.swing.GroupLayout cadPanelShapeLayout = new javax.swing.GroupLayout(cadPanelShape);
-        cadPanelShape.setLayout(cadPanelShapeLayout);
-        cadPanelShapeLayout.setHorizontalGroup(
-                cadPanelShapeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGap(0, 10, Short.MAX_VALUE)
-        );
-        cadPanelShapeLayout.setVerticalGroup(
-                cadPanelShapeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGap(0, 20, Short.MAX_VALUE)
-        );
+        
 
         diameterInner.setText("Inner Diameter:");
 
@@ -691,7 +690,7 @@ public class MainWindow extends javax.swing.JFrame {
                                         .addComponent(zoomInPropellantBt)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                         .addComponent(zoomOutPropellantBt))
-                                        .addComponent(cadPanelShape, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                                        .addComponent(cadPanelShape, 350,350, 350)))
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
@@ -714,9 +713,10 @@ public class MainWindow extends javax.swing.JFrame {
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                 .addComponent(zoomInPropellantBt)
                                 .addComponent(zoomOutPropellantBt))
-                        .addGap(15, 15, 15)
-                        .addComponent(cadPanelShape, 250,350, 450)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(10, 10, 10)
+                        .addComponent(cadPanelShape, 320,320, 320)
+                        .addGap(10, 10, 10)
+                        .addContainerGap(10, Short.MAX_VALUE))
         );
 
         sectionPropertiesTabbedPanel.addTab("Propellant Geometric", jPanel2);
@@ -930,9 +930,9 @@ public class MainWindow extends javax.swing.JFrame {
         rightGeoPanelLayout.setVerticalGroup(
             rightGeoPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(rightGeoPanelLayout.createSequentialGroup()
-                .addGap(20, 20, 20)
-                .addComponent(sectionPropertiesTabbedPanel, 600, 650, 650)
-                .addContainerGap(20, Short.MAX_VALUE))
+                .addGap(10, 10, 10)
+                .addComponent(sectionPropertiesTabbedPanel, 600, 720, 750)
+                .addContainerGap(10, Short.MAX_VALUE))
         );
 
         
@@ -1584,6 +1584,19 @@ public class MainWindow extends javax.swing.JFrame {
         selectedSection.setIsCircle(false);
     }
 
+    private void zoomInButtonActionPerformed(java.awt.event.ActionEvent evt) {
+        
+        cad.zoomIn(cadPanelShape, selectedSection.getCADDoc(),selectedSection.getCx(),selectedSection.getCy());
+        
+    }
+    
+    private void zoomOutButtonActionPerformed(java.awt.event.ActionEvent evt) {
+        String path = "dti/image/DTIEightStar.dxf";
+        setCADShape(path);
+        showSVG(cadPanelShape);
+        findCenter(selectedSection);
+        selectedSection.setIsCircle(false);
+    }
     private void innerDiameterSpinStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_innerDiameterSpinStateChanged
         // newInnerDiameter = (Integer)innerDiameterSpinner.getValue();
         Double newInnerDiameter = (Double) innerDiameterSpinner.getValue();
