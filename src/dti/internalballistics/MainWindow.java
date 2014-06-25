@@ -691,7 +691,7 @@ public class MainWindow extends javax.swing.JFrame {
                                         .addComponent(zoomInPropellantBt)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                         .addComponent(zoomOutPropellantBt))
-                                        .addComponent(cadPanelShape, 350,350, 350)))
+                                        .addComponent(cadPanelShape, 320,320, 320)))
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
@@ -1530,7 +1530,7 @@ public class MainWindow extends javax.swing.JFrame {
             selectedSection.setIsCircle(true);
             cad.setInnerShape(selectedSection.getNewInnerDiameter(), cadPanelShape, selectedSection.getCADDoc());
             cad.setOuterShape(selectedSection.getNewOuterDiameter(), cadPanelShape, selectedSection.getCADDoc());
-
+            selectedSection.zoomLevel = 1.0;
     }//GEN-LAST:event_circleToggleButtonItemStateChanged
     }
 
@@ -1543,7 +1543,7 @@ public class MainWindow extends javax.swing.JFrame {
         section.setIsCircle(true);
         cad.setInnerShape(section.getNewInnerDiameter(), cadPanelShape, section.getCADDoc());
         cad.setOuterShape(section.getNewOuterDiameter(), cadPanelShape, section.getCADDoc());
-
+        section.zoomLevel = 1.0;
     }
     private void wheelToggleButtonItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_wheelToggleButtonItemStateChanged
         String path = "dti/image/DTIWheel.dxf";
@@ -1553,6 +1553,7 @@ public class MainWindow extends javax.swing.JFrame {
         findCenter(selectedSection);
         cad.extractInnerPort(selectedSection.getCADDoc(), selectedSection.getPoints());
         selectedSection.setIsCircle(false);
+        selectedSection.zoomLevel = 1.0;
     }//GEN-LAST:event_wheelToggleButtonItemStateChanged
 
     private void starToggleButtonItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_starToggleButtonItemStateChanged
@@ -1565,6 +1566,7 @@ public class MainWindow extends javax.swing.JFrame {
         cad.resizeInnerPort(selectedSection.getCenter(), selectedSection.getNewInnerDiameter(), selectedSection.getPoints(), selectedSection.getCADDoc());
         cadPanelShape.setSVGDocument(selectedSection.getCADDoc());
         selectedSection.setIsCircle(false);
+        selectedSection.zoomLevel = 1.0;
     }//GEN-LAST:event_starToggleButtonItemStateChanged
 
     private void hexaToggleButtonItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_hexaToggleButtonItemStateChanged
@@ -1573,6 +1575,7 @@ public class MainWindow extends javax.swing.JFrame {
         showSVG(cadPanelShape);
         findCenter(selectedSection);
         selectedSection.setIsCircle(false);
+        selectedSection.zoomLevel = 1.0;
     }//GEN-LAST:event_hexaToggleButtonItemStateChanged
 
     private void pentaToggleButtonItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_pentaToggleButtonItemStateChanged
@@ -1581,6 +1584,7 @@ public class MainWindow extends javax.swing.JFrame {
         showSVG(cadPanelShape);
         findCenter(selectedSection);
         selectedSection.setIsCircle(false);
+        selectedSection.zoomLevel = 1.0;
     }//GEN-LAST:event_pentaToggleButtonItemStateChanged
 
     private void eightStarToggleButtonItemStateChanged(java.awt.event.ItemEvent evt) {
@@ -1589,20 +1593,18 @@ public class MainWindow extends javax.swing.JFrame {
         showSVG(cadPanelShape);
         findCenter(selectedSection);
         selectedSection.setIsCircle(false);
+        selectedSection.zoomLevel = 1.0;
     }
 
     private void zoomInButtonActionPerformed(java.awt.event.ActionEvent evt) {
         
-        cad.zoomIn(cadPanelShape, selectedSection.getCADDoc(),selectedSection.getCx(),selectedSection.getCy());
-        
+        cad.zoom(cadPanelShape, selectedSection.getCADDoc(), selectedSection.zoomLevel+0.1);
+        selectedSection.zoomLevel = selectedSection.zoomLevel + 0.1;
     }
     
     private void zoomOutButtonActionPerformed(java.awt.event.ActionEvent evt) {
-        String path = "dti/image/DTIEightStar.dxf";
-        setCADShape(path);
-        showSVG(cadPanelShape);
-        findCenter(selectedSection);
-        selectedSection.setIsCircle(false);
+        cad.zoom(cadPanelShape, selectedSection.getCADDoc(), selectedSection.zoomLevel-0.1);
+        selectedSection.zoomLevel = selectedSection.zoomLevel - 0.1;
     }
     private void innerDiameterSpinStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_innerDiameterSpinStateChanged
         // newInnerDiameter = (Integer)innerDiameterSpinner.getValue();

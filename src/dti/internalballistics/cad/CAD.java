@@ -5,6 +5,7 @@
  */
 package dti.internalballistics.cad;
 
+import java.awt.geom.AffineTransform;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -106,10 +107,34 @@ public class CAD {
             NodeList nodes = svgDoc.getElementsByTagName("svg");
             Node path0 = nodes.item(0);
             Element elm = (Element) path0;
-            //elm.setAttribute("viewBox", "0 0 300 300");
-            elm.setAttribute("width", "300");
-            elm.setAttribute("hight", "300");
+            //elm.setAttribute("viewBox", "320 -320  320 320");
+//            String vb = elm.getAttribute("viewBox");
+//            String [] vbVal = vb.split("\\s+");
+//            String newVb = "";
+//            vbVal[0] = "423.6984";
+//            //vbVal[1] = "-320";
+//            vbVal[2] = "195.772";
+//            vbVal[3] = "195.772";
+//            for(int i=0;i<vbVal.length;i++) {
+//                double val = Double.valueOf(vbVal[i]);
+//                
+//                newVb = newVb + String.valueOf(val) + " ";
+//                        
+//                
+//            }
+//            elm.setAttribute("viewBox",newVb);
+            elm.setAttribute("width", "320");
+            elm.setAttribute("height", "320");
             elm.setAttribute("preserveAspectRatio", "xMidYMid meet");
+//            Element rect = svgDoc.createElement("rect");
+//            rect.setAttribute("x", "0");
+//            rect.setAttribute("y", "0");
+//            rect.setAttribute("width", "100%");
+//            rect.setAttribute("height", "100%");
+//            rect.setAttribute("fill", "none");
+//            rect.setAttribute("stroke", "black");
+//            Element svgRoot = svgDoc.getDocumentElement();
+//            svgRoot.appendChild(rect);
                     
         } catch (IOException ex) {
             Logger.getLogger(CAD.class.getName()).log(Level.SEVERE, null, ex);
@@ -360,8 +385,37 @@ public class CAD {
         return max_radius;
     }
 
-    public void zoomIn(JSVGCanvas jSVGCanvas, SVGDocument svgDoc, Double cx, Double cy) {
+    public void zoom(JSVGCanvas jSVGCanvas, SVGDocument svgDoc, double factor) {
         
+            NodeList nodes = svgDoc.getElementsByTagName("svg");
+            Node path0 = nodes.item(0);
+            Element elm = (Element) path0;
+            String vb = elm.getAttribute("viewBox");
+            String [] vbVal = vb.split("\\s+");
+            double x0 = Math.abs(Double.valueOf(vbVal[0]));
+            double y0 = Math.abs(Double.valueOf(vbVal[1]));
+            double xVB = Math.abs(Double.valueOf(vbVal[2]));
+            double yVB = Math.abs(Double.valueOf(vbVal[3]));
+            double w = Double.valueOf(elm.getAttribute("width"));
+            double h = Double.valueOf(elm.getAttribute("height"));
+            
+            double centerX = xVB*0.5+x0;
+            double centerY = yVB*0.5+y0;
+        AffineTransform at = new AffineTransform(); 
+        //at.scale(1.5,1.5); 
+        //at.translate(-0.5*w, -0.5*h);
+        //jSVGCanvas.setRenderingTransform(at, true);
+        at.scale(factor,factor); 
+        
+        jSVGCanvas.setRenderingTransform(at, true);
+        
+        double new_x0 = centerX - 0.5*xVB/factor;
+        double new_y0 = centerY - 0.5*yVB/factor;
+        at.translate(x0-new_x0, y0-new_y0);
+        jSVGCanvas.setRenderingTransform(at, true);
+        
+        
+            
 //         Node node0 = (Node) svgDoc.getElementById("ID_0");
 //        NodeList nodes = node0.getChildNodes();
 //        for (int i = 0; i < nodes.getLength(); i++) {
@@ -378,23 +432,23 @@ public class CAD {
 //        resizeInner.setAttribute("transform", "scale(1.5)");
 //        resizeInner.setAttribute("cx", cx.toString());
 //        resizeInner.setAttribute("cy", cy.toString());
-        NodeList nodes = svgDoc.getElementsByTagName("svg");
-            Node path0 = nodes.item(0);
-            Element elm = (Element) path0;
-            String vb = elm.getAttribute("viewBox");
-            String [] vbVal = vb.split("\\s+");
-            String newVb = "";
-            for(int i=0;i<vbVal.length;i++) {
-                double val = Double.valueOf(vbVal[i]);
-                val = val*1.5;
-                newVb = newVb + String.valueOf(val) + " ";
-                        
-                
-            }
-            elm.setAttribute("viewBox", newVb);
-//            elm.setAttribute("width", "450");
-//            elm.setAttribute("hight", "450");
-            elm.setAttribute("preserveAspectRatio", "xMidYMid meet");
-        jSVGCanvas.setDocument(svgDoc);
+//        NodeList nodes = svgDoc.getElementsByTagName("svg");
+//            Node path0 = nodes.item(0);
+//            Element elm = (Element) path0;
+//            String vb = elm.getAttribute("viewBox");
+//            String [] vbVal = vb.split("\\s+");
+//            String newVb = "";
+//            for(int i=0;i<vbVal.length;i++) {
+//                double val = Double.valueOf(vbVal[i]);
+//                val = val*1.5;
+//                newVb = newVb + String.valueOf(val) + " ";
+//                        
+//                
+//            }
+//            elm.setAttribute("viewBox", newVb);
+////            elm.setAttribute("width", "450");
+////            elm.setAttribute("hight", "450");
+//            elm.setAttribute("preserveAspectRatio", "xMidYMid meet");
+        //jSVGCanvas.setDocument(svgDoc);
     }
 }
