@@ -1555,6 +1555,7 @@ public class MainWindow extends javax.swing.JFrame {
         setCADShape(path);
         showSVG(cadPanelShape);
         findCenter(selectedSection);
+        cad.rearrangePath(selectedSection.getCADDoc());
         cad.extractInnerPort(selectedSection.getCADDoc(), selectedSection.getPoints());
 
         selectedSection.setIsCircle(false);
