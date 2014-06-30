@@ -31,6 +31,7 @@ public class SectionInfo {
     
     private Double cx;
     private Double cy;
+    private Point center;
 
 
     private Double diameterSection;
@@ -40,6 +41,7 @@ public class SectionInfo {
     private Double yPosition;
     //CADPanel cADPanel = new CADPanel(); 
     public SVGDocument CADDoc;
+    public double zoomLevel = 1.0;
 
     private List<PropellantLayer> layers = new ArrayList<PropellantLayer>();
     private List<Point> points = new ArrayList<Point>();
@@ -264,6 +266,16 @@ public class SectionInfo {
     public void setIsCircle(boolean isCircle) {
         this.isCircle = isCircle;
     }
+
+    public Point getCenter() {
+        return center;
+    }
+
+    public void setCenter(Point center) {
+        this.center = center;
+    }
+    
+    
 
 
 }
