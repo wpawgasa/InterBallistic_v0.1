@@ -106,7 +106,7 @@ public class CAD {
             NodeList nodes = svgDoc.getElementsByTagName("svg");
             Node path0 = nodes.item(0);
             Element elm = (Element) path0;
-            //elm.setAttribute("viewBox", "0 0 200 200");
+            //elm.setAttribute("viewBox", "0 0 300 300");
             elm.setAttribute("width", "300");
             elm.setAttribute("hight", "300");
             elm.setAttribute("preserveAspectRatio", "xMidYMid meet");
@@ -336,12 +336,38 @@ public class CAD {
 
     public void zoomIn(JSVGCanvas jSVGCanvas, SVGDocument svgDoc, Double cx, Double cy) {
         
-       Element resizeInner = svgDoc.getElementById("ID_0");
-    
-       resizeInner.setAttribute("transform", "translate(-50,-50) scale(2)");
+//         Node node0 = (Node) svgDoc.getElementById("ID_0");
+//        NodeList nodes = node0.getChildNodes();
+//        for (int i = 0; i < nodes.getLength(); i++) {
+//            Node n = nodes.item(i);
+//            Element elm = (Element) n;
+//            if (elm.getTagName().equalsIgnoreCase("circle") && elm.getAttribute("id").equalsIgnoreCase("ID_8ED")) {
+//                elm.setAttribute("transform", "scale(2)");
+//            }
+//        }
+//
+//        jSVGCanvas.setDocument(svgDoc);
+//        
+//        Element resizeInner = svgDoc.getElementById("ID_0");
+//        resizeInner.setAttribute("transform", "scale(1.5)");
+//        resizeInner.setAttribute("cx", cx.toString());
+//        resizeInner.setAttribute("cy", cy.toString());
             NodeList nodes = svgDoc.getElementsByTagName("svg");
             Node path0 = nodes.item(0);
             Element elm = (Element) path0;
+            String vb = elm.getAttribute("viewBox");
+            String [] vbVal = vb.split("\\s+");
+            String newVb = "";
+            for(int i=0;i<vbVal.length;i++) {
+                double val = Double.valueOf(vbVal[i]);
+                val = val*1.5;
+                newVb = newVb + String.valueOf(val) + " ";
+                        
+                
+            }
+            elm.setAttribute("viewBox", newVb);
+//            elm.setAttribute("width", "450");
+//            elm.setAttribute("hight", "450");
         elm.setAttribute("preserveAspectRatio", "xMidYMid meet");
 //  
 

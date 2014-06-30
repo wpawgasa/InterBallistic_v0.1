@@ -30,7 +30,14 @@ public class testLayout extends javax.swing.JFrame {
 
         jPanel1 = new javax.swing.JPanel();
         jPanel3 = new javax.swing.JPanel();
-        jPanel2 = new javax.swing.JPanel();
+        viewControlPanel = new javax.swing.JPanel();
+        arrowUpButton = new javax.swing.JButton();
+        arrowRightButton = new javax.swing.JButton();
+        arrowLeftButton = new javax.swing.JButton();
+        arrowDownButton = new javax.swing.JButton();
+        centerButton = new javax.swing.JButton();
+        zoomInPropellantBt = new javax.swing.JButton();
+        zoomOutPropellantBt = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -59,18 +66,92 @@ public class testLayout extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(20, 20, 20)
                 .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(322, Short.MAX_VALUE))
+                .addContainerGap(328, Short.MAX_VALUE))
         );
 
-        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
-        jPanel2.setLayout(jPanel2Layout);
-        jPanel2Layout.setHorizontalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 181, Short.MAX_VALUE)
+        arrowUpButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/dti/icon/arrow-up.png"))); // NOI18N
+        arrowUpButton.setToolTipText("");
+
+        arrowRightButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/dti/icon/arrow-right.png"))); // NOI18N
+        arrowRightButton.setToolTipText("");
+        arrowRightButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                arrowRightButtonActionPerformed(evt);
+            }
+        });
+
+        arrowLeftButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/dti/icon/arrow-left.png"))); // NOI18N
+        arrowLeftButton.setToolTipText("");
+
+        arrowDownButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/dti/icon/arrow-down.png"))); // NOI18N
+        arrowDownButton.setToolTipText("");
+
+        centerButton.setToolTipText("");
+
+        zoomInPropellantBt.setIcon(new javax.swing.ImageIcon(getClass().getResource("/dti/icon/zoom_in.png"))); // NOI18N
+        zoomInPropellantBt.setToolTipText("");
+        zoomInPropellantBt.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                zoomInPropellantBtActionPerformed(evt);
+            }
+        });
+
+        zoomOutPropellantBt.setIcon(new javax.swing.ImageIcon(getClass().getResource("/dti/icon/zoom_out.png"))); // NOI18N
+        zoomOutPropellantBt.setToolTipText("");
+        zoomOutPropellantBt.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                zoomOutPropellantBtActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout viewControlPanelLayout = new javax.swing.GroupLayout(viewControlPanel);
+        viewControlPanel.setLayout(viewControlPanelLayout);
+        viewControlPanelLayout.setHorizontalGroup(
+            viewControlPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(viewControlPanelLayout.createSequentialGroup()
+                .addGap(14, 14, 14)
+                .addGroup(viewControlPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(viewControlPanelLayout.createSequentialGroup()
+                        .addGap(18, 18, 18)
+                        .addComponent(zoomInPropellantBt)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(zoomOutPropellantBt)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(viewControlPanelLayout.createSequentialGroup()
+                        .addComponent(arrowLeftButton, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(viewControlPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(viewControlPanelLayout.createSequentialGroup()
+                                .addComponent(centerButton, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(arrowRightButton, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(31, 31, 31))
+                            .addGroup(viewControlPanelLayout.createSequentialGroup()
+                                .addGroup(viewControlPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(arrowDownButton, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(arrowUpButton, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))))
         );
-        jPanel2Layout.setVerticalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
+        viewControlPanelLayout.setVerticalGroup(
+            viewControlPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(viewControlPanelLayout.createSequentialGroup()
+                .addComponent(arrowUpButton, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(viewControlPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(viewControlPanelLayout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(arrowLeftButton, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(viewControlPanelLayout.createSequentialGroup()
+                        .addGap(5, 5, 5)
+                        .addGroup(viewControlPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(arrowRightButton, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(centerButton, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addGap(1, 1, 1)
+                .addComponent(arrowDownButton, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addGroup(viewControlPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(zoomInPropellantBt)
+                    .addComponent(zoomOutPropellantBt))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -81,21 +162,33 @@ public class testLayout extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
+                .addComponent(viewControlPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 177, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(viewControlPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void arrowRightButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_arrowRightButtonActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_arrowRightButtonActionPerformed
+
+    private void zoomInPropellantBtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_zoomInPropellantBtActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_zoomInPropellantBtActionPerformed
+
+    private void zoomOutPropellantBtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_zoomOutPropellantBtActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_zoomOutPropellantBtActionPerformed
 
     /**
      * @param args the command line arguments
@@ -133,8 +226,15 @@ public class testLayout extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton arrowDownButton;
+    private javax.swing.JButton arrowLeftButton;
+    private javax.swing.JButton arrowRightButton;
+    private javax.swing.JButton arrowUpButton;
+    private javax.swing.JButton centerButton;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
+    private javax.swing.JPanel viewControlPanel;
+    private javax.swing.JButton zoomInPropellantBt;
+    private javax.swing.JButton zoomOutPropellantBt;
     // End of variables declaration//GEN-END:variables
 }
