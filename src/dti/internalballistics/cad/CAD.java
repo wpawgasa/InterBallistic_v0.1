@@ -103,7 +103,7 @@ public class CAD {
             svgDoc = sAXSVGDocumentFactory.createSVGDocument(null, byteArrayInputStream);
             Element x = svgDoc.getElementById("ID_8E0");
             x.setAttribute("stroke", "red");
-            
+
             NodeList nodes = svgDoc.getElementsByTagName("svg");
             Node path0 = nodes.item(0);
             Element elm = (Element) path0;
@@ -135,7 +135,7 @@ public class CAD {
 //            rect.setAttribute("stroke", "black");
 //            Element svgRoot = svgDoc.getDocumentElement();
 //            svgRoot.appendChild(rect);
-                    
+
         } catch (IOException ex) {
             Logger.getLogger(CAD.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -285,8 +285,9 @@ public class CAD {
     }
 
     public void findVector(Point p1, Point p2) {
-        
+
     }
+
     public void rearrangePath(SVGDocument svgDoc) {
         Element el = svgDoc.getElementById("ID_0");
         NodeList nodes = el.getElementsByTagName("path");
@@ -310,7 +311,7 @@ public class CAD {
             Node path = nodes.item(i);
             Element elm = (Element) path;
             String d = elm.getAttribute("d");
-            String [] dPoints = d.split("\\s+");
+            String[] dPoints = d.split("\\s+");
             Point nP = new Point();
             nP.setX(Double.valueOf(dPoints[1]));
             nP.setY(Double.valueOf(dPoints[2]));
@@ -322,47 +323,47 @@ public class CAD {
             p2x = p2x.setScale(8, RoundingMode.FLOOR);
             BigDecimal p2y = new BigDecimal(lastP.getY());
             p2y = p2y.setScale(8, RoundingMode.FLOOR);
-            if(p1x.compareTo(p2x)==0&&p1y.compareTo(p2y)==0) {
-                for(int j=3;j<dPoints.length;j++) {
+            if (p1x.compareTo(p2x) == 0 && p1y.compareTo(p2y) == 0) {
+                for (int j = 3; j < dPoints.length; j++) {
                     d0 = d0 + " " + dPoints[j];
                 }
                 el.removeChild(path);
                 nodes = el.getElementsByTagName("path");
-                i=0;
+                i = 0;
             }
         }
-        
+
         BigDecimal p1x = new BigDecimal(firstP.getX());
-            p1x = p1x.setScale(8, RoundingMode.FLOOR);
-            BigDecimal p1y = new BigDecimal(firstP.getY());
-            p1y = p1y.setScale(8, RoundingMode.FLOOR);
-            BigDecimal p2x = new BigDecimal(lastP.getX());
-            p2x = p2x.setScale(8, RoundingMode.FLOOR);
-            BigDecimal p2y = new BigDecimal(lastP.getY());
-            p2y = p2y.setScale(8, RoundingMode.FLOOR);
-            
-        if(p1x.compareTo(p2x)==0&&p1y.compareTo(p2y)==0) {
-                
-                    d0 = d0 + " L " + dPoints0[1] + " " + dPoints0[2];
-                
+        p1x = p1x.setScale(8, RoundingMode.FLOOR);
+        BigDecimal p1y = new BigDecimal(firstP.getY());
+        p1y = p1y.setScale(8, RoundingMode.FLOOR);
+        BigDecimal p2x = new BigDecimal(lastP.getX());
+        p2x = p2x.setScale(8, RoundingMode.FLOOR);
+        BigDecimal p2y = new BigDecimal(lastP.getY());
+        p2y = p2y.setScale(8, RoundingMode.FLOOR);
+
+        if (p1x.compareTo(p2x) == 0 && p1y.compareTo(p2y) == 0) {
+
+            d0 = d0 + " L " + dPoints0[1] + " " + dPoints0[2];
+
         }
         elm0.setAttribute("d", d0);
-        
+
         //return svgDoc;
     }
 
-    public void resizeInnerPort(Point center,double Ri, List<Point> points, SVGDocument svgDoc) {
+    public void resizeInnerPort(Point center, double Ri, List<Point> points, SVGDocument svgDoc) {
         //new point = (Ri/Rmax)*(x,y)
         double Rmax = findMaxRadius(center, points);
         String d = "";
         for (int i = 0; i < points.size(); i++) {
             Point p = points.get(i);
-            p.setX(center.getX()+(Ri/Rmax)*(p.getX()-center.getX()));
-            p.setY((center.getY()+Ri/Rmax)*(p.getY()-center.getY()));
-            if(!p.getInstruction().equalsIgnoreCase("a")) {
-               d = d + " " + p.getInstruction() + " " + p.getX() + " " + p.getY();
+            p.setX(center.getX() + (Ri / Rmax) * (p.getX() - center.getX()));
+            p.setY((center.getY() + Ri / Rmax) * (p.getY() - center.getY()));
+            if (!p.getInstruction().equalsIgnoreCase("a")) {
+                d = d + " " + p.getInstruction() + " " + p.getX() + " " + p.getY();
             } else {
-               d = d + " " + p.getInstruction() + " " + p.getRx()+ " " + p.getRy()+ " " + p.getXrotate()+ " " + p.getLargearcflag()+ " " + p.getSweepflag()+ " " + p.getX()+ " " + p.getY(); 
+                d = d + " " + p.getInstruction() + " " + p.getRx() + " " + p.getRy() + " " + p.getXrotate() + " " + p.getLargearcflag() + " " + p.getSweepflag() + " " + p.getX() + " " + p.getY();
             }
         }
         Element el = svgDoc.getElementById("ID_0");
@@ -370,52 +371,51 @@ public class CAD {
         Node path0 = nodes.item(0);
         Element elm0 = (Element) path0;
         elm0.setAttribute("d", d);
-        
+
     }
-    
-    public double findMaxRadius(Point center,List<Point> points) {
+
+    public double findMaxRadius(Point center, List<Point> points) {
         double max_radius = 0;
         for (int i = 0; i < points.size(); i++) {
             Point p = points.get(i);
-            double radius = Math.sqrt(Math.pow( p.getX()- center.getX(), 2) + Math.pow(p.getY() - center.getY(), 2));
-            if(radius>max_radius) {
+            double radius = Math.sqrt(Math.pow(p.getX() - center.getX(), 2) + Math.pow(p.getY() - center.getY(), 2));
+            if (radius > max_radius) {
                 max_radius = radius;
             }
         }
         return max_radius;
     }
 
-    public void zoom(JSVGCanvas jSVGCanvas, SVGDocument svgDoc, double factor) {
-        
-            NodeList nodes = svgDoc.getElementsByTagName("svg");
-            Node path0 = nodes.item(0);
-            Element elm = (Element) path0;
-            String vb = elm.getAttribute("viewBox");
-            String [] vbVal = vb.split("\\s+");
-            double x0 = Math.abs(Double.valueOf(vbVal[0]));
-            double y0 = Math.abs(Double.valueOf(vbVal[1]));
-            double xVB = Math.abs(Double.valueOf(vbVal[2]));
-            double yVB = Math.abs(Double.valueOf(vbVal[3]));
-            double w = Double.valueOf(elm.getAttribute("width"));
-            double h = Double.valueOf(elm.getAttribute("height"));
-            
-            double centerX = xVB*0.5+x0;
-            double centerY = yVB*0.5+y0;
-        AffineTransform at = new AffineTransform(); 
+    public void zoom(JSVGCanvas jSVGCanvas, SVGDocument svgDoc, double factor, double panX, double panY) {
+
+        NodeList nodes = svgDoc.getElementsByTagName("svg");
+        Node path0 = nodes.item(0);
+        Element elm = (Element) path0;
+        String vb = elm.getAttribute("viewBox");
+        String[] vbVal = vb.split("\\s+");
+        double x0 = Math.abs(Double.valueOf(vbVal[0]));
+        double y0 = Math.abs(Double.valueOf(vbVal[1]));
+        double xVB = Math.abs(Double.valueOf(vbVal[2]));
+        double yVB = Math.abs(Double.valueOf(vbVal[3]));
+        double w = Double.valueOf(elm.getAttribute("width"));
+        double h = Double.valueOf(elm.getAttribute("height"));
+
+        double centerX = xVB * 0.5 + x0;
+        double centerY = yVB * 0.5 + y0;
+        AffineTransform at = new AffineTransform();
         //at.scale(1.5,1.5); 
         //at.translate(-0.5*w, -0.5*h);
         //jSVGCanvas.setRenderingTransform(at, true);
-        at.scale(factor,factor); 
-        
+        at.scale(factor, factor);
+
         jSVGCanvas.setRenderingTransform(at, true);
-        
-        double new_x0 = centerX - 0.5*xVB/factor;
-        double new_y0 = centerY - 0.5*yVB/factor;
-        at.translate(x0-new_x0, y0-new_y0);
+
+        double new_x0 = centerX - 0.5 * xVB / factor;
+        double new_y0 = centerY - 0.5 * yVB / factor;
+        at.translate(x0 - new_x0, y0 - new_y0);
+        at.translate(panX, panY);
         jSVGCanvas.setRenderingTransform(at, true);
-        
-        
-            
+
 //         Node node0 = (Node) svgDoc.getElementById("ID_0");
 //        NodeList nodes = node0.getChildNodes();
 //        for (int i = 0; i < nodes.getLength(); i++) {
@@ -451,4 +451,6 @@ public class CAD {
 //            elm.setAttribute("preserveAspectRatio", "xMidYMid meet");
         //jSVGCanvas.setDocument(svgDoc);
     }
+
+    
 }

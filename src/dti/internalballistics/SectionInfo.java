@@ -42,6 +42,8 @@ public class SectionInfo {
     //CADPanel cADPanel = new CADPanel(); 
     public SVGDocument CADDoc;
     public double zoomLevel = 1.0;
+    public double panX = 0;
+    public double panY = 0;
 
     private List<PropellantLayer> layers = new ArrayList<PropellantLayer>();
     private List<Point> points = new ArrayList<Point>();
