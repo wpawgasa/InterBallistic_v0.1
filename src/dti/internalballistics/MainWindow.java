@@ -11,22 +11,35 @@ import dti.internalballistics.cad.OnClickAction;
 import dti.internalballistics.cad.OnLoadAction;
 import dti.internalballistics.cad.Point;
 import dti.internalballistics.cad.SvgOnHoverAction;
+import info.monitorenter.gui.chart.Chart2D;
+import info.monitorenter.gui.chart.IAxis;
+import info.monitorenter.gui.chart.ITrace2D;
+import info.monitorenter.gui.chart.traces.Trace2DLtd;
+import info.monitorenter.gui.chart.views.ChartPanel;
+import java.awt.Color;
 import java.awt.Component;
 import java.awt.Container;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.FileWriter;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 import java.util.Scanner;
+import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.ButtonGroup;
@@ -37,9 +50,11 @@ import javax.swing.JFileChooser;
 import javax.swing.JFormattedTextField;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JSpinner;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.filechooser.FileFilter;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.text.DefaultFormatter;
 import javax.swing.text.NumberFormatter;
@@ -73,6 +88,7 @@ public class MainWindow extends javax.swing.JFrame {
         //Application.getApplication().setDockIconImage(new ImageIcon(getClass().getResource("/dti/icon/InternalBallisticNew-Logo.png")).getImage());
         this.setIconImage(new ImageIcon(getClass().getResource("/dti/icon/InternalBallisticNew-Logo.png")).getImage());
         initComponents();
+        initChart();
         setSpinner(rocketDiameterSp);
         setSpinner(rocketLengthSp);
         setSpinner(jSpinner3);
@@ -120,6 +136,7 @@ public class MainWindow extends javax.swing.JFrame {
                     }
                 }
                 setSectionInfoView();
+
             }
         }, false);
 
@@ -252,6 +269,13 @@ public class MainWindow extends javax.swing.JFrame {
         burningDistancePanel = new javax.swing.JPanel();
         burningDistanceScrollPanel = new javax.swing.JScrollPane();
         burningDistanceTable = new javax.swing.JTable();
+        addBurningRowBt = new javax.swing.JButton();
+        removeBurningRowBt = new javax.swing.JButton();
+        loadPropDataBt = new javax.swing.JButton();
+        savePropDataBt = new javax.swing.JButton();
+        savePropDataBt.setText("Save propellant geometric data");
+
+        chartPanel = new javax.swing.JPanel();
 //        sectionPropertiesTabbedPanel.setEnabled(false);
 //        addPropellantBt.setEnabled(false);
 //        removePropellantBt.setEnabled(false);
@@ -819,23 +843,60 @@ public class MainWindow extends javax.swing.JFrame {
 
         sectionPropertiesTabbedPanel.addTab("Propellant Geometric", jPanel2);
 
-         burningDistanceTable.setModel(new javax.swing.table.DefaultTableModel(
-                new Object[][]{
-                    {null, null, null},
-                    {null, null, null},
-                    {null, null, null},
-                    {null, null, null}
-                },
+        addBurningRowBt.setText("Add new row");
+        addBurningRowBt.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                addBurningRowBtActionPerformed(evt);
+            }
+        });
+
+        removeBurningRowBt.setText("Remove row");
+        removeBurningRowBt.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                removeBurningRowBtActionPerformed(evt);
+            }
+        });
+
+        loadPropDataBt.setText("Load propellant geometric data from file");
+        loadPropDataBt.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                loadPropDataBtActionPerformed(evt);
+            }
+        });
+
+        savePropDataBt.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                savePropDataBtActionPerformed(evt);
+            }
+        });
+
+        propellantTable.setModel(new javax.swing.table.DefaultTableModel(
+                new Object[][]{},
+                new String[]{
+                    "Layer", "Name", "Material"
+                }
+        ) {
+            boolean[] canEdit = new boolean[]{
+                false, true, true
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit[columnIndex];
+            }
+        });
+
+        burningDistanceTable.setModel(new javax.swing.table.DefaultTableModel(
+                new Object[][]{},
                 new String[]{
                     "Distance (mm)", "Peripheral (mm)", "Port Area (mm^2)"
                 }
         ) {
-            Class[] types = new Class[]{
-                java.lang.Integer.class, java.lang.Integer.class, java.lang.Integer.class
+            boolean[] canEdit = new boolean[]{
+                true, true, true
             };
 
-            public Class getColumnClass(int columnIndex) {
-                return types[columnIndex];
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit[columnIndex];
             }
         });
         burningDistanceScrollPanel.setViewportView(burningDistanceTable);
@@ -843,18 +904,46 @@ public class MainWindow extends javax.swing.JFrame {
         javax.swing.GroupLayout burningDistancePanelLayout = new javax.swing.GroupLayout(burningDistancePanel);
         burningDistancePanel.setLayout(burningDistancePanelLayout);
         burningDistancePanelLayout.setHorizontalGroup(
-                burningDistancePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addComponent(burningDistanceScrollPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 565, Short.MAX_VALUE)
-        );
-        burningDistancePanelLayout.setVerticalGroup(
+                //                burningDistancePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                //                .addComponent(burningDistanceScrollPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 565, Short.MAX_VALUE)
                 burningDistancePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(burningDistancePanelLayout.createSequentialGroup()
-                        .addComponent(burningDistanceScrollPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE))
+                        .addGap(52, 52, 52)
+                        .addComponent(addBurningRowBt)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(removeBurningRowBt)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, burningDistancePanelLayout.createSequentialGroup()
+                        .addComponent(burningDistanceScrollPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 565, Short.MAX_VALUE))
+                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, burningDistancePanelLayout.createSequentialGroup()
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(savePropDataBt)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(loadPropDataBt, javax.swing.GroupLayout.PREFERRED_SIZE, 309, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(24, 24, 24))
         );
-        
+        burningDistancePanelLayout.setVerticalGroup(
+                //                burningDistancePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                //                .addGroup(burningDistancePanelLayout.createSequentialGroup()
+                //                        .addComponent(burningDistanceScrollPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)
+                //                        .addGap(0, 0, Short.MAX_VALUE))
+                burningDistancePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(burningDistancePanelLayout.createSequentialGroup()
+                        .addGap(14, 14, 14)
+                        .addGroup(burningDistancePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(savePropDataBt)
+                                .addComponent(loadPropDataBt))
+                        .addGap(18, 18, 18)
+                        .addComponent(burningDistanceScrollPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(burningDistancePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(addBurningRowBt)
+                                .addComponent(removeBurningRowBt))
+                        .addContainerGap(58, Short.MAX_VALUE))
+        );
+
         sectionPropertiesTabbedPanel.addTab("Burning Distance", burningDistancePanel);
-        
+
         javax.swing.GroupLayout geometricTabLayout = new javax.swing.GroupLayout(geometricTab);
         geometricTab.setLayout(geometricTabLayout);
         geometricTabLayout.setHorizontalGroup(
@@ -903,6 +992,17 @@ public class MainWindow extends javax.swing.JFrame {
             }
         });
 
+        javax.swing.GroupLayout chartPanelLayout = new javax.swing.GroupLayout(chartPanel);
+        chartPanel.setLayout(chartPanelLayout);
+        chartPanelLayout.setHorizontalGroup(
+                chartPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGap(0, 471, Short.MAX_VALUE)
+        );
+        chartPanelLayout.setVerticalGroup(
+                chartPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGap(0, 0, Short.MAX_VALUE)
+        );
+
         javax.swing.GroupLayout simulationTabLayout = new javax.swing.GroupLayout(simulationTab);
         simulationTab.setLayout(simulationTabLayout);
         simulationTabLayout.setHorizontalGroup(
@@ -910,6 +1010,11 @@ public class MainWindow extends javax.swing.JFrame {
                 .addGroup(simulationTabLayout.createSequentialGroup()
                         .addContainerGap()
                         .addGroup(simulationTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                .addGroup(simulationTabLayout.createSequentialGroup()
+                                        .addComponent(chartPanel, 600, 700, 800)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+//                                        .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                                 .addGroup(simulationTabLayout.createSequentialGroup()
                                         .addGap(0, 0, Short.MAX_VALUE)
                                         .addComponent(jButton3))
@@ -968,10 +1073,14 @@ public class MainWindow extends javax.swing.JFrame {
                                 .addComponent(jSpinner7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(31, 31, 31)
                         .addComponent(jButton3)
+                        
+                                  .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(simulationTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(chartPanel, 400, 500, 600))
+                   // .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                
                         .addContainerGap(539, Short.MAX_VALUE))
         );
-
-       
 
         javax.swing.GroupLayout leftGeoPanelLayout = new javax.swing.GroupLayout(leftGeoPanel);
         leftGeoPanel.setLayout(leftGeoPanelLayout);
@@ -1016,7 +1125,6 @@ public class MainWindow extends javax.swing.JFrame {
                                 .addGroup(leftGeoPanelLayout.createParallelGroup()
                                         .addGap(12, 12, 12)
                                         .addComponent(drawCanvas, 650, 650, 650)))
-                                        
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         leftGeoPanelLayout.setVerticalGroup(
@@ -1060,7 +1168,7 @@ public class MainWindow extends javax.swing.JFrame {
                 rightGeoPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(rightGeoPanelLayout.createSequentialGroup()
                         .addGap(16, 16, 16)
-                        .addComponent(sectionPropertiesTabbedPanel, 450, 600, 750)
+                        .addComponent(sectionPropertiesTabbedPanel, 480, 630, 780)
                         .addContainerGap(79, Short.MAX_VALUE))
         );
         rightGeoPanelLayout.setVerticalGroup(
@@ -1481,8 +1589,10 @@ public class MainWindow extends javax.swing.JFrame {
                     }
 
                     setSectionInfoView();
-                    //}
+                    DefaultTableModel model = (DefaultTableModel) burningDistanceTable.getModel();
+                    model.setRowCount(0);
 
+                    //}
                     registerListeners(sectionName);
                     registerListeners(innerPortName);
                     System.out.println("inner port " + innerPortSectionString);
@@ -1559,6 +1669,7 @@ public class MainWindow extends javax.swing.JFrame {
             PropellantLayer layer = layers.get(i);
             model.addRow(new Object[]{layer.getLayerId(), layer.getLayerName(), layer.getLayerMaterial()});
         }
+        loadPropDataTable();
         System.out.println(selectedSection.getNewOuterDiameter());
         outerDiameterSpinner.setValue(selectedSection.getNewOuterDiameter());
         innerDiameterSpinner.setValue(selectedSection.getNewInnerDiameter());
@@ -1855,6 +1966,139 @@ public class MainWindow extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_innerDiameterSpinInputMethodTextChanged
 
+    private void loadPropDataBtActionPerformed(java.awt.event.ActionEvent evt) {
+
+        JFileChooser fc = new JFileChooser();
+        FileFilter ff = new FileNameExtensionFilter("Data Files", new String[]{"dat", "csv"});
+        fc.setFileFilter(ff);
+        fc.addChoosableFileFilter(ff);
+        //fc.setAcceptAllFileFilterUsed(false);
+        int retVal = fc.showOpenDialog(fc);
+        DefaultTableModel model = (DefaultTableModel) burningDistanceTable.getModel();
+        if (retVal == JFileChooser.APPROVE_OPTION) {
+            try {
+                File file = fc.getSelectedFile();
+                //This is where an application would open the file.
+                //JOptionPane.showMessageDialog(this, "Opening: " + file.getName() + ".\n" );
+                InputStream fis;
+                BufferedReader br;
+                String line;
+                fis = new FileInputStream(file);
+                br = new BufferedReader(new InputStreamReader(fis, Charset.forName("UTF-8")));
+                try {
+
+                    model.setRowCount(0);
+                    while ((line = br.readLine()) != null) {
+                        // Deal with the line
+                        //System.out.println(line);//debug code
+                        String[] parts = line.split(",", 3);
+                        Double x1d_A = Double.parseDouble(parts[0]);
+                        Double portArea1_A = Double.parseDouble(parts[1]);
+                        Double periphery1_A = Double.parseDouble(parts[2]);
+
+                        model.addRow(new Object[]{x1d_A, portArea1_A, periphery1_A});
+
+                    }
+                } catch (IOException ex) {
+                    Logger.getLogger(MainWindow.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            } catch (FileNotFoundException ex) {
+                Logger.getLogger(MainWindow.class.getName()).log(Level.SEVERE, null, ex);
+            }
+
+        }
+
+        Vector data = model.getDataVector();
+        selectedSection.setBurningList(data);
+    }
+
+    private void savePropDataBtActionPerformed(java.awt.event.ActionEvent evt) {
+
+        List<BurningDistance> burningList = new ArrayList<BurningDistance>();
+        DefaultTableModel model = (DefaultTableModel) burningDistanceTable.getModel();
+        Vector data = model.getDataVector();
+
+        selectedSection.setBurningList(data);
+
+        String outfilename = "GLRS.csv";
+        StringBuilder out = new StringBuilder();
+       // out.append("Distance (mm),Peripheral (mm),Peripheral (mm)");
+        // out.append(System.getProperty("line.separator"));
+
+        for (int i = 0; i < model.getRowCount(); i++) {
+            out.append(model.getValueAt(i, 0));
+            out.append(",");
+            out.append(model.getValueAt(i, 1));
+            out.append(",");
+            out.append(model.getValueAt(i, 2));
+            out.append(System.getProperty("line.separator"));
+        }
+
+        JFileChooser jFileChooser = new JFileChooser();
+        jFileChooser.setSelectedFile(new File(outfilename));
+        int retVal = jFileChooser.showSaveDialog(jFileChooser);
+        if (retVal == JFileChooser.APPROVE_OPTION) {
+            try {
+                File file = jFileChooser.getSelectedFile();
+                FileOutputStream fop = new FileOutputStream(file);
+
+                if (!file.exists()) {
+                    file.createNewFile();
+                }
+
+                byte[] contentInBytes = out.toString().getBytes();
+
+                fop.write(contentInBytes);
+                fop.flush();
+                fop.close();
+
+                JOptionPane.showMessageDialog(this, "Save output successfully.");
+            } catch (IOException ex) {
+                System.out.println(ex.getMessage());
+            }
+        } else {
+            JOptionPane.showMessageDialog(this, "Error: Can't save to file");
+        }
+    }
+
+    private void loadPropDataTable() {
+
+        Vector<String> columnNames = new Vector<String>();
+        columnNames.add("Distance (mm)");
+        columnNames.add("Peripheral (mm)");
+        columnNames.add("Peripheral (mm)");
+        Vector burning = selectedSection.getBurningList();
+        DefaultTableModel model = new DefaultTableModel(burning, columnNames);
+        burningDistanceTable.setModel(model);
+
+    }
+
+    private void addBurningRowBtActionPerformed(java.awt.event.ActionEvent evt) {
+        // BurningDistance burningDistance = selectedSection.addNewBurning();
+        DefaultTableModel model = (DefaultTableModel) burningDistanceTable.getModel();
+        int selectedRow = burningDistanceTable.getSelectedRow();
+        if (selectedRow != -1) {
+            model.insertRow(selectedRow + 1, new Object[]{"", "", ""});
+            //model.addRow(new Object[]{" ", " ", " "});
+        } else {
+            model.addRow(new Object[]{"", "", ""});
+        }
+    }
+
+    private void removeBurningRowBtActionPerformed(java.awt.event.ActionEvent evt) {
+
+        DefaultTableModel model = (DefaultTableModel) burningDistanceTable.getModel();
+        int selectedRow = burningDistanceTable.getSelectedRow();
+        if (selectedRow != -1) {
+            // sectionList.remove(burningDistanceTable.getSelectedRow());
+            model.removeRow(burningDistanceTable.getSelectedRow());
+        }
+        int totalRow = burningDistanceTable.getRowCount();
+        for (int countRow = 0; countRow < totalRow; countRow++) {
+            model.setValueAt(countRow + 1, countRow, 0);
+        }
+    }
+
     public void setCADShape(String path) {
         cad.parseFile(path);
 
@@ -1873,6 +2117,35 @@ public class MainWindow extends javax.swing.JFrame {
                 enableComponents((Container) component, enable);
             }
         }
+    }
+
+    private void initChart() {
+        Chart2D chart = new Chart2D();
+        IAxis yAxis = chart.getAxisY();
+        IAxis xAxis = chart.getAxisX();
+        IAxis.AxisTitle yTitle = new IAxis.AxisTitle("Thrust, N");
+        yAxis.setAxisTitle(yTitle);
+        IAxis.AxisTitle xTitle = new IAxis.AxisTitle("Time, s");
+        xAxis.setAxisTitle(xTitle);
+        xAxis.setPaintGrid(true);
+        yAxis.setPaintGrid(true);
+            // Create an ITrace: 
+        // Note that dynamic charts need limited amount of values!!! 
+        trace = new Trace2DLtd(200);
+        trace.setColor(Color.RED);
+        trace.setName("Simulated thrust profile");
+        // Add the trace to the chart. This has to be done before adding points (deadlock prevention): 
+        chart.addTrace(trace);
+
+        trace2 = new Trace2DLtd(200);
+        trace2.setColor(Color.BLUE);
+        trace2.setName("Compared thrust profile");
+        chart.addTrace(trace2);
+
+        ChartPanel cp = new ChartPanel(chart);
+        cp.setSize(800, 300);
+        chartPanel.add(cp);
+
     }
 
     class ExtensionFileFilter extends FileFilter {
@@ -2064,4 +2337,11 @@ public class MainWindow extends javax.swing.JFrame {
     private javax.swing.JPanel burningDistancePanel;
     private javax.swing.JScrollPane burningDistanceScrollPanel;
     private javax.swing.JTable burningDistanceTable;
+    private javax.swing.JButton addBurningRowBt;
+    private javax.swing.JButton loadPropDataBt;
+    private javax.swing.JButton removeBurningRowBt;
+    private javax.swing.JButton savePropDataBt;
+    public ITrace2D trace;
+    public ITrace2D trace2;
+    private javax.swing.JPanel chartPanel;
 }

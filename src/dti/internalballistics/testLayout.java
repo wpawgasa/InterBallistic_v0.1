@@ -30,8 +30,12 @@ public class testLayout extends javax.swing.JFrame {
 
         jTabbedPane1 = new javax.swing.JTabbedPane();
         burningDistancePanel = new javax.swing.JPanel();
+        addBurningRowBt = new javax.swing.JButton();
         burningDistanceScrollPanel = new javax.swing.JScrollPane();
         burningDistanceTable = new javax.swing.JTable();
+        removeBurningRowBt = new javax.swing.JButton();
+        loadPropDataBt = new javax.swing.JButton();
+        savePropDataBt = new javax.swing.JButton();
         viewControlPanel = new javax.swing.JPanel();
         arrowUpButton = new javax.swing.JButton();
         arrowRightButton = new javax.swing.JButton();
@@ -42,6 +46,13 @@ public class testLayout extends javax.swing.JFrame {
         zoomOutPropellantBt = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+
+        addBurningRowBt.setText("Add new row");
+        addBurningRowBt.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                addBurningRowBtActionPerformed(evt);
+            }
+        });
 
         burningDistanceTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -66,25 +77,56 @@ public class testLayout extends javax.swing.JFrame {
         burningDistanceTable.setSurrendersFocusOnKeystroke(true);
         burningDistanceScrollPanel.setViewportView(burningDistanceTable);
 
+        removeBurningRowBt.setText("Remove row");
+        removeBurningRowBt.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                removeBurningRowBtActionPerformed(evt);
+            }
+        });
+
+        loadPropDataBt.setText("Load propellant geometric data from file");
+        loadPropDataBt.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                loadPropDataBtActionPerformed(evt);
+            }
+        });
+
+        savePropDataBt.setText("Save propellant geometric data");
+
         javax.swing.GroupLayout burningDistancePanelLayout = new javax.swing.GroupLayout(burningDistancePanel);
         burningDistancePanel.setLayout(burningDistancePanelLayout);
         burningDistancePanelLayout.setHorizontalGroup(
             burningDistancePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 368, Short.MAX_VALUE)
-            .addGroup(burningDistancePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(burningDistancePanelLayout.createSequentialGroup()
-                    .addGap(0, 0, Short.MAX_VALUE)
-                    .addComponent(burningDistanceScrollPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 368, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGap(0, 0, Short.MAX_VALUE)))
+            .addGroup(burningDistancePanelLayout.createSequentialGroup()
+                .addGroup(burningDistancePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addComponent(burningDistanceScrollPanel, javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(burningDistancePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(burningDistancePanelLayout.createSequentialGroup()
+                            .addGap(52, 52, 52)
+                            .addComponent(addBurningRowBt)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(removeBurningRowBt))
+                        .addGroup(burningDistancePanelLayout.createSequentialGroup()
+                            .addContainerGap()
+                            .addComponent(savePropDataBt)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(loadPropDataBt, javax.swing.GroupLayout.PREFERRED_SIZE, 309, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         burningDistancePanelLayout.setVerticalGroup(
             burningDistancePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 190, Short.MAX_VALUE)
-            .addGroup(burningDistancePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(burningDistancePanelLayout.createSequentialGroup()
-                    .addGap(0, 0, Short.MAX_VALUE)
-                    .addComponent(burningDistanceScrollPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGap(0, 0, Short.MAX_VALUE)))
+            .addGroup(burningDistancePanelLayout.createSequentialGroup()
+                .addGap(14, 14, 14)
+                .addGroup(burningDistancePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(savePropDataBt)
+                    .addComponent(loadPropDataBt))
+                .addGap(18, 18, 18)
+                .addComponent(burningDistanceScrollPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 153, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(burningDistancePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(addBurningRowBt)
+                    .addComponent(removeBurningRowBt))
+                .addContainerGap(52, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("tab2", burningDistancePanel);
@@ -179,26 +221,23 @@ public class testLayout extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(577, 577, 577)
+                .addGap(36, 36, 36)
+                .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(viewControlPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 177, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(12, Short.MAX_VALUE))
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(layout.createSequentialGroup()
-                    .addGap(188, 188, 188)
-                    .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 389, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addContainerGap(189, Short.MAX_VALUE)))
+                .addContainerGap(147, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+            .addGroup(layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(viewControlPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(layout.createSequentialGroup()
-                    .addGap(307, 307, 307)
-                    .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 236, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addContainerGap(307, Short.MAX_VALUE)))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(viewControlPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap())
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 347, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(235, 235, 235))))
         );
 
         pack();
@@ -215,6 +254,18 @@ public class testLayout extends javax.swing.JFrame {
     private void zoomOutPropellantBtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_zoomOutPropellantBtActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_zoomOutPropellantBtActionPerformed
+
+    private void loadPropDataBtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loadPropDataBtActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_loadPropDataBtActionPerformed
+
+    private void addBurningRowBtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addBurningRowBtActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_addBurningRowBtActionPerformed
+
+    private void removeBurningRowBtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_removeBurningRowBtActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_removeBurningRowBtActionPerformed
 
     /**
      * @param args the command line arguments
@@ -252,6 +303,7 @@ public class testLayout extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton addBurningRowBt;
     private javax.swing.JButton arrowDownButton;
     private javax.swing.JButton arrowLeftButton;
     private javax.swing.JButton arrowRightButton;
@@ -261,6 +313,9 @@ public class testLayout extends javax.swing.JFrame {
     private javax.swing.JTable burningDistanceTable;
     private javax.swing.JButton centerButton;
     private javax.swing.JTabbedPane jTabbedPane1;
+    private javax.swing.JButton loadPropDataBt;
+    private javax.swing.JButton removeBurningRowBt;
+    private javax.swing.JButton savePropDataBt;
     private javax.swing.JPanel viewControlPanel;
     private javax.swing.JButton zoomInPropellantBt;
     private javax.swing.JButton zoomOutPropellantBt;

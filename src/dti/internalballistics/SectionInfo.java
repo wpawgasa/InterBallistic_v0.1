@@ -11,6 +11,7 @@ import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Vector;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.filechooser.FileFilter;
 import org.apache.batik.swing.JSVGCanvas;
@@ -39,7 +40,7 @@ public class SectionInfo {
     private Double innerPortSection;
     private Double xPosition;
     private Double yPosition;
-    //CADPanel cADPanel = new CADPanel(); 
+
     public SVGDocument CADDoc;
     public double zoomLevel = 1.0;
     public double panX = 0;
@@ -47,6 +48,8 @@ public class SectionInfo {
 
     private List<PropellantLayer> layers = new ArrayList<PropellantLayer>();
     private List<Point> points = new ArrayList<Point>();
+    //private List<BurningDistance> burningList = new ArrayList<BurningDistance>();
+    private Vector burningList = new Vector();
 
     public List<Point> getPoints() {
         return points;
@@ -81,6 +84,12 @@ public class SectionInfo {
         this.lengthSection = lengthSection;
         this.xPosition = xPosition;
         this.yPosition = yPostion;
+     
+//        BurningDistance burningDistance = new BurningDistance();
+//        burningDistance.setDistance(0.0);
+//        burningDistance.setPeripheral(0.0);
+//        burningDistance.setPortArea(0.0);
+//        burningList.add(burningDistance);
     }
 
     public List<PropellantLayer> getLayers() {
@@ -105,6 +114,15 @@ public class SectionInfo {
         return layer;
     }
 
+//    public BurningDistance addNewBurning() {
+//        BurningDistance burningDistance = new BurningDistance();
+//        burningDistance.setDistance(0.0);
+//        burningDistance.setPeripheral(0.0);
+//        burningDistance.setPortArea(0.0);
+//        burningList.add(burningDistance);
+//        return burningDistance;
+//    }
+    
     public void removeLayer(PropellantLayer layer) {
         setRowNo(getRowNo() - 1);
         layers.remove(layer);
@@ -276,8 +294,26 @@ public class SectionInfo {
     public void setCenter(Point center) {
         this.center = center;
     }
-    
-    
 
+    /**
+     * @return the burningList
+     */
+//    public List<BurningDistance> getBurningList() {
+//        return burningList;
+//    }
 
+    /**
+     * @param burningList the burningList to set
+     */
+//    public void setBurningList(List<BurningDistance> burningList) {
+//        this.burningList = burningList;
+//    }
+//    
+       public void setBurningList(Vector burningList) {
+        this.burningList = burningList;
+    }
+    
+       public Vector getBurningList() {
+       return burningList;
+    }
 }
