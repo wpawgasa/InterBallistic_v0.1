@@ -1858,7 +1858,10 @@ public class MainWindow extends javax.swing.JFrame {
         findCenter(selectedSection);
         cad.rearrangePath(selectedSection.getCADDoc());
         cad.extractInnerPort(selectedSection.getCADDoc(), selectedSection.getPoints());
-        //cad.resizeInnerPort(selectedSection.getCenter(), selectedSection.getNewInnerDiameter(), selectedSection.getPoints(), selectedSection.getCADDoc());
+        
+        cad.resizeInnerPort(selectedSection.getCenter(), selectedSection.getNewInnerDiameter()/2, selectedSection.getPoints(), selectedSection.getCADDoc());
+        cad.setOuterShape(selectedSection.getNewOuterDiameter(), cadPanelShape, selectedSection.getCADDoc());
+        
         cadPanelShape.setSVGDocument(selectedSection.getCADDoc());
         selectedSection.setIsCircle(false);
         selectedSection.zoomLevel = 1.0;
@@ -1947,6 +1950,8 @@ public class MainWindow extends javax.swing.JFrame {
         selectedSection.setNewInnerDiameter(newInnerDiameter);
         if (circleToggleButton.isSelected()) {
             cad.setInnerShape(newInnerDiameter, cadPanelShape, selectedSection.getCADDoc());
+        } else if(starToggleButton.isSelected()) {
+            cad.resizeInnerPort(selectedSection.getCenter(), selectedSection.getNewInnerDiameter()/2, selectedSection.getPoints(), selectedSection.getCADDoc());
         }
     }//GEN-LAST:event_innerDiameterSpinStateChanged
 
@@ -1963,9 +1968,9 @@ public class MainWindow extends javax.swing.JFrame {
 
         drawCanvas.setDocument(document);
         selectedSection.setNewOuterDiameter(newOuterDiameter);
-        if (circleToggleButton.isSelected()) {
+        //if (circleToggleButton.isSelected()) {
             cad.setOuterShape(newOuterDiameter, cadPanelShape, selectedSection.getCADDoc());
-        }
+        //}
     }
 
     private void lengthSpinStateChanged(javax.swing.event.ChangeEvent evt) {

@@ -352,14 +352,22 @@ public class CAD {
         //return svgDoc;
     }
 
-    public void resizeInnerPort(Point center, double Ri, List<Point> points, SVGDocument svgDoc) {
+    public void resizeInnerPort(Point center, double R, List<Point> points, SVGDocument svgDoc) {
         //new point = (Ri/Rmax)*(x,y)
         double Rmax = findMaxRadius(center, points);
         String d = "";
         for (int i = 0; i < points.size(); i++) {
             Point p = points.get(i);
-            p.setX(center.getX() + (Ri / Rmax) * (p.getX() - center.getX()));
-            p.setY((center.getY() + Ri / Rmax) * (p.getY() - center.getY()));
+            double Ri = Math.sqrt(Math.pow(p.getX() - center.getX(), 2) + Math.pow(p.getY() - center.getY(), 2));
+            double Rp = R*Ri/Rmax;
+            double deltaX = p.getX()-center.getX();
+            double deltaY = p.getY()-center.getY();
+            double theta = Math.atan(deltaY/deltaX);
+            if(deltaX<0) {
+                theta = theta + Math.PI;
+            }
+            p.setX(Rp*Math.cos(theta)+center.getX());
+            p.setY(Rp*Math.sin(theta)+center.getY());
             if (!p.getInstruction().equalsIgnoreCase("a")) {
                 d = d + " " + p.getInstruction() + " " + p.getX() + " " + p.getY();
             } else {
