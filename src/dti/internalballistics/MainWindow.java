@@ -183,8 +183,8 @@ public class MainWindow extends javax.swing.JFrame {
         //drawCanvas = new javax.swing.JPanel();
         jLabel14 = new javax.swing.JLabel();
         jLabel15 = new javax.swing.JLabel();
-        rocketLengthSp1 = new javax.swing.JSpinner();
-        rocketDiameterSp1 = new javax.swing.JSpinner();
+        ignitorTime = new javax.swing.JSpinner();
+        ignitorMass = new javax.swing.JSpinner();
         jLabel16 = new javax.swing.JLabel();
         jLabel17 = new javax.swing.JLabel();
         sectionPropertiesTabbedPanel = new javax.swing.JTabbedPane();
@@ -242,7 +242,8 @@ public class MainWindow extends javax.swing.JFrame {
         jLabel11 = new javax.swing.JLabel();
         jLabel12 = new javax.swing.JLabel();
         jLabel13 = new javax.swing.JLabel();
-        jButton3 = new javax.swing.JButton();
+        runSimulateBtn = new javax.swing.JButton();
+        abortSimulateBtn = new javax.swing.JButton();
         jSpinner3 = new javax.swing.JSpinner();
         jSpinner4 = new javax.swing.JSpinner();
         jSpinner5 = new javax.swing.JSpinner();
@@ -348,23 +349,23 @@ public class MainWindow extends javax.swing.JFrame {
 
         jLabel14.setText("Igniter Mass :");
 
-        jLabel15.setText("Igniter burn rate :");
+        jLabel15.setText("Igniter burn time :");
 
-        rocketLengthSp1.addChangeListener(new javax.swing.event.ChangeListener() {
+        ignitorTime.addChangeListener(new javax.swing.event.ChangeListener() {
             public void stateChanged(javax.swing.event.ChangeEvent evt) {
-                rocketLengthSp1StateChanged(evt);
+                ignitorTimeStateChanged(evt);
             }
         });
 
-        rocketDiameterSp1.addChangeListener(new javax.swing.event.ChangeListener() {
+        ignitorMass.addChangeListener(new javax.swing.event.ChangeListener() {
             public void stateChanged(javax.swing.event.ChangeEvent evt) {
-                rocketDiameterSp1StateChanged(evt);
+                ignitorMassStateChanged(evt);
             }
         });
 
         jLabel16.setText("kg");
 
-        jLabel17.setText("kg/s");
+        jLabel17.setText("s");
 
         propellantTable.setModel(new javax.swing.table.DefaultTableModel(
                 new Object[][]{},
@@ -990,13 +991,20 @@ public class MainWindow extends javax.swing.JFrame {
 
         jLabel13.setText("s");
 
-        jButton3.setText("Simulate");
-        jButton3.addActionListener(new java.awt.event.ActionListener() {
+        runSimulateBtn.setText("Simulate");
+        runSimulateBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton3ActionPerformed(evt);
+                runSimulateBtnActionPerformed(evt);
             }
         });
         
+        abortSimulateBtn.setText("Abort");
+        abortSimulateBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                abortSimulateBtnActionPerformed(evt);
+            }
+        });
+        abortSimulateBtn.setEnabled(false);
    
 
 
@@ -1064,20 +1072,20 @@ public class MainWindow extends javax.swing.JFrame {
         simulationTab.setLayout(simulationTabLayout);
         simulationTabLayout.setHorizontalGroup(
                 simulationTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(simulationTabLayout.createSequentialGroup()
-                        .addContainerGap()
+                .addGroup(simulationTabLayout.createSequentialGroup() 
                         .addGroup(simulationTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                 .addGroup(simulationTabLayout.createSequentialGroup()
                                         .addComponent(chartPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         
-                                .addGroup(simulationTabLayout.createSequentialGroup()
-                                        .addGap(0, 0, Short.MAX_VALUE)
-                                        .addComponent(jButton3))
+                                ))
+                .addGroup(simulationTabLayout.createSequentialGroup()
+                        .addContainerGap()
+                        
                                 .addGroup(simulationTabLayout.createSequentialGroup()
                                         .addGroup(simulationTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                                 .addGroup(simulationTabLayout.createSequentialGroup()
                                                         .addComponent(jLabel9)
-                                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 91, Short.MAX_VALUE)
+                                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 10, Short.MAX_VALUE)
                                                         .addComponent(jSpinner7, javax.swing.GroupLayout.PREFERRED_SIZE, 67, javax.swing.GroupLayout.PREFERRED_SIZE))
                                                 .addGroup(simulationTabLayout.createSequentialGroup()
                                                         .addGroup(simulationTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1085,7 +1093,7 @@ public class MainWindow extends javax.swing.JFrame {
                                                                 .addComponent(jLabel6)
                                                                 .addComponent(jLabel7)
                                                                 .addComponent(jLabel8))
-                                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 10, Short.MAX_VALUE)
                                                         .addGroup(simulationTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                                                 .addComponent(jSpinner4, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 67, javax.swing.GroupLayout.PREFERRED_SIZE)
                                                                 .addComponent(jSpinner3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 67, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -1096,7 +1104,11 @@ public class MainWindow extends javax.swing.JFrame {
                                                 .addComponent(jLabel12)
                                                 .addComponent(jLabel10)
                                                 .addComponent(jLabel11)
-                                                .addComponent(jLabel13))))
+                                                .addComponent(jLabel13)))
+                                .addGroup(simulationTabLayout.createSequentialGroup()
+                                        .addGap(0, 0, Short.MAX_VALUE)
+                                        .addComponent(runSimulateBtn)
+                                        .addComponent(abortSimulateBtn))
                         .addContainerGap(798, Short.MAX_VALUE))
         );
         simulationTabLayout.setVerticalGroup(
@@ -1127,7 +1139,9 @@ public class MainWindow extends javax.swing.JFrame {
                                 .addComponent(jLabel9)
                                 .addComponent(jSpinner7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(31, 31, 31)
-                        .addComponent(jButton3)
+                        .addGroup(simulationTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(runSimulateBtn)
+                                .addComponent(abortSimulateBtn))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(simulationTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                  .addComponent(chartPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -1167,11 +1181,11 @@ public class MainWindow extends javax.swing.JFrame {
                                                         .addGap(18, 18, 18)
                                                         .addGroup(leftGeoPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                                                 .addGroup(leftGeoPanelLayout.createSequentialGroup()
-                                                                        .addComponent(rocketLengthSp1, javax.swing.GroupLayout.PREFERRED_SIZE, 67, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                                        .addComponent(ignitorTime, javax.swing.GroupLayout.PREFERRED_SIZE, 67, javax.swing.GroupLayout.PREFERRED_SIZE)
                                                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                                                         .addComponent(jLabel17))
                                                                 .addGroup(leftGeoPanelLayout.createSequentialGroup()
-                                                                        .addComponent(rocketDiameterSp1, javax.swing.GroupLayout.PREFERRED_SIZE, 67, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                                        .addComponent(ignitorMass, javax.swing.GroupLayout.PREFERRED_SIZE, 67, javax.swing.GroupLayout.PREFERRED_SIZE)
                                                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                                                         .addComponent(jLabel16))))))
                                 .addGroup(leftGeoPanelLayout.createParallelGroup()
@@ -1198,12 +1212,12 @@ public class MainWindow extends javax.swing.JFrame {
                                         .addGroup(leftGeoPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                                 .addComponent(jLabel14)
                                                 .addComponent(jLabel16)
-                                                .addComponent(rocketDiameterSp1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                                .addComponent(ignitorMass, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                         .addGroup(leftGeoPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                                 .addComponent(jLabel15)
                                                 .addComponent(jLabel17)
-                                                .addComponent(rocketLengthSp1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                                .addComponent(ignitorTime, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         )
                         .addGap(18, 18, 18)
                         .addGroup(leftGeoPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -1460,7 +1474,15 @@ public class MainWindow extends javax.swing.JFrame {
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jButton3ActionPerformed
-
+    
+    private void runSimulateBtnActionPerformed(java.awt.event.ActionEvent evt) {                                         
+        // TODO add your handling code here:
+        
+    }  
+    private void abortSimulateBtnActionPerformed(java.awt.event.ActionEvent evt) {                                         
+        // TODO add your handling code here:
+        
+    }  
     private void rocketDiameterSpStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_rocketDiameterSpStateChanged
 //        rocketDiameter = (Double)rocketDiameterSp.getValue();
 //        String rocketDiameterStr = String.valueOf(rocketDiameter);
@@ -1749,11 +1771,15 @@ public class MainWindow extends javax.swing.JFrame {
     private void rocketLengthSp1StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_rocketLengthSp1StateChanged
         // TODO add your handling code here:
     }//GEN-LAST:event_rocketLengthSp1StateChanged
-
+    private void ignitorTimeStateChanged(javax.swing.event.ChangeEvent evt) {                                             
+        // TODO add your handling code here:
+    }   
     private void rocketDiameterSp1StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_rocketDiameterSp1StateChanged
         // TODO add your handling code here:
     }//GEN-LAST:event_rocketDiameterSp1StateChanged
-
+    private void ignitorMassStateChanged(javax.swing.event.ChangeEvent evt) {                                               
+        // TODO add your handling code here:
+    }      
     private void propellantTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_propellantTableMouseClicked
 
         DefaultTableModel model = (DefaultTableModel) propellantTable.getModel();
@@ -1809,6 +1835,7 @@ public class MainWindow extends javax.swing.JFrame {
         selectedLayer.setGasConst(Double.parseDouble(gasConstTB.getText()));
         selectedLayer.setHeatRatio(Double.parseDouble(heatRatioTB.getText()));
         selectedLayer.setMaxBurningDistance(Double.parseDouble(maxBurntTB.getText()));
+        selectedLayer.setBurningStartDistance(Double.parseDouble(startBurningDistanceTb.getText()));
     }//GEN-LAST:event_savePropertiesBTMouseClicked
 
     private void savePropertiesBTActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_savePropertiesBTActionPerformed
@@ -2269,19 +2296,20 @@ browseArray.add(thrust);
 
     }
      
-//      public class calThread extends Thread {
-//
-//        public volatile boolean isAborted = false;
-//        
-//        @Override
-//        public void run() {
-//            
-//            // Calculate Thrust profile
-//            outputWin.abortBtn.setEnabled(true);
-//            
-//            double Dt = Double.parseDouble(rocketDiameterSp.getValue().toString())/1000;   //Throat diameter (m)
-//            double At = (Math.PI)*Math.pow(Dt,2)/4;                     //Throat cross section area (m^2)
-//            double Lt = Double.parseDouble(rocketLengthSp.getValue().toString());        //Rocket Length (m)
+     
+      public class calThread extends Thread {
+
+        public volatile boolean isAborted = false;
+        
+        @Override
+        public void run() {
+            
+            // Calculate Thrust profile
+            abortSimulateBtn.setEnabled(true);
+            
+            double Dt = Double.parseDouble(rocketDiameterSp.getValue().toString())/1000;   //Throat diameter (m)
+            double At = (Math.PI)*Math.pow(Dt,2)/4;                     //Throat cross section area (m^2)
+            double Lt = Double.parseDouble(rocketLengthSp.getValue().toString());        //Rocket Length (m)
 //            double D1A = Double.parseDouble(propGeoWin.innerGrainA.getText())/1000; //Inner grain of section A where 2nd propellant start to burnt
 //            double D1B = Double.parseDouble(propGeoWin.innerGrainB.getText())/1000; //Inner grain of section A where 2nd propellant start to burnt
 //            int N = Integer.parseInt(numSegment.getText());             //Number of Segment
@@ -2525,24 +2553,24 @@ browseArray.add(thrust);
 //                    isAborted = true;
 //                }
 //
-//            };
+            }
 //        
 //            outputWin.saveOutputBtn.setEnabled(true);
 //            outputWin.abortBtn.setEnabled(false);
-//        }
-//        
-//        private double IgnitionMassFlow(double T) {
-//        
-//        double Tig = 0.3;        //igniter burn time (s)
-//        double Mig = 0.02;          //igniter mass (kg)
-//        
-//        if(T<=Tig) {
-//            return Mig/Tig;
-//        }  else {
-//            return 0;
-//        }       
-//    }
-//    
+        }
+        
+        private double IgnitionMassFlow(double T) {
+        
+            double Tig = 0.3;        //igniter burn time (s) default 0.3
+            double Mig = 0.02;          //igniter mass (kg)  default 0.02
+
+            if(T<=Tig) {
+                return Mig/Tig;
+            }  else {
+                return 0;
+            }       
+        }
+    
 //        private void GeomA(int idx, double [] x1, double [] x2, double [] Peri1, double [] Peri2, double [] Ap) {
 //
 //            DefaultTableModel table1 = (DefaultTableModel) propGeoWin.jTable1.getModel();
@@ -2761,6 +2789,7 @@ browseArray.add(thrust);
     byte[] data;
     private SectionInfo selectedSection;
     private PropellantLayer selectedLayer;
+    
     // Variables declaration - do not modify
     private javax.swing.JButton addPropellantBt;
     private javax.swing.JButton addSectionBT;
@@ -2780,7 +2809,8 @@ browseArray.add(thrust);
     private javax.swing.JTextField maxBurntTB;
     private javax.swing.JToggleButton hexaToggleButton;
     private javax.swing.JSpinner innerDiameterSpinner;
-    private javax.swing.JButton jButton3;
+    private javax.swing.JButton runSimulateBtn;
+    private javax.swing.JButton abortSimulateBtn;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -2834,9 +2864,9 @@ browseArray.add(thrust);
     private javax.swing.JButton removePropellantBt;
     private javax.swing.JButton removeSectionBT;
     private javax.swing.JSpinner rocketDiameterSp;
-    private javax.swing.JSpinner rocketDiameterSp1;
+    private javax.swing.JSpinner ignitorMass;
     private javax.swing.JSpinner rocketLengthSp;
-    private javax.swing.JSpinner rocketLengthSp1;
+    private javax.swing.JSpinner ignitorTime;
     private javax.swing.JMenuItem saveConfItem;
     private javax.swing.JButton savePropertiesBT;
     private javax.swing.JPanel simulationTab;

@@ -75,7 +75,8 @@ public class SectionInfo {
         layer.setGasTemp(0.0);
         layer.setHeatRatio(0.0);
         layer.setPressureExponent(0.0);
-        layer.setMaxBurningDistance(outer);
+        layer.setMaxBurningDistance(0.0);
+        layer.setBurningStartDistance(0.0);
         layers.add(layer);
         newOuterDiameter = outer;
         newInnerDiameter = inner;
@@ -109,7 +110,8 @@ public class SectionInfo {
         layer.setGasTemp(0.0);
         layer.setHeatRatio(0.0);
         layer.setPressureExponent(0.0);
-        layer.setMaxBurningDistance(getNewOuterDiameter());
+        layer.setMaxBurningDistance(getNewOuterDiameter()/2);
+        layer.setBurningStartDistance(0.0);
         layers.add(layer);
         return layer;
     }

@@ -22,6 +22,7 @@ public class PropellantLayer {
     private double gasConst;
     private double heatRatio;
     private double maxBurningDistance;
+    private double burningStartDistance;
 
     public PropellantLayer() {
     }
@@ -112,6 +113,14 @@ public class PropellantLayer {
 
     public void setMaxBurningDistance(double maxBurningDistance) {
         this.maxBurningDistance = maxBurningDistance;
+    }
+
+    public double getBurningStartDistance() {
+        return burningStartDistance;
+    }
+
+    public void setBurningStartDistance(double burningStartDistance) {
+        this.burningStartDistance = burningStartDistance;
     }
     
     
