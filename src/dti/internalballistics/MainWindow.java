@@ -2342,8 +2342,8 @@ browseArray.add(thrust);
 //            double a1 = rb0_1/(Math.pow(P0,n1));                        //pre-exponential factor of 1st propellant
 //            double a2 = rb0_2/(Math.pow(P0,n2));                        //pre-exponential factor of 1st propellant
 //
-//            double tdelta = 0.01;                                       //time step (s)
-//            double climit = 0.00001;                                    //convergence limit
+            double tdelta = 0.01;                                       //time step (s)
+            double climit = 0.00001;                                    //convergence limit
 //
 //            double[] rb1 = new double[N+1];                               //burning rate of the 1st propellant at time t of each segment
 //            double[] rb2 = new double[N+1];                               //burning rate of the 2nd propellant at time t of each segment
@@ -2372,17 +2372,23 @@ browseArray.add(thrust);
 //            double ts = Double.parseDouble(simtime.getText());              //simulation time limit
 //            double CF = 0;
 //
-//            //initialize
-//            double t = 0;                                               //start time (s)
-//            double tprint = 0;
-//            double P = Pg;                                              //Set pressure to guess pressure
-//
-//            for (int i = 0; i <= N; i++) {
-//                x1[i] = 0;                                              //Set burnt distance to 0
-//                x2[i] = 0;
-//                rb1[i] = a1*Math.pow(Pg, n1);                           
-//                rb2[i] = a2*Math.pow(Pg, n2);
-//            }
+            //initialize
+            double t = 0;                                               //start time (s)
+            double tprint = 0;
+            double P = Pg;                                              //Set pressure to guess pressure
+
+            //for each segment, set start burning distance for each layer to 0 and burning rate for each layer in each segment
+            double runningLength = 0;
+            for (int i = 0; i <= N; i++) {
+                runningLength = Ln*i;
+                for(int j=0;j<sectionList.size();j++) {
+                    
+                }
+                x1[i] = 0;                                              //Set burnt distance to 0
+                x2[i] = 0;
+                rb1[i] = a1*Math.pow(Pg, n1);                           
+                rb2[i] = a2*Math.pow(Pg, n2);
+            }
 //            
 //            while(!isAborted) {            
 //                boolean isConverged = false;
