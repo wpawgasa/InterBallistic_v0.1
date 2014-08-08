@@ -105,7 +105,7 @@ public class MainWindow extends javax.swing.JFrame {
        
         setSpinner(rocketDiameterSp);
         setSpinner(rocketLengthSp);
-        setSpinner(jSpinner3);
+        setSpinner(guessPSI);
         setSpinner(outerDiameterSpinner);
         setSpinner(innerDiameterSpinner);
         setButtonGroup();
@@ -244,11 +244,11 @@ public class MainWindow extends javax.swing.JFrame {
         jLabel13 = new javax.swing.JLabel();
         runSimulateBtn = new javax.swing.JButton();
         abortSimulateBtn = new javax.swing.JButton();
-        jSpinner3 = new javax.swing.JSpinner();
-        jSpinner4 = new javax.swing.JSpinner();
+        guessPSI = new javax.swing.JSpinner();
+        specificImp = new javax.swing.JSpinner();
         jSpinner5 = new javax.swing.JSpinner();
         jSpinner6 = new javax.swing.JSpinner();
-        jSpinner7 = new javax.swing.JSpinner();
+        numSegments = new javax.swing.JSpinner();
         mainMenuBar = new javax.swing.JMenuBar();
         fileMenu = new javax.swing.JMenu();
         loadConfItem = new javax.swing.JMenuItem();
@@ -1086,7 +1086,7 @@ public class MainWindow extends javax.swing.JFrame {
                                                 .addGroup(simulationTabLayout.createSequentialGroup()
                                                         .addComponent(jLabel9)
                                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 10, Short.MAX_VALUE)
-                                                        .addComponent(jSpinner7, javax.swing.GroupLayout.PREFERRED_SIZE, 67, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                                        .addComponent(numSegments, javax.swing.GroupLayout.PREFERRED_SIZE, 67, javax.swing.GroupLayout.PREFERRED_SIZE))
                                                 .addGroup(simulationTabLayout.createSequentialGroup()
                                                         .addGroup(simulationTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                                                 .addComponent(jLabel5)
@@ -1095,8 +1095,8 @@ public class MainWindow extends javax.swing.JFrame {
                                                                 .addComponent(jLabel8))
                                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 10, Short.MAX_VALUE)
                                                         .addGroup(simulationTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                                                .addComponent(jSpinner4, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 67, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                                .addComponent(jSpinner3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 67, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                                .addComponent(specificImp, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 67, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                                .addComponent(guessPSI, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 67, javax.swing.GroupLayout.PREFERRED_SIZE)
                                                                 .addComponent(jSpinner5, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 67, javax.swing.GroupLayout.PREFERRED_SIZE)
                                                                 .addComponent(jSpinner6, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 67, javax.swing.GroupLayout.PREFERRED_SIZE))))
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -1118,12 +1118,12 @@ public class MainWindow extends javax.swing.JFrame {
                         .addGroup(simulationTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                 .addComponent(jLabel5)
                                 .addComponent(jLabel10)
-                                .addComponent(jSpinner3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(guessPSI, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(simulationTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                 .addComponent(jLabel6)
                                 .addComponent(jLabel11)
-                                .addComponent(jSpinner4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(specificImp, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(simulationTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                 .addComponent(jLabel7)
@@ -1137,7 +1137,7 @@ public class MainWindow extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(simulationTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                 .addComponent(jLabel9)
-                                .addComponent(jSpinner7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(numSegments, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(31, 31, 31)
                         .addGroup(simulationTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                 .addComponent(runSimulateBtn)
@@ -2312,9 +2312,9 @@ browseArray.add(thrust);
             double Lt = Double.parseDouble(rocketLengthSp.getValue().toString());        //Rocket Length (m)
 //            double D1A = Double.parseDouble(propGeoWin.innerGrainA.getText())/1000; //Inner grain of section A where 2nd propellant start to burnt
 //            double D1B = Double.parseDouble(propGeoWin.innerGrainB.getText())/1000; //Inner grain of section A where 2nd propellant start to burnt
-//            int N = Integer.parseInt(numSegment.getText());             //Number of Segment
+            int N = (int) numSegments.getValue();             //Number of Segment
 //            int Nch = Integer.parseInt(segmentChange.getText());        //Segment where port starts to change shape
-//            double Ln = Lt/N;                                           //Segment Length (m)
+            double Ln = Lt/N;                                           //Segment Length (m)
 //
 //            //1st Propellant parameters
 //            double rb0_1 = Double.parseDouble(burnrate1.getText())/1000;//Burn rate of 1st propellant (m/s)
@@ -2335,10 +2335,10 @@ browseArray.add(thrust);
 //            double gamma2 = Double.parseDouble(heatcap2.getText());     //Heat Capacity Ratio
 //
 //
-//            double Pg = Double.parseDouble(guessPSI.getText())*6895;    //Guess pressure (N/m^2)
-//            double Isp = Double.parseDouble(specificImp.getText());     //Specific Impulse (s)
+            double Pg = ((double) guessPSI.getValue())*6895;    //Guess pressure (N/m^2)
+            double Isp = (double) specificImp.getValue();     //Specific Impulse (s)
 //
-//            double P0 = 1000*6895;                                      //Reference pressure (N/m^2)
+            double P0 = 1000*6895;                                      //Reference pressure (N/m^2)
 //            double a1 = rb0_1/(Math.pow(P0,n1));                        //pre-exponential factor of 1st propellant
 //            double a2 = rb0_2/(Math.pow(P0,n2));                        //pre-exponential factor of 1st propellant
 //
@@ -2845,11 +2845,11 @@ browseArray.add(thrust);
     private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JSpinner outerDiameterSpinner;
-    private javax.swing.JSpinner jSpinner3;
-    private javax.swing.JSpinner jSpinner4;
+    private javax.swing.JSpinner guessPSI;
+    private javax.swing.JSpinner specificImp;
     private javax.swing.JSpinner jSpinner5;
     private javax.swing.JSpinner jSpinner6;
-    private javax.swing.JSpinner jSpinner7;
+    private javax.swing.JSpinner numSegments;
     private javax.swing.JTabbedPane sectionPropertiesTabbedPanel;
     private javax.swing.JMenuItem loadConfItem;
     private javax.swing.JMenuBar mainMenuBar;
