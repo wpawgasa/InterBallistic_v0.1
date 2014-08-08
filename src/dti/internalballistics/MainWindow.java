@@ -2382,12 +2382,13 @@ browseArray.add(thrust);
             for (int i = 0; i <= N; i++) {
                 runningLength = Ln*i;
                 for(int j=0;j<sectionList.size();j++) {
-                    
+                    SectionInfo section = sectionList.get(j);
+                    section.getLengthSection();
                 }
-                x1[i] = 0;                                              //Set burnt distance to 0
-                x2[i] = 0;
-                rb1[i] = a1*Math.pow(Pg, n1);                           
-                rb2[i] = a2*Math.pow(Pg, n2);
+//                x1[i] = 0;                                              //Set burnt distance to 0
+//                x2[i] = 0;
+//                rb1[i] = a1*Math.pow(Pg, n1);                           
+//                rb2[i] = a2*Math.pow(Pg, n2);
             }
 //            
 //            while(!isAborted) {            

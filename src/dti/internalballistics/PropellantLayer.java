@@ -23,6 +23,8 @@ public class PropellantLayer {
     private double heatRatio;
     private double maxBurningDistance;
     private double burningStartDistance;
+    
+    
 
     public PropellantLayer() {
     }
