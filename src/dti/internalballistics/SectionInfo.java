@@ -50,6 +50,11 @@ public class SectionInfo {
     private List<Point> points = new ArrayList<Point>();
     //private List<BurningDistance> burningList = new ArrayList<BurningDistance>();
     private Vector burningList = new Vector();
+    
+    private double mdot;   //Mass flow rate at time t in this segment
+    private double mdotA;  //Dummy Mass flow rate at time t in this segment
+    private double mach;   //Gas speed at time t in this segment
+    private double machA;  //Dummy Gas speed at time t in this segment
 
     public List<Point> getPoints() {
         return points;
@@ -318,4 +323,37 @@ public class SectionInfo {
        public Vector getBurningList() {
        return burningList;
     }
+       
+       public double getMdot() {
+        return mdot;
+    }
+
+    public void setMdot(double mdot) {
+        this.mdot = mdot;
+    }
+
+    public double getMdotA() {
+        return mdotA;
+    }
+
+    public void setMdotA(double mdotA) {
+        this.mdotA = mdotA;
+    }
+
+    public double getMach() {
+        return mach;
+    }
+
+    public void setMach(double mach) {
+        this.mach = mach;
+    }
+
+    public double getMachA() {
+        return machA;
+    }
+
+    public void setMachA(double machA) {
+        this.machA = machA;
+    }
+
 }

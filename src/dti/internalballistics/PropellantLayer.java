@@ -23,6 +23,15 @@ public class PropellantLayer {
     private double heatRatio;
     private double maxBurningDistance;
     private double burningStartDistance;
+    private double rb; //burnining rate at time t
+    private double rb_m0; //burnining rate at time t
+    private double x;  //burning distance at time t
+    private double Ap; //burning port area at time t
+    private double peri; //periphery at time t
+    private double rbA; //Dummy burning rate at time t
+    private double a_factor; //pre-exponent factor
+    private double gas;
+    private double gasFrac;
     
     
 
@@ -123,6 +132,78 @@ public class PropellantLayer {
 
     public void setBurningStartDistance(double burningStartDistance) {
         this.burningStartDistance = burningStartDistance;
+    }
+
+    public double getRb() {
+        return rb;
+    }
+
+    public void setRb(double rb) {
+        this.rb = rb;
+    }
+
+    public double getRb_m0() {
+        return rb_m0;
+    }
+
+    public void setRb_m0(double rb_m0) {
+        this.rb_m0 = rb_m0;
+    }
+
+    public double getX() {
+        return x;
+    }
+
+    public void setX(double x) {
+        this.x = x;
+    }
+
+    public double getPeri() {
+        return peri;
+    }
+
+    public void setPeri(double peri) {
+        this.peri = peri;
+    }
+
+    public double getRbA() {
+        return rbA;
+    }
+
+    public void setRbA(double rbA) {
+        this.rbA = rbA;
+    }
+
+    public double getA_factor() {
+        return a_factor;
+    }
+
+    public void setA_factor(double a_factor) {
+        this.a_factor = a_factor;
+    }
+
+    public double getAp() {
+        return Ap;
+    }
+
+    public void setAp(double Ap) {
+        this.Ap = Ap;
+    }
+
+    public double getGas() {
+        return gas;
+    }
+
+    public void setGas(double gas) {
+        this.gas = gas;
+    }
+
+    public double getGasFrac() {
+        return gasFrac;
+    }
+
+    public void setGasFrac(double gasFrac) {
+        this.gasFrac = gasFrac;
     }
     
     

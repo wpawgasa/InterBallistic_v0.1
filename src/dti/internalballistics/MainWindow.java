@@ -95,14 +95,14 @@ public class MainWindow extends javax.swing.JFrame {
         addTrace(traceOutputThrust, "Output Thrust", Color.BLUE, chart1);
         addTrace(traceCompareThrust, "Compare Thrust", Color.RED, chart1);
         addChartToPanel(chart1, chartPanelThrust);
-        
+
         Chart2D chart2 = initChart("Pressure, PSI", "Time, s");
         traceOutputPressure = new Trace2DLtd(200);
         traceComparePressure = new Trace2DLtd(200);
         addTrace(traceOutputPressure, "Output Pressure", Color.BLUE, chart2);
         addTrace(traceComparePressure, "Compare Pressure", Color.RED, chart2);
         addChartToPanel(chart2, chartPanelPressure);
-       
+
         setSpinner(rocketDiameterSp);
         setSpinner(rocketLengthSp);
         setSpinner(guessPSI);
@@ -238,6 +238,7 @@ public class MainWindow extends javax.swing.JFrame {
         jLabel7 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
+        precisionLabel = new javax.swing.JLabel();
         jLabel10 = new javax.swing.JLabel();
         jLabel11 = new javax.swing.JLabel();
         jLabel12 = new javax.swing.JLabel();
@@ -247,8 +248,9 @@ public class MainWindow extends javax.swing.JFrame {
         guessPSI = new javax.swing.JSpinner();
         specificImp = new javax.swing.JSpinner();
         jSpinner5 = new javax.swing.JSpinner();
-        jSpinner6 = new javax.swing.JSpinner();
+        stoptime = new javax.swing.JSpinner();
         numSegments = new javax.swing.JSpinner();
+        outputPrecision = new javax.swing.JSpinner();
         mainMenuBar = new javax.swing.JMenuBar();
         fileMenu = new javax.swing.JMenu();
         loadConfItem = new javax.swing.JMenuItem();
@@ -983,6 +985,8 @@ public class MainWindow extends javax.swing.JFrame {
 
         jLabel9.setText("Number of Segments :");
 
+        precisionLabel.setText("Precision :");
+
         jLabel10.setText("PSI");
 
         jLabel11.setText("s");
@@ -997,7 +1001,7 @@ public class MainWindow extends javax.swing.JFrame {
                 runSimulateBtnActionPerformed(evt);
             }
         });
-        
+
         abortSimulateBtn.setText("Abort");
         abortSimulateBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -1005,8 +1009,6 @@ public class MainWindow extends javax.swing.JFrame {
             }
         });
         abortSimulateBtn.setEnabled(false);
-   
-
 
         chartPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Output"));
         browseCompareButton.setText("Browse Compared Data");
@@ -1015,7 +1017,7 @@ public class MainWindow extends javax.swing.JFrame {
                 browseCompareButtonActionPerformed(evt);
             }
         });
-        
+
         javax.swing.GroupLayout chartPanelThrustLayout = new javax.swing.GroupLayout(chartPanelThrust);
         chartPanelThrust.setLayout(chartPanelThrustLayout);
         chartPanelThrustLayout.setHorizontalGroup(
@@ -1030,85 +1032,83 @@ public class MainWindow extends javax.swing.JFrame {
         javax.swing.GroupLayout chartPanelPressureLayout = new javax.swing.GroupLayout(chartPanelPressure);
         chartPanelPressure.setLayout(chartPanelPressureLayout);
         chartPanelPressureLayout.setHorizontalGroup(
-            chartPanelPressureLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 244, Short.MAX_VALUE)
+                chartPanelPressureLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGap(0, 244, Short.MAX_VALUE)
         );
         chartPanelPressureLayout.setVerticalGroup(
-            chartPanelPressureLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 378, Short.MAX_VALUE)
+                chartPanelPressureLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGap(0, 378, Short.MAX_VALUE)
         );
-        
+
         javax.swing.GroupLayout chartPanelLayout = new javax.swing.GroupLayout(chartPanel);
         chartPanel.setLayout(chartPanelLayout);
         chartPanelLayout.setHorizontalGroup(
-            chartPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(chartPanelLayout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(chartPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(chartPanelLayout.createSequentialGroup()
-                        .addComponent(chartPanelPressure, 600, 650, 700)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(chartPanelThrust, 600, 650, 700))
-                    .addComponent(browseCompareButton))
-                .addContainerGap(61, Short.MAX_VALUE))
+                chartPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(chartPanelLayout.createSequentialGroup()
+                        .addContainerGap()
+                        .addGroup(chartPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addGroup(chartPanelLayout.createSequentialGroup()
+                                        .addComponent(chartPanelPressure, 600, 650, 700)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(chartPanelThrust, 600, 650, 700))
+                                .addComponent(browseCompareButton))
+                        .addContainerGap(61, Short.MAX_VALUE))
         );
         chartPanelLayout.setVerticalGroup(
-            chartPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, chartPanelLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(browseCompareButton)
-                .addGroup(chartPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(chartPanelLayout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 7, Short.MAX_VALUE)
-                        .addComponent(chartPanelThrust, 400, 500, 600)
-                        .addGap(7, 7, 7))
-                    .addGroup(chartPanelLayout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(chartPanelPressure, 400, 500, 600)
-                        .addContainerGap())))
+                chartPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, chartPanelLayout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(browseCompareButton)
+                        .addGroup(chartPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addGroup(chartPanelLayout.createSequentialGroup()
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 7, Short.MAX_VALUE)
+                                        .addComponent(chartPanelThrust, 400, 500, 600)
+                                        .addGap(7, 7, 7))
+                                .addGroup(chartPanelLayout.createSequentialGroup()
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(chartPanelPressure, 400, 500, 600)
+                                        .addContainerGap())))
         );
-        
+
         javax.swing.GroupLayout simulationTabLayout = new javax.swing.GroupLayout(simulationTab);
         simulationTab.setLayout(simulationTabLayout);
         simulationTabLayout.setHorizontalGroup(
                 simulationTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(simulationTabLayout.createSequentialGroup() 
+                .addGroup(simulationTabLayout.createSequentialGroup()
                         .addGroup(simulationTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                 .addGroup(simulationTabLayout.createSequentialGroup()
                                         .addComponent(chartPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        
-                                ))
+                        ))
                 .addGroup(simulationTabLayout.createSequentialGroup()
                         .addContainerGap()
-                        
-                                .addGroup(simulationTabLayout.createSequentialGroup()
-                                        .addGroup(simulationTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                                .addGroup(simulationTabLayout.createSequentialGroup()
+                        .addGroup(simulationTabLayout.createSequentialGroup()
+                                .addGroup(simulationTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addGroup(simulationTabLayout.createSequentialGroup()
+                                                .addGroup(simulationTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                        .addComponent(jLabel5)
+                                                        .addComponent(jLabel6)
+                                                        .addComponent(jLabel7)
+                                                        .addComponent(jLabel8)
                                                         .addComponent(jLabel9)
-                                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 10, Short.MAX_VALUE)
-                                                        .addComponent(numSegments, javax.swing.GroupLayout.PREFERRED_SIZE, 67, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                                .addGroup(simulationTabLayout.createSequentialGroup()
-                                                        .addGroup(simulationTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                                                .addComponent(jLabel5)
-                                                                .addComponent(jLabel6)
-                                                                .addComponent(jLabel7)
-                                                                .addComponent(jLabel8))
-                                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 10, Short.MAX_VALUE)
-                                                        .addGroup(simulationTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                                                .addComponent(specificImp, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 67, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                                .addComponent(guessPSI, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 67, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                                .addComponent(jSpinner5, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 67, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                                .addComponent(jSpinner6, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 67, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addGroup(simulationTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                                .addComponent(jLabel12)
-                                                .addComponent(jLabel10)
-                                                .addComponent(jLabel11)
-                                                .addComponent(jLabel13)))
-                                .addGroup(simulationTabLayout.createSequentialGroup()
-                                        .addGap(0, 0, Short.MAX_VALUE)
-                                        .addComponent(runSimulateBtn)
-                                        .addComponent(abortSimulateBtn))
+                                                        .addComponent(precisionLabel))
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 10, Short.MAX_VALUE)
+                                                .addGroup(simulationTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                        .addComponent(specificImp, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 67, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                        .addComponent(guessPSI, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 67, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                        .addComponent(jSpinner5, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 67, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                        .addComponent(stoptime, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 67, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                        .addComponent(numSegments, javax.swing.GroupLayout.PREFERRED_SIZE, 67, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                        .addComponent(outputPrecision, javax.swing.GroupLayout.PREFERRED_SIZE, 67, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(simulationTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(jLabel12)
+                                        .addComponent(jLabel10)
+                                        .addComponent(jLabel11)
+                                        .addComponent(jLabel13)))
+                        .addGroup(simulationTabLayout.createSequentialGroup()
+                                .addGap(0, 0, Short.MAX_VALUE)
+                                .addComponent(runSimulateBtn)
+                                .addComponent(abortSimulateBtn))
                         .addContainerGap(798, Short.MAX_VALUE))
         );
         simulationTabLayout.setVerticalGroup(
@@ -1133,18 +1133,22 @@ public class MainWindow extends javax.swing.JFrame {
                         .addGroup(simulationTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                 .addComponent(jLabel8)
                                 .addComponent(jLabel13)
-                                .addComponent(jSpinner6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(stoptime, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(simulationTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                 .addComponent(jLabel9)
                                 .addComponent(numSegments, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(simulationTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(precisionLabel)
+                                .addComponent(outputPrecision, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(31, 31, 31)
                         .addGroup(simulationTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                 .addComponent(runSimulateBtn)
                                 .addComponent(abortSimulateBtn))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(simulationTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                 .addComponent(chartPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(chartPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addContainerGap(539, Short.MAX_VALUE))
         );
 
@@ -1297,6 +1301,7 @@ public class MainWindow extends javax.swing.JFrame {
         enableComponents(sectionPropertiesTabbedPanel, false);
         pack();
     }
+
     public void setButtonGroup() {
 
         ButtonGroup buttonGroup = new ButtonGroup();
@@ -1474,15 +1479,16 @@ public class MainWindow extends javax.swing.JFrame {
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jButton3ActionPerformed
-    
-    private void runSimulateBtnActionPerformed(java.awt.event.ActionEvent evt) {                                         
+
+    private void runSimulateBtnActionPerformed(java.awt.event.ActionEvent evt) {
         // TODO add your handling code here:
-        
-    }  
-    private void abortSimulateBtnActionPerformed(java.awt.event.ActionEvent evt) {                                         
+
+    }
+
+    private void abortSimulateBtnActionPerformed(java.awt.event.ActionEvent evt) {
         // TODO add your handling code here:
-        
-    }  
+
+    }
     private void rocketDiameterSpStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_rocketDiameterSpStateChanged
 //        rocketDiameter = (Double)rocketDiameterSp.getValue();
 //        String rocketDiameterStr = String.valueOf(rocketDiameter);
@@ -1771,15 +1777,15 @@ public class MainWindow extends javax.swing.JFrame {
     private void rocketLengthSp1StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_rocketLengthSp1StateChanged
         // TODO add your handling code here:
     }//GEN-LAST:event_rocketLengthSp1StateChanged
-    private void ignitorTimeStateChanged(javax.swing.event.ChangeEvent evt) {                                             
+    private void ignitorTimeStateChanged(javax.swing.event.ChangeEvent evt) {
         // TODO add your handling code here:
-    }   
+    }
     private void rocketDiameterSp1StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_rocketDiameterSp1StateChanged
         // TODO add your handling code here:
     }//GEN-LAST:event_rocketDiameterSp1StateChanged
-    private void ignitorMassStateChanged(javax.swing.event.ChangeEvent evt) {                                               
+    private void ignitorMassStateChanged(javax.swing.event.ChangeEvent evt) {
         // TODO add your handling code here:
-    }      
+    }
     private void propellantTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_propellantTableMouseClicked
 
         DefaultTableModel model = (DefaultTableModel) propellantTable.getModel();
@@ -1885,10 +1891,10 @@ public class MainWindow extends javax.swing.JFrame {
         findCenter(selectedSection);
         cad.rearrangePath(selectedSection.getCADDoc());
         cad.extractInnerPort(selectedSection.getCADDoc(), selectedSection.getPoints());
-        
-        cad.resizeInnerPort(selectedSection.getCenter(), selectedSection.getNewInnerDiameter()/2, selectedSection.getPoints(), selectedSection.getCADDoc());
+
+        cad.resizeInnerPort(selectedSection.getCenter(), selectedSection.getNewInnerDiameter() / 2, selectedSection.getPoints(), selectedSection.getCADDoc());
         cad.setOuterShape(selectedSection.getNewOuterDiameter(), cadPanelShape, selectedSection.getCADDoc());
-        
+
         cadPanelShape.setSVGDocument(selectedSection.getCADDoc());
         selectedSection.setIsCircle(false);
         selectedSection.zoomLevel = 1.0;
@@ -1977,8 +1983,8 @@ public class MainWindow extends javax.swing.JFrame {
         selectedSection.setNewInnerDiameter(newInnerDiameter);
         if (circleToggleButton.isSelected()) {
             cad.setInnerShape(newInnerDiameter, cadPanelShape, selectedSection.getCADDoc());
-        } else if(starToggleButton.isSelected()) {
-            cad.resizeInnerPort(selectedSection.getCenter(), selectedSection.getNewInnerDiameter()/2, selectedSection.getPoints(), selectedSection.getCADDoc());
+        } else if (starToggleButton.isSelected()) {
+            cad.resizeInnerPort(selectedSection.getCenter(), selectedSection.getNewInnerDiameter() / 2, selectedSection.getPoints(), selectedSection.getCADDoc());
         }
     }//GEN-LAST:event_innerDiameterSpinStateChanged
 
@@ -1996,7 +2002,7 @@ public class MainWindow extends javax.swing.JFrame {
         drawCanvas.setDocument(document);
         selectedSection.setNewOuterDiameter(newOuterDiameter);
         //if (circleToggleButton.isSelected()) {
-            cad.setOuterShape(newOuterDiameter, cadPanelShape, selectedSection.getCADDoc());
+        cad.setOuterShape(newOuterDiameter, cadPanelShape, selectedSection.getCADDoc());
         //}
     }
 
@@ -2201,7 +2207,7 @@ public class MainWindow extends javax.swing.JFrame {
             }
         }
     }
-    
+
     private void browseCompareButtonActionPerformed(java.awt.event.ActionEvent evt) {
 
         JFileChooser fc = new JFileChooser();
@@ -2210,7 +2216,7 @@ public class MainWindow extends javax.swing.JFrame {
         fc.addChoosableFileFilter(ff);
         //fc.setAcceptAllFileFilterUsed(false);
         int retVal = fc.showOpenDialog(fc);
-      
+
         if (retVal == JFileChooser.APPROVE_OPTION) {
             try {
                 File file = fc.getSelectedFile();
@@ -2223,27 +2229,23 @@ public class MainWindow extends javax.swing.JFrame {
                 br = new BufferedReader(new InputStreamReader(fis, Charset.forName("UTF-8")));
                 try {
 
-                   String firstLine = br.readLine();
+                    String firstLine = br.readLine();
                     while ((line = br.readLine()) != null) {
                         // Deal with the line
-          
+
                         String[] parts = line.split(",", 12);
                         Double time = Double.parseDouble(parts[0]);
                         Double pressure = Double.parseDouble(parts[10]);
                         Double thrust = Double.parseDouble(parts[11]);
-       
+
                         //traceComparePressure = new Trace2DLtd();
-                        traceComparePressure.addPoint(time,pressure);
+                        traceComparePressure.addPoint(time, pressure);
                         //traceCompareThrust = new Trace2DLtd();
-                        traceCompareThrust.addPoint(time,thrust);
-                        
-                        
-                       
-                        
-                        
-ArrayList<Double> browseArray = new ArrayList<Double>();
-browseArray.add(pressure);
-browseArray.add(thrust);
+                        traceCompareThrust.addPoint(time, thrust);
+
+                        ArrayList<Double> browseArray = new ArrayList<Double>();
+                        browseArray.add(pressure);
+                        browseArray.add(thrust);
                         //model.addRow(new Object[]{x1d_A, portArea1_A, periphery1_A});
 
                     }
@@ -2260,8 +2262,7 @@ browseArray.add(thrust);
 //        selectedSection.setBurningList(data);
     }
 
-
-    private Chart2D initChart(String yAxisName, String xAxisName ) {
+    private Chart2D initChart(String yAxisName, String xAxisName) {
         Chart2D chart = new Chart2D();
         IAxis yAxis = chart.getAxisY();
         IAxis xAxis = chart.getAxisX();
@@ -2271,20 +2272,20 @@ browseArray.add(thrust);
         xAxis.setAxisTitle(xTitle);
         xAxis.setPaintGrid(true);
         yAxis.setPaintGrid(true);
-        
+
         return chart;
-   
+
     }
 
     private void addChartToPanel(Chart2D chart, JPanel panel) {
         ChartPanel cp = new ChartPanel(chart);
         cp.setSize(800, 300);
         panel.add(cp);
-        
+
     }
-    
-     private void addTrace(ITrace2D trace, String tracename, Color tracecolor, Chart2D chart) {
-        
+
+    private void addTrace(ITrace2D trace, String tracename, Color tracecolor, Chart2D chart) {
+
         // Create an ITrace: 
         // Note that dynamic charts need limited amount of values!!! 
         //trace = new Trace2DLtd(200);
@@ -2293,28 +2294,26 @@ browseArray.add(thrust);
         // Add the traceOutputThrust to the chart. This has to be done before adding points (deadlock prevention): 
         chart.addTrace(trace);
 
-
     }
-     
-     
-      public class calThread extends Thread {
+
+    public class calThread extends Thread {
 
         public volatile boolean isAborted = false;
-        
+
         @Override
         public void run() {
-            
+
             // Calculate Thrust profile
             abortSimulateBtn.setEnabled(true);
-            
-            double Dt = Double.parseDouble(rocketDiameterSp.getValue().toString())/1000;   //Throat diameter (m)
-            double At = (Math.PI)*Math.pow(Dt,2)/4;                     //Throat cross section area (m^2)
+
+            double Dt = Double.parseDouble(rocketDiameterSp.getValue().toString()) / 1000;   //Throat diameter (m)
+            double At = (Math.PI) * Math.pow(Dt, 2) / 4;                     //Throat cross section area (m^2)
             double Lt = Double.parseDouble(rocketLengthSp.getValue().toString());        //Rocket Length (m)
 //            double D1A = Double.parseDouble(propGeoWin.innerGrainA.getText())/1000; //Inner grain of section A where 2nd propellant start to burnt
 //            double D1B = Double.parseDouble(propGeoWin.innerGrainB.getText())/1000; //Inner grain of section A where 2nd propellant start to burnt
             int N = (int) numSegments.getValue();             //Number of Segment
 //            int Nch = Integer.parseInt(segmentChange.getText());        //Segment where port starts to change shape
-            double Ln = Lt/N;                                           //Segment Length (m)
+            double Ln = Lt / N;                                           //Segment Length (m)
 //
 //            //1st Propellant parameters
 //            double rb0_1 = Double.parseDouble(burnrate1.getText())/1000;//Burn rate of 1st propellant (m/s)
@@ -2335,10 +2334,10 @@ browseArray.add(thrust);
 //            double gamma2 = Double.parseDouble(heatcap2.getText());     //Heat Capacity Ratio
 //
 //
-            double Pg = ((double) guessPSI.getValue())*6895;    //Guess pressure (N/m^2)
+            double Pg = ((double) guessPSI.getValue()) * 6895;    //Guess pressure (N/m^2)
             double Isp = (double) specificImp.getValue();     //Specific Impulse (s)
 //
-            double P0 = 1000*6895;                                      //Reference pressure (N/m^2)
+            double P0 = 1000 * 6895;                                      //Reference pressure (N/m^2)
 //            double a1 = rb0_1/(Math.pow(P0,n1));                        //pre-exponential factor of 1st propellant
 //            double a2 = rb0_2/(Math.pow(P0,n2));                        //pre-exponential factor of 1st propellant
 //
@@ -2368,9 +2367,9 @@ browseArray.add(thrust);
 //            double[] rb1a = new double[N+1];                               //dummy burning rate of the 1st propellant at time t of each segment
 //            double[] rb2a = new double[N+1];                               //dummy burning rate of the 2nd propellant at time t of each segment
 //
-//            int precision = Integer.parseInt(outputPrecision.getText());
-//            double ts = Double.parseDouble(simtime.getText());              //simulation time limit
-//            double CF = 0;
+            int outprecision = (int) outputPrecision.getValue();
+            double ts = (double) stoptime.getValue();              //simulation time limit
+            double CF = 0;
 //
             //initialize
             double t = 0;                                               //start time (s)
@@ -2379,28 +2378,69 @@ browseArray.add(thrust);
 
             //for each segment, set start burning distance for each layer to 0 and burning rate for each layer in each segment
             double runningLength = 0;
-            for (int i = 0; i <= N; i++) {
-                runningLength = Ln*i;
-                for(int j=0;j<sectionList.size();j++) {
+            Segment[] segments = new Segment[N + 1];
+
+            for (int i = 1; i <= N; i++) {
+                runningLength = Ln * i;
+                double totalSectionL = 0;
+                double startSeg = runningLength - Ln;
+                double endSeg = runningLength;
+                for (int j = 0; j < sectionList.size(); j++) {
                     SectionInfo section = sectionList.get(j);
-                    section.getLengthSection();
+                    for (int k = 0; k < section.getLayers().size(); k++) {
+                        PropellantLayer l = section.getLayers().get(k);
+                        l.setX(0);
+                        double rb0 = l.getBurningRate();
+                        double n = l.getPressureExponent();
+                        l.setA_factor(rb0 / (Math.pow(P0, n)));
+                        double a_factor = l.getA_factor();
+                        l.setRb(a_factor * Math.pow(Pg, n));
+                        l.setGas(0);
+                    }
+                    totalSectionL = totalSectionL + section.getLengthSection();
+                    segments[i].getSections().add(section);
+                    if (runningLength <= totalSectionL) {
+                        segments[i].getSectionL().add(endSeg - startSeg);
+                        break;
+                    } else {
+                        segments[i].getSectionL().add(totalSectionL - startSeg);
+                        startSeg = totalSectionL;
+
+                    }
                 }
+
 //                x1[i] = 0;                                              //Set burnt distance to 0
 //                x2[i] = 0;
 //                rb1[i] = a1*Math.pow(Pg, n1);                           
 //                rb2[i] = a2*Math.pow(Pg, n2);
             }
-//            
-//            while(!isAborted) {            
-//                boolean isConverged = false;
-//                do {  
+            //segments[0].setSections(segments[1].getSections());
+            while (!isAborted) {
+                boolean isConverged = false;
+                do {
 //                   System.out.println(P); 
 //                   double gas1 = 0;
 //                   double gas2 = 0;
 //                   double gasfrac1 = 0;
 //                   double gasfrac2 = 0;
-//                   for(int i = 0; i <= N; i++) {
-//                       //CALC CURRENT PERIPHERIES AND PORT AREAS
+                    double totalGas = 0;
+                    for (int i = 1; i <= N; i++) {
+                        //CALC CURRENT PERIPHERIES AND PORT AREAS
+                        for (int j = 0; j < segments[i].getSections().size(); j++) {
+                            SectionInfo section = segments[i].getSections().get(j);
+                            Geom(section);
+                            for (int k = 0; k < section.getLayers().size(); k++) {
+                                PropellantLayer l = section.getLayers().get(k);
+                                double n = l.getPressureExponent();
+                                double a_factor = l.getA_factor();
+                                l.setRb_m0(a_factor * Math.pow(P, n));
+                                double rb = l.getRb();
+                                double gas = l.getGas();
+                                double peri = l.getPeri();
+                                l.setGas(rb * peri);
+                                totalGas = totalGas + rb * peri;
+                            }
+                        }
 //                       if(i < Nch) {
 //                           GeomA(i, x1, x2, Peri1, Peri2, Ap);
 //                       } else {
@@ -2412,8 +2452,31 @@ browseArray.add(thrust);
 //                       //FIND MIXTURE RATIO OF COMBUSTION GAS FROM THE TWO PROPELLANTS
 //                       gas1 = gas1 + rb1[i]*Peri1[i];
 //                       gas2 = gas2 + rb2[i]*Peri2[i];
-//                   }
-//                   //FIND MIXTURE RATIO OF COMBUSTION GAS FROM THE TWO PROPELLANTS
+                    }
+                    segments[0].setSections(segments[1].getSections());
+                    segments[0].setSectionL(segments[1].getSectionL());
+                    //FIND MIXTURE RATIO OF COMBUSTION GAS FROM THE TWO PROPELLANTS
+                    double Rmix = 0;
+                    double Tmix = 0;
+                    double Gammix = 0;
+                    for (int i = 1; i <= N; i++) {
+
+                        for (int j = 0; j < segments[i].getSections().size(); j++) {
+                            SectionInfo section = segments[i].getSections().get(j);
+
+                            for (int k = 0; k < section.getLayers().size(); k++) {
+                                PropellantLayer l = section.getLayers().get(k);
+                                double gas = l.getGas();
+                                double R = l.getGasConst();
+                                double T = l.getGasTemp();
+                                double Gamma = l.getHeatRatio();
+                                l.setGasFrac(gas / totalGas);
+                                Rmix = Rmix + R * gas / totalGas;
+                                Tmix = Tmix + T * gas / totalGas;
+                                Gammix = Gammix + Gamma * gas / totalGas;
+                            }
+                        }
+                    }
 //                   if(gas1==0 && gas2==0) {
 //                       gasfrac1 = 1;
 //                       gasfrac2 = 0;
@@ -2424,35 +2487,83 @@ browseArray.add(thrust);
 //                   double Rmix = R1*gasfrac1 + R2*gasfrac2;
 //                   double Tmix = T1*gasfrac1 + T2*gasfrac2;
 //                   double Gammix = gamma1*gasfrac1 + gamma2*gasfrac2;
-//                   //calculate m0
+                    //calculate m0
+                    double mdot0 = IgnitionMassFlow(t);
+                    double AP0 = 0;
+                    double Peri0 = 0;
+                    for (int i = 0; i < segments[0].getSections().get(0).getLayers().size(); i++) {
+                        AP0 = AP0 + segments[0].getSections().get(0).getLayers().get(i).getAp();
+                        Peri0 = Peri0 + segments[0].getSections().get(0).getLayers().get(i).getPeri();
+                    }
+                    double mach0 = mdot0 / P / AP0 * Math.sqrt(Rmix * Tmix / Gammix);
+                    segments[0].getSections().get(0).setMdot(mdot0);
+                    segments[0].getSections().get(0).setMach(mach0);
 //                   mdot[0] = IgnitionMassFlow(t);
 //                   mach[0] = mdot[0]/P/Ap[0]*Math.sqrt(Rmix*Tmix/Gammix);
 //                   //System.out.println("mdot0: "+mdot[0]+",R:"+Rmix+",T:"+Tmix+",Gam:"+Gammix);
-//                   double G0 = 0.0;
-//                   double D0 = 0.0;
-//                   double B0 = 0.0;
-//                   if(mdot[0]==0) {
+                    double G0 = 0.0;
+                    double D0 = 0.0;
+                    double B0 = 0.0;
+
+                    if (mdot0 == 0) {
 //                       rb1[0] = rb_m0_1[0];
 //                       rb2[0] = rb_m0_2[0];
-//                   } else {
-//                       G0 = mdot[0]/Ap[0];
-//                       D0 = 4*Ap[0]/(Peri1[0]+Peri2[0]);
+                        for (int i = 0; i < segments[0].getSections().get(0).getLayers().size(); i++) {
+                            segments[0].getSections().get(0).getLayers().get(i).setRb(segments[0].getSections().get(0).getLayers().get(i).getRb_m0());
+
+                        }
+                    } else {
+                        G0 = mdot0 / AP0;
+                        D0 = 4 * AP0 / Peri0;
+                        for (int i = 0; i < segments[0].getSections().get(0).getLayers().size(); i++) {
+                            PropellantLayer l = segments[0].getSections().get(0).getLayers().get(i);
+                            B0 = 53 * l.getRb() * l.getDensity() / G0;
+                            double rb_m0 = l.getRb_m0();
+                            double rb = l.getRb();
+                            double alpha = l.getBurningConst() / Math.pow(10, 7);
+                            rb = rb_m0 + alpha * (Math.pow(G0, 0.8)) * (Math.pow(D0, -0.2)) * Math.exp(-1 * B0);
+                        }
 //                       B0 = 53*rb1[0]*rho1/G0;
 //                       rb1[0] = rb_m0_1[0]+alpha1*(Math.pow(G0, 0.8))*(Math.pow(D0,-0.2))*Math.exp(-1*B0);
 //                       rb2[0] = rb_m0_2[0]+alpha2*(Math.pow(G0, 0.8))*(Math.pow(D0,-0.2))*Math.exp(-1*B0);
-//                   }
+                    }
 //                   //System.out.println("Ap:"+Ap[0]+"Peri1:"+Peri1[0]+"Peri2:"+Peri2[0]+"G0: "+G0+",B0:"+B0+",D0:"+D0);
 //                   //System.out.println("rb1_0: "+rb1[0]+",rb2_0:"+rb2[0]+",rbm0_1:"+rb_m0_1[0]+",rbm0_2:"+rb_m0_2[0]);
 //                   //calculate m1,...,mN
-//                   double GA = 0.0;
-//                   double DA = 0.0;
-//                   double BA1 = 0.0;
+                    double GA = 0.0;
+                    double DA = 0.0;
+                    double BA = 0.0;
 //                   double BA2 = 0.0;
-//                   double G = 0.0;
-//                   double D = 0.0;
-//                   double B1 = 0.0;
+                    double G = 0.0;
+                    double D = 0.0;
+                    double B = 0.0;
 //                   double B2 = 0.0;
-//                   for(int i = 1;i <= N;i++) {
+                    
+                    for (int i = 1; i <= N; i++) {
+                        for (int j = 0; j < segments[i].getSections().size(); i++) {
+                            SectionInfo section = segments[i].getSections().get(j);
+                            SectionInfo lastSection = segments[i-1].getSections().get(segments[i-1].getSections().size()-1);
+                            if(j>0) {
+                                lastSection = segments[i].getSections().get(j-1);
+                            }
+                            double curPeri = 0;
+                            for (int k = 0; k < section.getLayers().size(); k++) {
+                                PropellantLayer l = section.getLayers().get(k);
+                                curPeri = curPeri + l.getPeri();
+                            }
+                            if (curPeri > 0) {
+                                // Calculate dummy mass flow rate
+                                double cur_mdotA = section.getMdotA();
+                                double last_mdot = lastSection.getMdot();
+                                
+                                double producedM  = 0;
+                                
+                                for (int k = 0; k < lastSection.getLayers().size(); k++) {
+                                    PropellantLayer l = lastSection.getLayers().get(k);
+                                    
+                                    
+                                }
+                            }
 //                       if(Peri1[i]+Peri2[i]>0) {
 //                           // Calculate dummy mass flow rate
 //                           mdotA[i] = mdot[i-1]+((rb1[i-1]*(Peri1[i-1]+Peri1[i])/2)*Ln*rho1 + (rb2[i-1]*(Peri2[i-1]+Peri2[i])/2)*Ln*rho2);
@@ -2488,7 +2599,8 @@ browseArray.add(thrust);
 //                           rb2[i] = 0;
 //                       }
 //                       //System.out.println("mdotI: "+mdot[i]+",mdotA: "+mdotA[i]+",RBM01: "+rb_m0_1[i]+",RB1A: "+rb1a[i]+",GA: "+GA+",DA: "+DA+",ApI: "+Ap[i]+",peri1I: "+Peri1[i]+",peri2I: "+Peri2[i]+",L: "+Ln);
-//                   }
+                        }
+                    }
 //                   if(Peri1[0]+Peri2[0]==0) {
 //                       rb1[0] = 0;
 //                       rb2[0] = 0;
@@ -2510,7 +2622,8 @@ browseArray.add(thrust);
 //                       Pg = P;
 //                   }
 //
-//                } while (!isConverged);
+                } while (!isConverged);
+
 //                System.out.println("Converged Pressure: "+P); 
 //                if(mdot[N]==0) {
 //                    isAborted = true;
@@ -2560,26 +2673,26 @@ browseArray.add(thrust);
 //                    isAborted = true;
 //                }
 //
-            }
-//        
-//            outputWin.saveOutputBtn.setEnabled(true);
-//            outputWin.abortBtn.setEnabled(false);
+            } //        
+            //            outputWin.saveOutputBtn.setEnabled(true);
+            //            outputWin.abortBtn.setEnabled(false);
         }
-        
+
         private double IgnitionMassFlow(double T) {
-        
+
             double Tig = 0.3;        //igniter burn time (s) default 0.3
             double Mig = 0.02;          //igniter mass (kg)  default 0.02
 
-            if(T<=Tig) {
-                return Mig/Tig;
-            }  else {
+            if (T <= Tig) {
+                return Mig / Tig;
+            } else {
                 return 0;
-            }       
+            }
         }
-    
-//        private void GeomA(int idx, double [] x1, double [] x2, double [] Peri1, double [] Peri2, double [] Ap) {
-//
+
+        private void Geom(SectionInfo section) {
+            List<BurningDistance> distanceLayer = section.getBurningList();
+            List<PropellantLayer> propLayers = section.getLayers();
 //            DefaultTableModel table1 = (DefaultTableModel) propGeoWin.jTable1.getModel();
 //            DefaultTableModel table2 = (DefaultTableModel) propGeoWin.jTable2.getModel();
 //            int numrows = Integer.parseInt(propGeoWin.numrowsA.getText());
@@ -2613,7 +2726,28 @@ browseArray.add(thrust);
 //                    ap2d[i] = 0;
 //                }
 //            }
-//
+            BurningDistance lastLayer = distanceLayer.get(distanceLayer.size() - 1);
+
+            for (int i = 0; i < propLayers.size(); i++) {
+                PropellantLayer propLayer = propLayers.get(i);
+                double curX = propLayer.getX(); //get current burnt distance of this layer
+                double maxX = propLayer.getMaxBurningDistance(); //get max burnt distance of this layer
+
+                if (curX >= maxX) {
+                    propLayer.setPeri(lastLayer.getPeripheral());
+                    propLayer.setAp(lastLayer.getPortArea());
+                } else {
+                    for (int j = 0; j < distanceLayer.size() - 1; j++) {
+                        BurningDistance bdp = distanceLayer.get(j);
+                        BurningDistance bdn = distanceLayer.get(j + 1);
+                        if (curX >= bdp.getDistance() && curX < bdn.getDistance()) {
+                            double AP = bdp.getPortArea() + (bdn.getPortArea() - bdp.getPortArea()) / (bdn.getDistance() - bdp.getDistance()) * (curX - bdp.getDistance());
+                            double Peri = bdp.getPeripheral() + (bdn.getPeripheral() - bdp.getPeripheral()) / (bdn.getDistance() - bdp.getDistance()) * (curX - bdp.getDistance());
+                            propLayer.setAp(AP);
+                        }
+                    }
+                }
+            }
 //            for(int i=0;i<numrows;i++) {
 //                if(x1[idx]>=x1d[i] && x1[idx]<x1d[i+1]) {
 //                    ap1 = ap1d[i]+(ap1d[i+1]-ap1d[i])/(x1d[i+1]-x1d[i])*(x1[idx]-x1d[i]);
@@ -2638,7 +2772,7 @@ browseArray.add(thrust);
 //
 //
 //
-//        }
+        }
 //
 //        private void GeomB(int idx, double [] x1, double [] x2, double [] Peri1, double [] Peri2, double [] Ap) {
 //
@@ -2702,16 +2836,13 @@ browseArray.add(thrust);
 //
 //        }
 //        
-//        public void kill() {
-//            isAborted = true;
-//        }
-//        
-//    
-//    }
-//    
-//    public void killThread() {
-//        calThread.kill();
-//    }
+
+        public void kill() {
+            isAborted = true;
+        }
+
+    }
+
     class ExtensionFileFilter extends FileFilter {
 
         String description;
@@ -2796,7 +2927,7 @@ browseArray.add(thrust);
     byte[] data;
     private SectionInfo selectedSection;
     private PropellantLayer selectedLayer;
-    
+
     // Variables declaration - do not modify
     private javax.swing.JButton addPropellantBt;
     private javax.swing.JButton addSectionBT;
@@ -2847,6 +2978,7 @@ browseArray.add(thrust);
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
+    private javax.swing.JLabel precisionLabel;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
@@ -2855,8 +2987,9 @@ browseArray.add(thrust);
     private javax.swing.JSpinner guessPSI;
     private javax.swing.JSpinner specificImp;
     private javax.swing.JSpinner jSpinner5;
-    private javax.swing.JSpinner jSpinner6;
+    private javax.swing.JSpinner stoptime;
     private javax.swing.JSpinner numSegments;
+    private javax.swing.JSpinner outputPrecision;
     private javax.swing.JTabbedPane sectionPropertiesTabbedPanel;
     private javax.swing.JMenuItem loadConfItem;
     private javax.swing.JMenuBar mainMenuBar;
@@ -2913,7 +3046,7 @@ browseArray.add(thrust);
     public ITrace2D traceComparePressure;
     private javax.swing.JPanel chartPanelThrust;
     private javax.swing.JPanel chartPanelPressure;
-    
+
     private javax.swing.JButton browseCompareButton;
     private javax.swing.JPanel chartPanel;
 }
