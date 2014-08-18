@@ -270,6 +270,7 @@ public class MainWindow extends javax.swing.JFrame {
         arrowLeftButton = new javax.swing.JButton();
         arrowDownButton = new javax.swing.JButton();
         centerButton = new javax.swing.JButton();
+        calBurningDistanceBtn = new javax.swing.JButton();
 
         diameterSpinnerNumberModel = new SpinnerNumberModel(0.0, -1000.0, 1000.0, 0.1);
         lengthSpinnerNumberModel = new SpinnerNumberModel(0.0, -1000.0, 1000.0, 0.1);
@@ -743,6 +744,13 @@ public class MainWindow extends javax.swing.JFrame {
         zoomOutPropellantBt.setIcon(new javax.swing.ImageIcon(getClass().getResource("/dti/icon/zoom_out.png"))); // NOI18N
         zoomOutPropellantBt.setToolTipText("");
 
+        calBurningDistanceBtn.setText("Calculate Burning Distance");
+        calBurningDistanceBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                calBurningDistanceBtnActionPerformed(evt);
+            }
+        });
+        
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -813,6 +821,10 @@ public class MainWindow extends javax.swing.JFrame {
                                         .addComponent(zoomOutPropellantBt)
                                         .addGap(0, 0, Short.MAX_VALUE))
                                 .addGroup(viewControlPanelLayout.createSequentialGroup()
+                                        .addGap(18, 18, 18)
+                                        .addComponent(calBurningDistanceBtn)
+                                        .addGap(0, 0, Short.MAX_VALUE))
+                                .addGroup(viewControlPanelLayout.createSequentialGroup()
                                         .addComponent(arrowLeftButton, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                         .addGroup(viewControlPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -846,7 +858,8 @@ public class MainWindow extends javax.swing.JFrame {
                         .addGroup(viewControlPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                 .addComponent(zoomInPropellantBt)
                                 .addComponent(zoomOutPropellantBt))
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(calBurningDistanceBtn))
         );
 
         sectionPropertiesTabbedPanel.addTab("Propellant Geometric", jPanel2);
@@ -1961,6 +1974,8 @@ public class MainWindow extends javax.swing.JFrame {
         cad.zoom(cadPanelShape, selectedSection.getCADDoc(), selectedSection.zoomLevel, selectedSection.panX, selectedSection.panY);
 
     }
+    
+    
 
     private void centerButtonActionPerformed(java.awt.event.ActionEvent evt) {
         cad.zoom(cadPanelShape, selectedSection.getCADDoc(), selectedSection.zoomLevel, 0, 0);
@@ -1968,6 +1983,13 @@ public class MainWindow extends javax.swing.JFrame {
         selectedSection.panY = 0;
     }
 
+    private void calBurningDistanceBtnActionPerformed(java.awt.event.ActionEvent evt) {
+        if(selectedSection.isIsCircle()) {
+            
+        }
+
+    }
+    
     private void innerDiameterSpinStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_innerDiameterSpinStateChanged
         // newInnerDiameter = (Integer)innerDiameterSpinner.getValue();
         Double newInnerDiameter = (Double) innerDiameterSpinner.getValue();
@@ -2389,7 +2411,7 @@ public class MainWindow extends javax.swing.JFrame {
                     SectionInfo section = sectionList.get(j);
                     for (int k = 0; k < section.getLayers().size(); k++) {
                         PropellantLayer l = section.getLayers().get(k);
-                        l.setX(0);
+                        l.setX(0); //set burning distance to 0
                         double rb0 = l.getBurningRate();
                         double n = l.getPressureExponent();
                         l.setA_factor(rb0 / (Math.pow(P0, n)));
@@ -2541,7 +2563,7 @@ public class MainWindow extends javax.swing.JFrame {
 //                   double B2 = 0.0;
 
                     for (int i = 1; i <= N; i++) {
-                        for (int j = 0; j < segments[i].getSections().size(); i++) {
+                        for (int j = 0; j < segments[i].getSections().size(); j++) {
                             SectionInfo section = segments[i].getSections().get(j);
                             SectionInfo lastSection = segments[i - 1].getSections().get(segments[i - 1].getSections().size() - 1);
                             if (j > 0) {
@@ -2595,92 +2617,120 @@ public class MainWindow extends javax.swing.JFrame {
                                 cur_mdot = last_mdot;
                                 for (int k = 0; k < section.getLayers().size(); k++) {
                                     PropellantLayer l = section.getLayers().get(k);
-                                    if(GA==0) {
+                                    PropellantLayer ll = lastSection.getLayers().get(k);
+                                    if (GA == 0) {
                                         BA = Math.pow(10, 11);
-                                        
+
                                     } else {
                                         BA = 53 * l.getRb() * l.getDensity() / GA;
-                                        
+
                                     }
                                     double rb_m0 = l.getRb_m0();
                                     double rb_a = l.getRbA();
-                                    
+
                                     double alpha = l.getBurningConst() / Math.pow(10, 7);
-                                    rb_a = rb_m0+alpha*(Math.pow(GA, 0.8))*(Math.pow(DA,-0.2))*Math.exp(-1*BA);
+                                    rb_a = rb_m0 + alpha * (Math.pow(GA, 0.8)) * (Math.pow(DA, -0.2)) * Math.exp(-1 * BA);
                                     l.setRbA(rb_a);
-                                    cur_mdot = cur_mdot; 
+                                    double lastRb = ll.getRb();
+                                    double lastPeri = ll.getPeri();
+                                    if (j > 0) {
+                                        lastRb = l.getRb();
+                                        lastPeri = l.getPeri();
+                                    }
+                                    cur_mdot = cur_mdot + ((lastRb * lastPeri + l.getRbA() * l.getPeri()) / 2) * Ls * l.getDensity();
                                     //                           mdot[i] = mdot[i-1]+(((rb1[i-1]*Peri1[i-1]+rb1a[i]*Peri1[i])/2)*Ln*rho1 + ((rb2[i-1]*Peri2[i-1]+rb2a[i]*Peri2[i])/2)*Ln*rho2);
-//                           mach[i] = (mdot[i]/P/Ap[0])*Math.sqrt(Rmix*Tmix/Gammix);
 
                                 }
-                            }
-                        }
-                    }
-//                       if(Peri1[i]+Peri2[i]>0) {
-//                           // Calculate dummy mass flow rate
-//                           mdotA[i] = mdot[i-1]+((rb1[i-1]*(Peri1[i-1]+Peri1[i])/2)*Ln*rho1 + (rb2[i-1]*(Peri2[i-1]+Peri2[i])/2)*Ln*rho2);
-//                           machA[i] = (mdotA[i]/P/Ap[0])*Math.sqrt(Rmix*Tmix/Gammix);
-//                           GA = mdotA[i]/Ap[i];
-//                           DA = 4*Ap[i]/(Peri1[i]+Peri2[i]);
-//                           if(GA==0) {
-//                               BA1 = Math.pow(10, 11);
-//                               BA2 = Math.pow(10, 11);
-//                           } else {
-//                               BA1 = 53*rb1[i]*rho1/GA;
-//                               BA2 = 53*rb2[i]*rho2/GA;
-//                           }
-//                           // BURNING RATE USING MASS FLOW RATE FROM LAST SEGMENT
-//                           rb1a[i] = rb_m0_1[i]+alpha1*(Math.pow(GA, 0.8))*(Math.pow(DA,-0.2))*Math.exp(-1*BA1);
-//                           rb2a[i] = rb_m0_2[i]+alpha2*(Math.pow(GA, 0.8))*(Math.pow(DA,-0.2))*Math.exp(-1*BA2);
-//                           mdot[i] = mdot[i-1]+(((rb1[i-1]*Peri1[i-1]+rb1a[i]*Peri1[i])/2)*Ln*rho1 + ((rb2[i-1]*Peri2[i-1]+rb2a[i]*Peri2[i])/2)*Ln*rho2);
-//                           mach[i] = (mdot[i]/P/Ap[0])*Math.sqrt(Rmix*Tmix/Gammix);
-//
-//                           G = mdot[i]/Ap[i];
+                                cur_mach = (cur_mdot / P / AP0) * Math.sqrt(Rmix * Tmix / Gammix);
+                                G = cur_mdot / curAp;
+                                D = 4 * curAp / curPeri;
+                                for (int k = 0; k < section.getLayers().size(); k++) {
+                                    PropellantLayer l = section.getLayers().get(k);
+                                    B = 53 * l.getRb() * l.getDensity() / G;
+                                    double rb_m0 = l.getRb_m0();
+                                    double alpha = l.getBurningConst() / Math.pow(10, 7);
+                                    double rb = rb_m0 + alpha * (Math.pow(G, 0.8)) * (Math.pow(D, -0.2)) * Math.exp(-1 * B);
+                                    l.setRb(rb);
+                                }
+                                section.setMdotA(cur_mdotA);
+                                section.setMdot(cur_mdot);
+                                section.setMach(cur_mach);
+                                section.setMachA(cur_machA);
+//                           mach[i] = (mdot[i]/P/Ap[0])*Math.sqrt(Rmix*Tmix/Gammix); 
+                                //                           G = mdot[i]/Ap[i];
 //                           D = 4*Ap[i]/(Peri1[i]+Peri2[i]);
 //                           B1 = 53*rb1[i]*rho1/G;
 //                           B2 = 53*rb2[i]*rho2/G;
 //                           // correct burning rate
 //                           rb1[i] = rb_m0_1[i]+alpha1*(Math.pow(G, 0.8))*(Math.pow(D,-0.2))*Math.exp(-1*B1);
 //                           rb2[i] = rb_m0_2[i]+alpha2*(Math.pow(G, 0.8))*(Math.pow(D,-0.2))*Math.exp(-1*B2);
-//                       } else {
-//                           mdotA[i] = mdot[i-1];
+                            } else {
+                                section.setMdotA(lastSection.getMdot());
+                                section.setMdot(lastSection.getMdot());
+                                for (int k = 0; k < section.getLayers().size(); k++) {
+                                    PropellantLayer l = section.getLayers().get(k);
+                                    l.setRbA(0.0);
+                                    l.setRb(0.0);
+                                }
+                                //                           mdotA[i] = mdot[i-1];
 //                           mdot[i] = mdot[i-1];
 //                           rb1a[i] = 0;
 //                           rb2a[i] = 0;
 //                           rb1[i] = 0;
 //                           rb2[i] = 0;
-//                       }
-//                       //System.out.println("mdotI: "+mdot[i]+",mdotA: "+mdotA[i]+",RBM01: "+rb_m0_1[i]+",RB1A: "+rb1a[i]+",GA: "+GA+",DA: "+DA+",ApI: "+Ap[i]+",peri1I: "+Peri1[i]+",peri2I: "+Peri2[i]+",L: "+Ln);
-//                        }
-//                    }
-//                   if(Peri1[0]+Peri2[0]==0) {
-//                       rb1[0] = 0;
-//                       rb2[0] = 0;
-//                   }
-//
-//                   if(mdot[N]==0) {
-//                       break;
-//                   }
-//                   double k = 2*Math.pow(Gammix,2)/(Gammix-1);
-//                   double k1 = Math.pow(2/(Gammix+1),(Gammix+1)/(Gammix-1));
-//                   double k2 = 1-Math.pow(101356.5 / P,(Gammix-1)/Gammix);
-//                   CF = Math.sqrt(k*k1*k2);
-//                   double CStar = Isp * 9.80665 / CF;
-//                   System.out.println("mdotN: "+mdot[N]+", C*: "+CStar+", At: "+ At);
-//                   P = mdot[N] * CStar / At; 
-//                   if(Math.abs((Pg-P)/P)<climit) {
-//                       isConverged = true;
-//                   } else {
-//                       Pg = P;
-//                   }
+
+                            }
+                        }
+                    }
+
+                    double peri0 = 0.0;
+                    for (int i = 0; i < segments[0].getSections().get(0).getLayers().size(); i++) {
+                        PropellantLayer l = segments[0].getSections().get(0).getLayers().get(i);
+                        peri0 = peri0 + l.getPeri();
+                    }
+                    if (peri0 == 0) {
+                        for (int i = 0; i < segments[0].getSections().get(0).getLayers().size(); i++) {
+                            PropellantLayer l = segments[0].getSections().get(0).getLayers().get(i);
+                            l.setRb(0);
+                        }
+                    }
+                    SectionInfo lastSection = segments[N].getSections().get(segments[N].getSections().size() - 1);
+                    if (lastSection.getMdot() == 0) {
+                        break;
+                    }
+
+                    double k = 2 * Math.pow(Gammix, 2) / (Gammix - 1);
+                    double k1 = Math.pow(2 / (Gammix + 1), (Gammix + 1) / (Gammix - 1));
+                    double k2 = 1 - Math.pow(101356.5 / P, (Gammix - 1) / Gammix);
+                    CF = Math.sqrt(k * k1 * k2);
+                    double CStar = Isp * 9.80665 / CF;
+                    System.out.println("mdotN: " + lastSection.getMdot() + ", C*: " + CStar + ", At: " + At);
+                    P = lastSection.getMdot() * CStar / At;
+                    if (Math.abs((Pg - P) / P) < climit) {
+                        isConverged = true;
+                    } else {
+                        Pg = P;
+                    }
 //
                 } while (!isConverged);
 
-//                System.out.println("Converged Pressure: "+P); 
-//                if(mdot[N]==0) {
-//                    isAborted = true;
-//                }
-//
+                System.out.println("Converged Pressure: " + P);
+                SectionInfo lastSection = segments[N].getSections().get(segments[N].getSections().size() - 1);
+                if (lastSection.getMdot() == 0) {
+                    isAborted = true;
+                }
+                for (int i = 0; i <= N; i++) {
+                    for (int j = 0; j < segments[i].getSections().size(); j++) {
+                        SectionInfo sect = segments[i].getSections().get(j);
+                        for(int k=0;k<sect.getLayers().size();k++) {
+                            PropellantLayer l = sect.getLayers().get(k);
+                            double x = l.getX()+l.getRb()*tdelta;
+                            if(x>=l.getBurningStartDistance()) {
+                            l.setX(x);
+                            }
+                        }
+                    }
+                }
 //                for(int i = 0;i <= N;i++) {
 //                    x1[i] = x1[i] + rb1[i]*tdelta;
 //                    if(i < Nch) {
@@ -2698,11 +2748,11 @@ public class MainWindow extends javax.swing.JFrame {
 //                    }
 //                }
 //
-//                t = t + tdelta;
-//                double delta_tprint = 0.1;
-//                if(t>=tprint) {
-//
-//                    double out_t = (double)Math.round(tprint*Math.pow(10,precision))/Math.pow(10,precision);
+                t = t + tdelta;
+                double delta_tprint = 0.1;
+                if(t>=tprint) {
+                    double precision = Double.parseDouble(outputPrecision.getValue().toString());
+                    double out_t = (double)Math.round(tprint*Math.pow(10,precision))/Math.pow(10,precision);
 //                    double out_x1_head = (double)Math.round(x1[0]*1000*Math.pow(10,precision))/Math.pow(10,precision);
 //                    double out_x1_mid = (double)Math.round(x1[Math.round(N/2)]*1000*Math.pow(10,precision))/Math.pow(10,precision);
 //                    double out_x1_tail8 = (double)Math.round(x1[N-8]*1000*Math.pow(10,precision))/Math.pow(10,precision);
@@ -2712,13 +2762,15 @@ public class MainWindow extends javax.swing.JFrame {
 //                    double out_x1_tail2 = (double)Math.round(x1[N-2]*1000*Math.pow(10,precision))/Math.pow(10,precision);
 //                    double out_x1_tail1 = (double)Math.round(x1[N-1]*1000*Math.pow(10,precision))/Math.pow(10,precision);
 //                    double out_x1_tail = (double)Math.round(x1[N]*1000*Math.pow(10,precision))/Math.pow(10,precision);
-//                    double out_P = (double)Math.round(P/6895);
-//                    double out_thrust = (double)Math.round(P * At * CF / 9.8 * 2.204*Math.pow(10,precision))/Math.pow(10,precision);
-//                    DefaultTableModel outTableModel = (DefaultTableModel) outputWin.outputTable.getModel();
-//                    outTableModel.addRow(new Object[]{out_t,out_x1_head,out_x1_mid,out_x1_tail8,out_x1_tail6,out_x1_tail4,out_x1_tail3,out_x1_tail2,out_x1_tail1,out_x1_tail,out_P,out_thrust});
-//                    outputWin.trace.addPoint(tprint, out_thrust);
-//                    tprint = tprint + delta_tprint;
-//                }
+                    double out_P = (double)Math.round(P/6895);
+                    double out_thrust = (double)Math.round(P * At * CF / 9.8 * 2.204*Math.pow(10,precision))/Math.pow(10,precision);
+    //                DefaultTableModel outTableModel = (DefaultTableModel) outputWin.outputTable.getModel();
+    //                outTableModel.addRow(new Object[]{out_t,out_x1_head,out_x1_mid,out_x1_tail8,out_x1_tail6,out_x1_tail4,out_x1_tail3,out_x1_tail2,out_x1_tail1,out_x1_tail,out_P,out_thrust});
+                    //outputWin.trace.addPoint(tprint, out_thrust);
+                    traceOutputThrust.addPoint(tprint, out_thrust);
+                    traceOutputPressure.addPoint(tprint, out_P);
+                    tprint = tprint + delta_tprint;
+                }
 //
 //                //P < 50 * 6895
 //                if(t>delta_tprint && (P < 50 * 6895 || t >= ts)) {
@@ -3096,6 +3148,7 @@ public class MainWindow extends javax.swing.JFrame {
     private javax.swing.JButton loadPropDataBt;
     private javax.swing.JButton removeBurningRowBt;
     private javax.swing.JButton savePropDataBt;
+    private javax.swing.JButton calBurningDistanceBtn;
     public ITrace2D traceOutputThrust;
     public ITrace2D traceCompareThrust;
     public ITrace2D traceOutputPressure;

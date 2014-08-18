@@ -460,5 +460,30 @@ public class CAD {
         //jSVGCanvas.setDocument(svgDoc);
     }
 
+    public Node getInnerCircle(SVGDocument sVGDocument) {
+        Element el = sVGDocument.getElementById("ID_0");
+        NodeList nodes = el.getElementsByTagName("circle");
+        Node circle0 = nodes.item(0);
+        Element elm = (Element) circle0;
+        double minR = Double.valueOf(elm.getAttribute("r"));
+        Node inner_circle = circle0;
+        for(int i=1;i<nodes.getLength();i++) {
+            Node circleI = nodes.item(i);
+            Element elmI = (Element) circleI;
+            if(minR<Double.valueOf(elmI.getAttribute("r"))) {
+                minR = Double.valueOf(elmI.getAttribute("r"));
+                inner_circle = circleI;
+            }
+        }
+        
+        return inner_circle;
+        
+    }
+    
+    public void calculateCircleLayer(SVGDocument sVGDocument,JSVGCanvas jSVGCanvas,double distance) {
+        Node innerCircle = getInnerCircle(sVGDocument);
+        Element elm = (Element) innerCircle;
+        
+    }
     
 }

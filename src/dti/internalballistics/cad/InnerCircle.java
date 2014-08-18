@@ -1,0 +1,48 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+
+package dti.internalballistics.cad;
+
+/**
+ *
+ * @author Administrator
+ */
+public class InnerCircle {
+    
+    private double cx;
+    private double cy;
+    private double radius;
+
+    public InnerCircle() {
+    }
+
+    public double getCx() {
+        return cx;
+    }
+
+    public void setCx(double cx) {
+        this.cx = cx;
+    }
+
+    public double getCy() {
+        return cy;
+    }
+
+    public void setCy(double cy) {
+        this.cy = cy;
+    }
+
+    public double getRadius() {
+        return radius;
+    }
+
+    public void setRadius(double radius) {
+        this.radius = radius;
+    }
+    
+    
+    
+}
