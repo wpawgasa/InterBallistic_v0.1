@@ -2522,13 +2522,14 @@ public class MainWindow extends javax.swing.JFrame {
                             double rb = l.getRb();
                             double alpha = l.getBurningConst() / Math.pow(10, 7);
                             rb = rb_m0 + alpha * (Math.pow(G0, 0.8)) * (Math.pow(D0, -0.2)) * Math.exp(-1 * B0);
+                            l.setRb(rb); //set value for rb[0] in each layer 
                         }
 //                       B0 = 53*rb1[0]*rho1/G0;
 //                       rb1[0] = rb_m0_1[0]+alpha1*(Math.pow(G0, 0.8))*(Math.pow(D0,-0.2))*Math.exp(-1*B0);
 //                       rb2[0] = rb_m0_2[0]+alpha2*(Math.pow(G0, 0.8))*(Math.pow(D0,-0.2))*Math.exp(-1*B0);
                     }
 //                   //System.out.println("Ap:"+Ap[0]+"Peri1:"+Peri1[0]+"Peri2:"+Peri2[0]+"G0: "+G0+",B0:"+B0+",D0:"+D0);
-//                   //System.out.println("rb1_0: "+rb1[0]+",rb2_0:"+rb2[0]+",rbm0_1:"+rb_m0_1[0]+",rbm0_2:"+rb_m0_2[0]);
+//                   //System.out.println("rb1_0: "+asz0]+",rb2_0:"+rb2[0]+",rbm0_1:"+rb_m0_1[0]+",rbm0_2:"+rb_m0_2[0]);
 //                   //calculate m1,...,mN
                     double GA = 0.0;
                     double DA = 0.0;
@@ -2538,32 +2539,83 @@ public class MainWindow extends javax.swing.JFrame {
                     double D = 0.0;
                     double B = 0.0;
 //                   double B2 = 0.0;
-                    
+
                     for (int i = 1; i <= N; i++) {
                         for (int j = 0; j < segments[i].getSections().size(); i++) {
                             SectionInfo section = segments[i].getSections().get(j);
-                            SectionInfo lastSection = segments[i-1].getSections().get(segments[i-1].getSections().size()-1);
-                            if(j>0) {
-                                lastSection = segments[i].getSections().get(j-1);
+                            SectionInfo lastSection = segments[i - 1].getSections().get(segments[i - 1].getSections().size() - 1);
+                            if (j > 0) {
+                                lastSection = segments[i].getSections().get(j - 1);
                             }
                             double curPeri = 0;
+                            double curAp = 0;
                             for (int k = 0; k < section.getLayers().size(); k++) {
                                 PropellantLayer l = section.getLayers().get(k);
                                 curPeri = curPeri + l.getPeri();
+                                curAp = curAp + l.getAp();
                             }
                             if (curPeri > 0) {
                                 // Calculate dummy mass flow rate
+                                double cur_mdot = section.getMdot();
+                                double cur_mach = section.getMach();
                                 double cur_mdotA = section.getMdotA();
                                 double last_mdot = lastSection.getMdot();
-                                
-                                double producedM  = 0;
-                                
-                                for (int k = 0; k < lastSection.getLayers().size(); k++) {
-                                    PropellantLayer l = lastSection.getLayers().get(k);
+                                double cur_machA = section.getMachA();
+                                double producedM = 0;
+                                double Ls = segments[i].getSectionL().get(j);
+                                if (j > 0) {
+                                    G0 = last_mdot / curAp;
+                                    D0 = 4 * curAp / curPeri;
+                                    for (int k = 0; k < section.getLayers().size(); k++) {
+                                        PropellantLayer l = segments[i].getSections().get(j).getLayers().get(k);
+                                        B0 = 53 * l.getRb() * l.getDensity() / G0;
+                                        double rb_m0 = l.getRb_m0();
+                                        double rb = l.getRb();
+                                        double alpha = l.getBurningConst() / Math.pow(10, 7);
+                                        rb = rb_m0 + alpha * (Math.pow(G0, 0.8)) * (Math.pow(D0, -0.2)) * Math.exp(-1 * B0);
+                                        l.setRb(rb); //set value for rb[0] in each layer 
+                                        producedM = producedM + l.getRb() * (l.getPeri() + l.getPeri()) / 2 * Ls * l.getDensity();
+
+                                    }
+                                } else {
+                                    for (int k = 0; k < lastSection.getLayers().size(); k++) {
+                                        PropellantLayer l = lastSection.getLayers().get(k);
+                                        PropellantLayer cl = section.getLayers().get(k);
+
+                                        producedM = producedM + l.getRb() * (l.getPeri() + cl.getPeri()) / 2 * Ls * l.getDensity();
+
+                                    }
+                                }
+
+                                cur_mdotA = last_mdot + producedM;
+                                cur_machA = (cur_mdotA / P / AP0) * Math.sqrt(Rmix * Tmix / Gammix);
+                                GA = cur_mdotA / curAp;
+                                DA = 4 * curAp / curPeri;
+                                // BURNING RATE USING MASS FLOW RATE FROM LAST SEGMENT
+                                cur_mdot = last_mdot;
+                                for (int k = 0; k < section.getLayers().size(); k++) {
+                                    PropellantLayer l = section.getLayers().get(k);
+                                    if(GA==0) {
+                                        BA = Math.pow(10, 11);
+                                        
+                                    } else {
+                                        BA = 53 * l.getRb() * l.getDensity() / GA;
+                                        
+                                    }
+                                    double rb_m0 = l.getRb_m0();
+                                    double rb_a = l.getRbA();
                                     
-                                    
+                                    double alpha = l.getBurningConst() / Math.pow(10, 7);
+                                    rb_a = rb_m0+alpha*(Math.pow(GA, 0.8))*(Math.pow(DA,-0.2))*Math.exp(-1*BA);
+                                    l.setRbA(rb_a);
+                                    cur_mdot = cur_mdot; 
+                                    //                           mdot[i] = mdot[i-1]+(((rb1[i-1]*Peri1[i-1]+rb1a[i]*Peri1[i])/2)*Ln*rho1 + ((rb2[i-1]*Peri2[i-1]+rb2a[i]*Peri2[i])/2)*Ln*rho2);
+//                           mach[i] = (mdot[i]/P/Ap[0])*Math.sqrt(Rmix*Tmix/Gammix);
+
                                 }
                             }
+                        }
+                    }
 //                       if(Peri1[i]+Peri2[i]>0) {
 //                           // Calculate dummy mass flow rate
 //                           mdotA[i] = mdot[i-1]+((rb1[i-1]*(Peri1[i-1]+Peri1[i])/2)*Ln*rho1 + (rb2[i-1]*(Peri2[i-1]+Peri2[i])/2)*Ln*rho2);
@@ -2599,8 +2651,8 @@ public class MainWindow extends javax.swing.JFrame {
 //                           rb2[i] = 0;
 //                       }
 //                       //System.out.println("mdotI: "+mdot[i]+",mdotA: "+mdotA[i]+",RBM01: "+rb_m0_1[i]+",RB1A: "+rb1a[i]+",GA: "+GA+",DA: "+DA+",ApI: "+Ap[i]+",peri1I: "+Peri1[i]+",peri2I: "+Peri2[i]+",L: "+Ln);
-                        }
-                    }
+//                        }
+//                    }
 //                   if(Peri1[0]+Peri2[0]==0) {
 //                       rb1[0] = 0;
 //                       rb2[0] = 0;
@@ -2673,9 +2725,12 @@ public class MainWindow extends javax.swing.JFrame {
 //                    isAborted = true;
 //                }
 //
-            } //        
-            //            outputWin.saveOutputBtn.setEnabled(true);
-            //            outputWin.abortBtn.setEnabled(false);
+//            } 
+//        
+                //            outputWin.saveOutputBtn.setEnabled(true);
+                //            outputWin.abortBtn.setEnabled(false);
+            }
+
         }
 
         private double IgnitionMassFlow(double T) {
@@ -2744,6 +2799,7 @@ public class MainWindow extends javax.swing.JFrame {
                             double AP = bdp.getPortArea() + (bdn.getPortArea() - bdp.getPortArea()) / (bdn.getDistance() - bdp.getDistance()) * (curX - bdp.getDistance());
                             double Peri = bdp.getPeripheral() + (bdn.getPeripheral() - bdp.getPeripheral()) / (bdn.getDistance() - bdp.getDistance()) * (curX - bdp.getDistance());
                             propLayer.setAp(AP);
+                            propLayer.setPeri(Peri);
                         }
                     }
                 }
