@@ -6,6 +6,7 @@
 package dti.internalballistics;
 
 import dti.internalballistics.cad.CAD;
+import dti.internalballistics.cad.InnerCircle;
 import dti.internalballistics.cad.Point;
 import java.io.ByteArrayInputStream;
 import java.io.File;
@@ -15,6 +16,7 @@ import java.util.Vector;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.filechooser.FileFilter;
 import org.apache.batik.swing.JSVGCanvas;
+import org.w3c.dom.Document;
 import org.w3c.dom.svg.SVGDocument;
 
 /**
@@ -41,13 +43,15 @@ public class SectionInfo {
     private Double xPosition;
     private Double yPosition;
 
-    public SVGDocument CADDoc;
+    public Document CADDoc;
     public double zoomLevel = 1.0;
     public double panX = 0;
     public double panY = 0;
 
     private List<PropellantLayer> layers = new ArrayList<PropellantLayer>();
     private List<Point> points = new ArrayList<Point>();
+    private List<InnerCircle> burntCircleLayer = new ArrayList<InnerCircle>();
+    private Document burntLayerDoc;
     //private List<BurningDistance> burningList = new ArrayList<BurningDistance>();
     private Vector burningList = new Vector();
     
@@ -140,11 +144,11 @@ public class SectionInfo {
         }
     }
 
-    public SVGDocument getCADDoc() {
+    public Document getCADDoc() {
         return CADDoc;
     }
 
-    public void setCADDoc(SVGDocument CADDoc) {
+    public void setCADDoc(Document CADDoc) {
         this.CADDoc = CADDoc;
     }
 
@@ -355,5 +359,23 @@ public class SectionInfo {
     public void setMachA(double machA) {
         this.machA = machA;
     }
+
+    public List<InnerCircle> getBurntCircleLayer() {
+        return burntCircleLayer;
+    }
+
+    public void setBurntCircleLayer(List<InnerCircle> burntCircleLayer) {
+        this.burntCircleLayer = burntCircleLayer;
+    }
+
+    public Document getBurntLayerDoc() {
+        return burntLayerDoc;
+    }
+
+    public void setBurntLayerDoc(Document burntLayerDoc) {
+        this.burntLayerDoc = burntLayerDoc;
+    }
+    
+    
 
 }

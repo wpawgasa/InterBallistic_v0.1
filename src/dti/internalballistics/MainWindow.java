@@ -744,7 +744,7 @@ public class MainWindow extends javax.swing.JFrame {
         zoomOutPropellantBt.setIcon(new javax.swing.ImageIcon(getClass().getResource("/dti/icon/zoom_out.png"))); // NOI18N
         zoomOutPropellantBt.setToolTipText("");
 
-        calBurningDistanceBtn.setText("Calculate Burning Distance");
+        calBurningDistanceBtn.setText("Calculate Burning Distance from selected shape");
         calBurningDistanceBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 calBurningDistanceBtnActionPerformed(evt);
@@ -820,10 +820,7 @@ public class MainWindow extends javax.swing.JFrame {
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                         .addComponent(zoomOutPropellantBt)
                                         .addGap(0, 0, Short.MAX_VALUE))
-                                .addGroup(viewControlPanelLayout.createSequentialGroup()
-                                        .addGap(18, 18, 18)
-                                        .addComponent(calBurningDistanceBtn)
-                                        .addGap(0, 0, Short.MAX_VALUE))
+                                
                                 .addGroup(viewControlPanelLayout.createSequentialGroup()
                                         .addComponent(arrowLeftButton, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -858,8 +855,7 @@ public class MainWindow extends javax.swing.JFrame {
                         .addGroup(viewControlPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                 .addComponent(zoomInPropellantBt)
                                 .addComponent(zoomOutPropellantBt))
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(calBurningDistanceBtn))
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         sectionPropertiesTabbedPanel.addTab("Propellant Geometric", jPanel2);
@@ -929,15 +925,18 @@ public class MainWindow extends javax.swing.JFrame {
                 //                .addComponent(burningDistanceScrollPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 565, Short.MAX_VALUE)
                 burningDistancePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(burningDistancePanelLayout.createSequentialGroup()
-                        .addGap(52, 52, 52)
+                        .addGap(350, 350, 350)
                         .addComponent(addBurningRowBt)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(removeBurningRowBt)
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, burningDistancePanelLayout.createSequentialGroup()
-                        .addComponent(burningDistanceScrollPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 565, Short.MAX_VALUE))
+                        .addComponent(burntLayerCanvas, javax.swing.GroupLayout.DEFAULT_SIZE, 250, Short.MAX_VALUE)
+                        .addComponent(burningDistanceScrollPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 365, Short.MAX_VALUE))
                 .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, burningDistancePanelLayout.createSequentialGroup()
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(calBurningDistanceBtn)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(savePropDataBt)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(loadPropDataBt, javax.swing.GroupLayout.PREFERRED_SIZE, 309, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -952,12 +951,16 @@ public class MainWindow extends javax.swing.JFrame {
                 .addGroup(burningDistancePanelLayout.createSequentialGroup()
                         .addGap(14, 14, 14)
                         .addGroup(burningDistancePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(calBurningDistanceBtn)
                                 .addComponent(savePropDataBt)
                                 .addComponent(loadPropDataBt))
                         .addGap(18, 18, 18)
-                        .addComponent(burningDistanceScrollPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(burningDistancePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(burntLayerCanvas, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)        
+                        .addComponent(burningDistanceScrollPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(burningDistancePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                
                                 .addComponent(addBurningRowBt)
                                 .addComponent(removeBurningRowBt))
                         .addContainerGap(58, Short.MAX_VALUE))
@@ -1742,7 +1745,7 @@ public class MainWindow extends javax.swing.JFrame {
     }
 
     private void findCenter(SectionInfo section) {
-        SVGDocument document = section.getCADDoc();
+        Document document = section.getCADDoc();
         Element circle = document.getElementById("ID_8E0");
         section.setCx(Double.valueOf(circle.getAttribute("cx")));
         section.setCy(Double.valueOf(circle.getAttribute("cy")));
@@ -1908,7 +1911,7 @@ public class MainWindow extends javax.swing.JFrame {
         cad.resizeInnerPort(selectedSection.getCenter(), selectedSection.getNewInnerDiameter() / 2, selectedSection.getPoints(), selectedSection.getCADDoc());
         cad.setOuterShape(selectedSection.getNewOuterDiameter(), cadPanelShape, selectedSection.getCADDoc());
 
-        cadPanelShape.setSVGDocument(selectedSection.getCADDoc());
+        cadPanelShape.setDocument(selectedSection.getCADDoc());
         selectedSection.setIsCircle(false);
         selectedSection.zoomLevel = 1.0;
     }//GEN-LAST:event_starToggleButtonItemStateChanged
@@ -1985,7 +1988,7 @@ public class MainWindow extends javax.swing.JFrame {
 
     private void calBurningDistanceBtnActionPerformed(java.awt.event.ActionEvent evt) {
         if(selectedSection.isIsCircle()) {
-            
+            cad.calculateCircleLayer(burntLayerCanvas, 1.0, selectedSection);
         }
 
     }
@@ -2217,7 +2220,7 @@ public class MainWindow extends javax.swing.JFrame {
 
     public void showSVG(JSVGCanvas canvas) {
         selectedSection.setCADDoc(cad.outputSVG());
-        canvas.setSVGDocument(selectedSection.getCADDoc());
+        canvas.setDocument(selectedSection.getCADDoc());
     }
 
     public void enableComponents(Container container, boolean enable) {
@@ -3009,6 +3012,7 @@ public class MainWindow extends javax.swing.JFrame {
     SpinnerNumberModel lengthSectionSpinnerNumberModel;
     SpinnerNumberModel innerDiameterSectionSpinnerNumberModel;
     public JSVGCanvas drawCanvas = new JSVGCanvas();
+    public JSVGCanvas burntLayerCanvas = new JSVGCanvas();
     public Document document;
     public String svgNS = SVGDOMImplementation.SVG_NAMESPACE_URI;
     Element svgRoot;

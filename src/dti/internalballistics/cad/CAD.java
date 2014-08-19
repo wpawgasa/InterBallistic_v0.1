@@ -5,6 +5,7 @@
  */
 package dti.internalballistics.cad;
 
+import dti.internalballistics.SectionInfo;
 import java.awt.geom.AffineTransform;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -26,6 +27,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.text.html.HTMLEditorKit;
 import org.apache.batik.dom.svg.SAXSVGDocumentFactory;
+import org.apache.batik.dom.svg.SVGDOMImplementation;
 import org.apache.batik.swing.JSVGCanvas;
 import org.apache.batik.util.XMLResourceDescriptor;
 import org.kabeja.batik.tools.SAXPNGSerializer;
@@ -42,6 +44,8 @@ import org.kabeja.svg.SVGGenerator;
 import org.kabeja.xml.SAXGenerator;
 import org.kabeja.xml.SAXSerializer;
 import org.kabeja.xslt.SAXXMLSerializer;
+import org.w3c.dom.DOMImplementation;
+import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -83,7 +87,7 @@ public class CAD {
         }
     }
 
-    public SVGDocument outputSVG() {
+    public Document outputSVG() {
 
         SAXGenerator sAXGenerator = new SVGGenerator();
         SAXSerializer sAXSerializer = new SAXXMLSerializer();
@@ -98,9 +102,11 @@ public class CAD {
         ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(data);
         String svgParser = XMLResourceDescriptor.getXMLParserClassName();
         SAXSVGDocumentFactory sAXSVGDocumentFactory = new SAXSVGDocumentFactory(svgParser);
-        SVGDocument svgDoc = null;
+        //SVGDocument svgDoc = null;
+        Document svgDoc = null;
         try {
-            svgDoc = sAXSVGDocumentFactory.createSVGDocument(null, byteArrayInputStream);
+            String svgNS = SVGDOMImplementation.SVG_NAMESPACE_URI;
+            svgDoc = sAXSVGDocumentFactory.createDocument(svgNS, byteArrayInputStream);
             Element x = svgDoc.getElementById("ID_8E0");
             x.setAttribute("stroke", "red");
 
@@ -123,18 +129,18 @@ public class CAD {
 //                
 //            }
 //            elm.setAttribute("viewBox",newVb);
-            elm.setAttribute("width", "320");
-            elm.setAttribute("height", "320");
-            elm.setAttribute("preserveAspectRatio", "xMidYMid meet");
-//            Element rect = svgDoc.createElement("rect");
-//            rect.setAttribute("x", "0");
-//            rect.setAttribute("y", "0");
-//            rect.setAttribute("width", "100%");
-//            rect.setAttribute("height", "100%");
-//            rect.setAttribute("fill", "none");
-//            rect.setAttribute("stroke", "black");
-//            Element svgRoot = svgDoc.getDocumentElement();
-//            svgRoot.appendChild(rect);
+//            elm.setAttribute("width", "320");
+//            elm.setAttribute("height", "320");
+//            elm.setAttribute("preserveAspectRatio", "xMidYMid meet");
+            Element rect = svgDoc.createElementNS(svgNS,"rect");
+            rect.setAttribute("x", "520");
+            rect.setAttribute("y", "123");
+            rect.setAttribute("width", "400");
+            rect.setAttribute("height", "400");
+            rect.setAttribute("fill", "none");
+            rect.setAttribute("stroke", "black");
+            Element svgRoot = svgDoc.getDocumentElement();
+            svgRoot.appendChild(rect);
 
         } catch (IOException ex) {
             Logger.getLogger(CAD.class.getName()).log(Level.SEVERE, null, ex);
@@ -189,7 +195,7 @@ public class CAD {
         //dXFCircle.setRadius(newInnerRadius*2);
     }
 
-    public void setOuterShape(double newRadius, JSVGCanvas jSVGCanvas, SVGDocument svgDoc) {
+    public void setOuterShape(double newRadius, JSVGCanvas jSVGCanvas, Document svgDoc) {
 //        Element radius = svgDoc.getElementById("ID_8E0");
         Node node0 = (Node) svgDoc.getElementById("ID_0");
         NodeList nodes = node0.getChildNodes();
@@ -205,7 +211,7 @@ public class CAD {
         jSVGCanvas.setDocument(svgDoc);
     }
 
-    public void setInnerShape(double newRadius, JSVGCanvas jSVGCanvas, SVGDocument svgDoc) {
+    public void setInnerShape(double newRadius, JSVGCanvas jSVGCanvas, Document svgDoc) {
 //        Element radius = svgDoc.getElementById("ID_8E0");
         Node node0 = (Node) svgDoc.getElementById("ID_0");
         NodeList nodes = node0.getChildNodes();
@@ -221,7 +227,7 @@ public class CAD {
         jSVGCanvas.setDocument(svgDoc);
     }
 
-    public void extractInnerPort(SVGDocument svgDoc, List<Point> points) {
+    public void extractInnerPort(Document svgDoc, List<Point> points) {
         Element elm0 = svgDoc.getElementById("ID_0");
         NodeList nodes = elm0.getElementsByTagName("path");
         points.clear();
@@ -288,7 +294,7 @@ public class CAD {
 
     }
 
-    public void rearrangePath(SVGDocument svgDoc) {
+    public void rearrangePath(Document svgDoc) {
         Element el = svgDoc.getElementById("ID_0");
         NodeList nodes = el.getElementsByTagName("path");
         Node path0 = nodes.item(0);
@@ -352,7 +358,7 @@ public class CAD {
         //return svgDoc;
     }
 
-    public void resizeInnerPort(Point center, double R, List<Point> points, SVGDocument svgDoc) {
+    public void resizeInnerPort(Point center, double R, List<Point> points, Document svgDoc) {
         //new point = (Ri/Rmax)*(x,y)
         double Rmax = findMaxRadius(center, points);
         String d = "";
@@ -394,7 +400,7 @@ public class CAD {
         return max_radius;
     }
 
-    public void zoom(JSVGCanvas jSVGCanvas, SVGDocument svgDoc, double factor, double panX, double panY) {
+    public void zoom(JSVGCanvas jSVGCanvas, Document svgDoc, double factor, double panX, double panY) {
 
         NodeList nodes = svgDoc.getElementsByTagName("svg");
         Node path0 = nodes.item(0);
@@ -405,8 +411,8 @@ public class CAD {
         double y0 = Math.abs(Double.valueOf(vbVal[1]));
         double xVB = Math.abs(Double.valueOf(vbVal[2]));
         double yVB = Math.abs(Double.valueOf(vbVal[3]));
-        double w = Double.valueOf(elm.getAttribute("width"));
-        double h = Double.valueOf(elm.getAttribute("height"));
+//        double w = Double.valueOf(elm.getAttribute("width"));
+//        double h = Double.valueOf(elm.getAttribute("height"));
 
         double centerX = xVB * 0.5 + x0;
         double centerY = yVB * 0.5 + y0;
@@ -460,7 +466,7 @@ public class CAD {
         //jSVGCanvas.setDocument(svgDoc);
     }
 
-    public Node getInnerCircle(SVGDocument sVGDocument) {
+    public Node getInnerCircle(Document sVGDocument) {
         Element el = sVGDocument.getElementById("ID_0");
         NodeList nodes = el.getElementsByTagName("circle");
         Node circle0 = nodes.item(0);
@@ -470,7 +476,7 @@ public class CAD {
         for(int i=1;i<nodes.getLength();i++) {
             Node circleI = nodes.item(i);
             Element elmI = (Element) circleI;
-            if(minR<Double.valueOf(elmI.getAttribute("r"))) {
+            if(minR>Double.valueOf(elmI.getAttribute("r"))) {
                 minR = Double.valueOf(elmI.getAttribute("r"));
                 inner_circle = circleI;
             }
@@ -480,9 +486,108 @@ public class CAD {
         
     }
     
-    public void calculateCircleLayer(SVGDocument sVGDocument,JSVGCanvas jSVGCanvas,double distance) {
-        Node innerCircle = getInnerCircle(sVGDocument);
+    public Node getOuterCircle(Document sVGDocument) {
+        Element el = sVGDocument.getElementById("ID_0");
+        NodeList nodes = el.getElementsByTagName("circle");
+        Node circle0 = nodes.item(0);
+        Element elm = (Element) circle0;
+        double maxR = Double.valueOf(elm.getAttribute("r"));
+        Node outer_circle = circle0;
+        for(int i=1;i<nodes.getLength();i++) {
+            Node circleI = nodes.item(i);
+            Element elmI = (Element) circleI;
+            if(maxR<Double.valueOf(elmI.getAttribute("r"))) {
+                maxR = Double.valueOf(elmI.getAttribute("r"));
+                outer_circle = circleI;
+            }
+        }
+        
+        return outer_circle;
+        
+    }
+    
+    public void calculateCircleLayer(JSVGCanvas jSVGCanvas,double distance,SectionInfo section) {
+        Document svgDoc = section.getCADDoc();
+        Node innerCircle = getInnerCircle(svgDoc);
         Element elm = (Element) innerCircle;
+        double cx = Double.valueOf(elm.getAttribute("cx"));
+        double cy = Double.valueOf(elm.getAttribute("cy"));
+        double r = Double.valueOf(elm.getAttribute("r"));
+        
+        double peri = 2*Math.PI*r;
+        double area = Math.PI*Math.pow(r, 2);
+        
+        InnerCircle circle = new InnerCircle();
+        circle.setCx(cx);
+        circle.setCy(cy);
+        circle.setRadius(r);
+        circle.setPeri(peri);
+        circle.setArea(area);
+        
+        List<InnerCircle> burntLayers = section.getBurntCircleLayer();
+        burntLayers.clear();
+        burntLayers.add(circle);
+        
+        Node outerCircle = getOuterCircle(section.getCADDoc());
+        Element elmO = (Element) outerCircle;
+        double outerR = Double.valueOf(elmO.getAttribute("r"));
+        //Element el = svgDoc.getElementById("ID_0");
+        DOMImplementation dOMImplementation = SVGDOMImplementation.getDOMImplementation();
+        String svgNS = SVGDOMImplementation.SVG_NAMESPACE_URI;
+        Document document = dOMImplementation.createDocument(svgNS, "svg", null);
+
+        Element svgRoot = document.getDocumentElement();
+
+        //svgRoot.setAttributeNS(svgNS, "width", "1000");
+        //svgRoot.setAttributeNS(svgNS, "height", "450");
+                NodeList nodes = svgDoc.getElementsByTagName("svg");
+        Node path0 = nodes.item(0);
+        Element elm0 = (Element) path0;
+        String vb = elm0.getAttribute("viewBox");
+        
+        svgRoot.setAttribute("viewBox", vb);
+                Element g = document.createElementNS(svgNS, "g");
+        g.setAttribute("id", "draft");
+        g.setAttribute("transform", "matrix(1 0 0 -1 0 0)");
+        g.setAttribute("stroke-width", "0.02%");
+        svgRoot.appendChild(g);
+//                    Element circleElm = document.createElementNS(svgNS, "circle");
+//            circleElm.setAttribute("cx", String.valueOf(circle.getCx()));
+//            circleElm.setAttribute("cy", String.valueOf(circle.getCy()));
+//            circleElm.setAttribute("r", String.valueOf(circle.getRadius()));
+//
+//            circleElm.setAttribute("fill", "none");
+//            circleElm.setAttribute("stroke", "black");
+//        g.appendChild(circleElm);
+
+
+        while(r<=outerR) {
+            r = r+distance;
+            peri = 2*Math.PI*r;
+            area = Math.PI*Math.pow(r, 2);
+            circle.setRadius(r);
+            circle.setPeri(peri);
+            circle.setArea(area);
+            burntLayers.add(circle);
+            Element circleElm = document.createElementNS(svgNS, "circle");
+            circleElm.setAttribute("cx", String.valueOf(circle.getCx()));
+            circleElm.setAttribute("cy", String.valueOf(circle.getCy()));
+            circleElm.setAttribute("r", String.valueOf(circle.getRadius()));
+
+            circleElm.setAttribute("fill", "none");
+            circleElm.setAttribute("stroke", "black");
+            
+            g.appendChild(circleElm);
+            
+            
+        }
+//        NodeList nodes = node0.getChildNodes();
+//        int len = nodes.getLength();
+        section.setBurntLayerDoc(document);
+        jSVGCanvas.setDocument(document);
+        
+        
+        
         
     }
     
