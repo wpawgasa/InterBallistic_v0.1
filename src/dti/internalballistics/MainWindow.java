@@ -7,6 +7,7 @@ package dti.internalballistics;
 
 import com.apple.eawt.Application;
 import dti.internalballistics.cad.CAD;
+import dti.internalballistics.cad.InnerCircle;
 import dti.internalballistics.cad.OnClickAction;
 import dti.internalballistics.cad.OnLoadAction;
 import dti.internalballistics.cad.Point;
@@ -118,6 +119,8 @@ public class MainWindow extends javax.swing.JFrame {
         });
 
         setCanvas();
+        
+        calT = new calThread();
 
     }
 
@@ -1498,12 +1501,12 @@ public class MainWindow extends javax.swing.JFrame {
 
     private void runSimulateBtnActionPerformed(java.awt.event.ActionEvent evt) {
         // TODO add your handling code here:
-
+        calT.start();
     }
 
     private void abortSimulateBtnActionPerformed(java.awt.event.ActionEvent evt) {
         // TODO add your handling code here:
-
+        calT.kill();
     }
     private void rocketDiameterSpStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_rocketDiameterSpStateChanged
 //        rocketDiameter = (Double)rocketDiameterSp.getValue();
@@ -1989,7 +1992,17 @@ public class MainWindow extends javax.swing.JFrame {
     private void calBurningDistanceBtnActionPerformed(java.awt.event.ActionEvent evt) {
         if(selectedSection.isIsCircle()) {
             cad.calculateCircleLayer(burntLayerCanvas, 1.0, selectedSection);
+            DefaultTableModel model = (DefaultTableModel) burningDistanceTable.getModel();
+            model.setRowCount(0);
+            for (int i=0;i<selectedSection.getBurntCircleLayer().size();i++) {
+                InnerCircle circle = selectedSection.getBurntCircleLayer().get(i);
+                model.addRow(new Object[]{circle.getBurntX(), circle.getArea(), circle.getPeri()});
+
+            }
+            Vector data = model.getDataVector();
+            selectedSection.setBurningList(data);
         }
+        
 
     }
     
@@ -3162,4 +3175,6 @@ public class MainWindow extends javax.swing.JFrame {
 
     private javax.swing.JButton browseCompareButton;
     private javax.swing.JPanel chartPanel;
+    
+    private calThread calT;
 }

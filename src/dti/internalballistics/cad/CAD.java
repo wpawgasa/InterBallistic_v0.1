@@ -516,13 +516,14 @@ public class CAD {
         
         double peri = 2*Math.PI*r;
         double area = Math.PI*Math.pow(r, 2);
-        
+        double burnt = 0;
         InnerCircle circle = new InnerCircle();
         circle.setCx(cx);
         circle.setCy(cy);
         circle.setRadius(r);
         circle.setPeri(peri);
         circle.setArea(area);
+        circle.setBurntX(burnt);
         
         List<InnerCircle> burntLayers = section.getBurntCircleLayer();
         burntLayers.clear();
@@ -544,9 +545,19 @@ public class CAD {
         Node path0 = nodes.item(0);
         Element elm0 = (Element) path0;
         String vb = elm0.getAttribute("viewBox");
+        String[] vbVal = vb.split("\\s+");
+        double x0 = Double.valueOf(vbVal[0]);
+        double y0 = Double.valueOf(vbVal[1]);
+        double xVB = Double.valueOf(vbVal[2]);
+        double yVB = Double.valueOf(vbVal[3]);
+        x0 = cx-outerR-20;
+        y0 = -cy-outerR-20;
+        xVB = 2*outerR+2*20;
+        yVB = 2*outerR+2*20;
         
+        vb = x0+" "+y0+" "+xVB+" "+yVB;
         svgRoot.setAttribute("viewBox", vb);
-                Element g = document.createElementNS(svgNS, "g");
+        Element g = document.createElementNS(svgNS, "g");
         g.setAttribute("id", "draft");
         g.setAttribute("transform", "matrix(1 0 0 -1 0 0)");
         g.setAttribute("stroke-width", "0.02%");
@@ -563,16 +574,21 @@ public class CAD {
 
         while(r<=outerR) {
             r = r+distance;
+            burnt = burnt+distance;
             peri = 2*Math.PI*r;
             area = Math.PI*Math.pow(r, 2);
-            circle.setRadius(r);
-            circle.setPeri(peri);
-            circle.setArea(area);
-            burntLayers.add(circle);
+            InnerCircle newCircle = new InnerCircle();
+            newCircle.setCx(cx);
+            newCircle.setCy(cy);
+            newCircle.setRadius(r);
+            newCircle.setPeri(peri);
+            newCircle.setArea(area);
+            newCircle.setBurntX(burnt);
+            burntLayers.add(newCircle);
             Element circleElm = document.createElementNS(svgNS, "circle");
-            circleElm.setAttribute("cx", String.valueOf(circle.getCx()));
-            circleElm.setAttribute("cy", String.valueOf(circle.getCy()));
-            circleElm.setAttribute("r", String.valueOf(circle.getRadius()));
+            circleElm.setAttribute("cx", String.valueOf(newCircle.getCx()));
+            circleElm.setAttribute("cy", String.valueOf(newCircle.getCy()));
+            circleElm.setAttribute("r", String.valueOf(newCircle.getRadius()));
 
             circleElm.setAttribute("fill", "none");
             circleElm.setAttribute("stroke", "black");

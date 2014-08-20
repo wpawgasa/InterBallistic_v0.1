@@ -17,6 +17,7 @@ public class InnerCircle {
     private double radius;
     private double peri;
     private double area;
+    private double burntX;
 
     public InnerCircle() {
     }
@@ -59,6 +60,14 @@ public class InnerCircle {
 
     public void setArea(double area) {
         this.area = area;
+    }
+
+    public double getBurntX() {
+        return burntX;
+    }
+
+    public void setBurntX(double burntX) {
+        this.burntX = burntX;
     }
     
     
