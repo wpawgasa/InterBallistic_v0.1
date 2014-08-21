@@ -106,7 +106,7 @@ public class MainWindow extends javax.swing.JFrame {
 
         setSpinner(rocketDiameterSp);
         setSpinner(rocketLengthSp);
-        setSpinner(guessPSI);
+        //setSpinner(guessPSI);
         setSpinner(outerDiameterSpinner);
         setSpinner(innerDiameterSpinner);
         setButtonGroup();
@@ -119,7 +119,7 @@ public class MainWindow extends javax.swing.JFrame {
         });
 
         setCanvas();
-        
+
         calT = new calThread();
 
     }
@@ -248,12 +248,12 @@ public class MainWindow extends javax.swing.JFrame {
         jLabel13 = new javax.swing.JLabel();
         runSimulateBtn = new javax.swing.JButton();
         abortSimulateBtn = new javax.swing.JButton();
-        guessPSI = new javax.swing.JSpinner();
-        specificImp = new javax.swing.JSpinner();
-        jSpinner5 = new javax.swing.JSpinner();
-        stoptime = new javax.swing.JSpinner();
-        numSegments = new javax.swing.JSpinner();
-        outputPrecision = new javax.swing.JSpinner();
+        guessPSI = new javax.swing.JTextField();
+        specificImp = new javax.swing.JTextField();
+        stopPSI = new javax.swing.JTextField();
+        stoptime = new javax.swing.JTextField();
+        numSegments = new javax.swing.JTextField();
+        outputPrecision = new javax.swing.JTextField();
         mainMenuBar = new javax.swing.JMenuBar();
         fileMenu = new javax.swing.JMenu();
         loadConfItem = new javax.swing.JMenuItem();
@@ -279,10 +279,18 @@ public class MainWindow extends javax.swing.JFrame {
         lengthSpinnerNumberModel = new SpinnerNumberModel(0.0, -1000.0, 1000.0, 0.1);
         decimalNumberModel = new SpinnerNumberModel(0.0, -1000.0, 1000.0, 0.1);
         decimalNumberModel2 = new SpinnerNumberModel(0.0, -1000.0, 1000.0, 0.1);
+        psiNumberModel = new SpinnerNumberModel(0.0, -10000.00000, 10000.00000, 0.00001);
         rocketDiameterSp = new JSpinner(diameterSpinnerNumberModel);
         rocketLengthSp = new JSpinner(lengthSpinnerNumberModel);
         ignitorMass = new JSpinner(decimalNumberModel);
         ignitorTime = new JSpinner(decimalNumberModel2);
+        guessPSI.setText("900.00000");
+        specificImp.setText("265");
+        stopPSI.setText("50");
+        stoptime.setText("10");
+        outputPrecision.setText("5");
+        numSegments.setText("40");
+
         diameterSectionSpinnerNumberModel = new SpinnerNumberModel(0.0, -1000.0, 1000.0, 0.1);
         lengthSectionSpinnerNumberModel = new SpinnerNumberModel(0.0, -1000.0, 1000.0, 0.1);
         innerDiameterSectionSpinnerNumberModel = new SpinnerNumberModel(0.0, -1000.0, 1000.0, 0.1);
@@ -756,7 +764,7 @@ public class MainWindow extends javax.swing.JFrame {
                 calBurningDistanceBtnActionPerformed(evt);
             }
         });
-        
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -826,7 +834,6 @@ public class MainWindow extends javax.swing.JFrame {
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                         .addComponent(zoomOutPropellantBt)
                                         .addGap(0, 0, Short.MAX_VALUE))
-                                
                                 .addGroup(viewControlPanelLayout.createSequentialGroup()
                                         .addComponent(arrowLeftButton, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -962,11 +969,10 @@ public class MainWindow extends javax.swing.JFrame {
                                 .addComponent(loadPropDataBt))
                         .addGap(18, 18, 18)
                         .addGroup(burningDistancePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(burntLayerCanvas, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)        
-                        .addComponent(burningDistanceScrollPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(burntLayerCanvas, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(burningDistanceScrollPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(burningDistancePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                
                                 .addComponent(addBurningRowBt)
                                 .addComponent(removeBurningRowBt))
                         .addContainerGap(58, Short.MAX_VALUE))
@@ -1117,7 +1123,7 @@ public class MainWindow extends javax.swing.JFrame {
                                                 .addGroup(simulationTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                                         .addComponent(specificImp, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 67, javax.swing.GroupLayout.PREFERRED_SIZE)
                                                         .addComponent(guessPSI, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 67, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                        .addComponent(jSpinner5, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 67, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                        .addComponent(stopPSI, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 67, javax.swing.GroupLayout.PREFERRED_SIZE)
                                                         .addComponent(stoptime, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 67, javax.swing.GroupLayout.PREFERRED_SIZE)
                                                         .addComponent(numSegments, javax.swing.GroupLayout.PREFERRED_SIZE, 67, javax.swing.GroupLayout.PREFERRED_SIZE)
                                                         .addComponent(outputPrecision, javax.swing.GroupLayout.PREFERRED_SIZE, 67, javax.swing.GroupLayout.PREFERRED_SIZE))))
@@ -1150,7 +1156,7 @@ public class MainWindow extends javax.swing.JFrame {
                         .addGroup(simulationTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                 .addComponent(jLabel7)
                                 .addComponent(jLabel12)
-                                .addComponent(jSpinner5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(stopPSI, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(simulationTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                 .addComponent(jLabel8)
@@ -1983,8 +1989,6 @@ public class MainWindow extends javax.swing.JFrame {
         cad.zoom(cadPanelShape, selectedSection.getCADDoc(), selectedSection.zoomLevel, selectedSection.panX, selectedSection.panY);
 
     }
-    
-    
 
     private void centerButtonActionPerformed(java.awt.event.ActionEvent evt) {
         cad.zoom(cadPanelShape, selectedSection.getCADDoc(), selectedSection.zoomLevel, 0, 0);
@@ -1993,11 +1997,11 @@ public class MainWindow extends javax.swing.JFrame {
     }
 
     private void calBurningDistanceBtnActionPerformed(java.awt.event.ActionEvent evt) {
-        if(selectedSection.isIsCircle()) {
+        if (selectedSection.isIsCircle()) {
             cad.calculateCircleLayer(burntLayerCanvas, 1.0, selectedSection);
             DefaultTableModel model = (DefaultTableModel) burningDistanceTable.getModel();
             model.setRowCount(0);
-            for (int i=0;i<selectedSection.getBurntCircleLayer().size();i++) {
+            for (int i = 0; i < selectedSection.getBurntCircleLayer().size(); i++) {
                 InnerCircle circle = selectedSection.getBurntCircleLayer().get(i);
                 model.addRow(new Object[]{circle.getBurntX(), circle.getArea(), circle.getPeri()});
 
@@ -2005,10 +2009,9 @@ public class MainWindow extends javax.swing.JFrame {
             Vector data = model.getDataVector();
             selectedSection.setBurningList(data);
         }
-        
 
     }
-    
+
     private void innerDiameterSpinStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_innerDiameterSpinStateChanged
         // newInnerDiameter = (Integer)innerDiameterSpinner.getValue();
         Double newInnerDiameter = (Double) innerDiameterSpinner.getValue();
@@ -2352,7 +2355,7 @@ public class MainWindow extends javax.swing.JFrame {
             double Lt = Double.parseDouble(rocketLengthSp.getValue().toString());        //Rocket Length (m)
 //            double D1A = Double.parseDouble(propGeoWin.innerGrainA.getText())/1000; //Inner grain of section A where 2nd propellant start to burnt
 //            double D1B = Double.parseDouble(propGeoWin.innerGrainB.getText())/1000; //Inner grain of section A where 2nd propellant start to burnt
-            int N = (int) numSegments.getValue();             //Number of Segment
+            int N = (int) Integer.parseInt(numSegments.getText());             //Number of Segment
 //            int Nch = Integer.parseInt(segmentChange.getText());        //Segment where port starts to change shape
             double Ln = Lt / N;                                           //Segment Length (m)
 //
@@ -2375,8 +2378,8 @@ public class MainWindow extends javax.swing.JFrame {
 //            double gamma2 = Double.parseDouble(heatcap2.getText());     //Heat Capacity Ratio
 //
 //
-            double Pg = ((double) guessPSI.getValue()) * 6895;    //Guess pressure (N/m^2)
-            double Isp = (double) specificImp.getValue();     //Specific Impulse (s)
+            double Pg = (Double.parseDouble(guessPSI.getText())) * 6895;    //Guess pressure (N/m^2)
+            double Isp = Double.parseDouble(specificImp.getText());     //Specific Impulse (s)
 //
             double P0 = 1000 * 6895;                                      //Reference pressure (N/m^2)
 //            double a1 = rb0_1/(Math.pow(P0,n1));                        //pre-exponential factor of 1st propellant
@@ -2408,8 +2411,8 @@ public class MainWindow extends javax.swing.JFrame {
 //            double[] rb1a = new double[N+1];                               //dummy burning rate of the 1st propellant at time t of each segment
 //            double[] rb2a = new double[N+1];                               //dummy burning rate of the 2nd propellant at time t of each segment
 //
-            int outprecision = (int) outputPrecision.getValue();
-            double ts = (double) stoptime.getValue();              //simulation time limit
+            int outprecision = Integer.parseInt(outputPrecision.getText());
+            double ts = Integer.parseInt(stoptime.getText());              //simulation time limit
             double CF = 0;
 //
             //initialize
@@ -2741,11 +2744,11 @@ public class MainWindow extends javax.swing.JFrame {
                 for (int i = 0; i <= N; i++) {
                     for (int j = 0; j < segments[i].getSections().size(); j++) {
                         SectionInfo sect = segments[i].getSections().get(j);
-                        for(int k=0;k<sect.getLayers().size();k++) {
+                        for (int k = 0; k < sect.getLayers().size(); k++) {
                             PropellantLayer l = sect.getLayers().get(k);
-                            double x = l.getX()+l.getRb()*tdelta;
-                            if(x>=l.getBurningStartDistance()) {
-                            l.setX(x);
+                            double x = l.getX() + l.getRb() * tdelta;
+                            if (x >= l.getBurningStartDistance()) {
+                                l.setX(x);
                             }
                         }
                     }
@@ -2769,9 +2772,9 @@ public class MainWindow extends javax.swing.JFrame {
 //
                 t = t + tdelta;
                 double delta_tprint = 0.1;
-                if(t>=tprint) {
-                    double precision = Double.parseDouble(outputPrecision.getValue().toString());
-                    double out_t = (double)Math.round(tprint*Math.pow(10,precision))/Math.pow(10,precision);
+                if (t >= tprint) {
+                    double precision = Double.parseDouble(outputPrecision.getText());
+                    double out_t = (double) Math.round(tprint * Math.pow(10, precision)) / Math.pow(10, precision);
 //                    double out_x1_head = (double)Math.round(x1[0]*1000*Math.pow(10,precision))/Math.pow(10,precision);
 //                    double out_x1_mid = (double)Math.round(x1[Math.round(N/2)]*1000*Math.pow(10,precision))/Math.pow(10,precision);
 //                    double out_x1_tail8 = (double)Math.round(x1[N-8]*1000*Math.pow(10,precision))/Math.pow(10,precision);
@@ -2781,10 +2784,10 @@ public class MainWindow extends javax.swing.JFrame {
 //                    double out_x1_tail2 = (double)Math.round(x1[N-2]*1000*Math.pow(10,precision))/Math.pow(10,precision);
 //                    double out_x1_tail1 = (double)Math.round(x1[N-1]*1000*Math.pow(10,precision))/Math.pow(10,precision);
 //                    double out_x1_tail = (double)Math.round(x1[N]*1000*Math.pow(10,precision))/Math.pow(10,precision);
-                    double out_P = (double)Math.round(P/6895);
-                    double out_thrust = (double)Math.round(P * At * CF / 9.8 * 2.204*Math.pow(10,precision))/Math.pow(10,precision);
+                    double out_P = (double) Math.round(P / 6895);
+                    double out_thrust = (double) Math.round(P * At * CF / 9.8 * 2.204 * Math.pow(10, precision)) / Math.pow(10, precision);
     //                DefaultTableModel outTableModel = (DefaultTableModel) outputWin.outputTable.getModel();
-    //                outTableModel.addRow(new Object[]{out_t,out_x1_head,out_x1_mid,out_x1_tail8,out_x1_tail6,out_x1_tail4,out_x1_tail3,out_x1_tail2,out_x1_tail1,out_x1_tail,out_P,out_thrust});
+                    //                outTableModel.addRow(new Object[]{out_t,out_x1_head,out_x1_mid,out_x1_tail8,out_x1_tail6,out_x1_tail4,out_x1_tail3,out_x1_tail2,out_x1_tail1,out_x1_tail,out_P,out_thrust});
                     //outputWin.trace.addPoint(tprint, out_thrust);
                     traceOutputThrust.addPoint(tprint, out_thrust);
                     traceOutputPressure.addPoint(tprint, out_P);
@@ -3029,7 +3032,8 @@ public class MainWindow extends javax.swing.JFrame {
     SpinnerNumberModel innerDiameterSectionSpinnerNumberModel;
     SpinnerNumberModel decimalNumberModel;
     SpinnerNumberModel decimalNumberModel2;
-    
+    SpinnerNumberModel psiNumberModel;
+
     public JSVGCanvas drawCanvas = new JSVGCanvas();
     public JSVGCanvas burntLayerCanvas = new JSVGCanvas();
     public Document document;
@@ -3115,12 +3119,12 @@ public class MainWindow extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JSpinner outerDiameterSpinner;
-    private javax.swing.JSpinner guessPSI;
-    private javax.swing.JSpinner specificImp;
-    private javax.swing.JSpinner jSpinner5;
-    private javax.swing.JSpinner stoptime;
-    private javax.swing.JSpinner numSegments;
-    private javax.swing.JSpinner outputPrecision;
+    private javax.swing.JTextField guessPSI;
+    private javax.swing.JTextField specificImp;
+    private javax.swing.JTextField stopPSI;
+    private javax.swing.JTextField stoptime;
+    private javax.swing.JTextField numSegments;
+    private javax.swing.JTextField outputPrecision;
     private javax.swing.JTabbedPane sectionPropertiesTabbedPanel;
     private javax.swing.JMenuItem loadConfItem;
     private javax.swing.JMenuBar mainMenuBar;
@@ -3181,6 +3185,6 @@ public class MainWindow extends javax.swing.JFrame {
 
     private javax.swing.JButton browseCompareButton;
     private javax.swing.JPanel chartPanel;
-    
+
     private calThread calT;
 }
