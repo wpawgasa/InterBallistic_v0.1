@@ -277,9 +277,12 @@ public class MainWindow extends javax.swing.JFrame {
 
         diameterSpinnerNumberModel = new SpinnerNumberModel(0.0, -1000.0, 1000.0, 0.1);
         lengthSpinnerNumberModel = new SpinnerNumberModel(0.0, -1000.0, 1000.0, 0.1);
+        decimalNumberModel = new SpinnerNumberModel(0.0, -1000.0, 1000.0, 0.1);
+        decimalNumberModel2 = new SpinnerNumberModel(0.0, -1000.0, 1000.0, 0.1);
         rocketDiameterSp = new JSpinner(diameterSpinnerNumberModel);
         rocketLengthSp = new JSpinner(lengthSpinnerNumberModel);
-
+        ignitorMass = new JSpinner(decimalNumberModel);
+        ignitorTime = new JSpinner(decimalNumberModel2);
         diameterSectionSpinnerNumberModel = new SpinnerNumberModel(0.0, -1000.0, 1000.0, 0.1);
         lengthSectionSpinnerNumberModel = new SpinnerNumberModel(0.0, -1000.0, 1000.0, 0.1);
         innerDiameterSectionSpinnerNumberModel = new SpinnerNumberModel(0.0, -1000.0, 1000.0, 0.1);
@@ -3024,6 +3027,9 @@ public class MainWindow extends javax.swing.JFrame {
     SpinnerNumberModel diameterSectionSpinnerNumberModel;
     SpinnerNumberModel lengthSectionSpinnerNumberModel;
     SpinnerNumberModel innerDiameterSectionSpinnerNumberModel;
+    SpinnerNumberModel decimalNumberModel;
+    SpinnerNumberModel decimalNumberModel2;
+    
     public JSVGCanvas drawCanvas = new JSVGCanvas();
     public JSVGCanvas burntLayerCanvas = new JSVGCanvas();
     public Document document;
