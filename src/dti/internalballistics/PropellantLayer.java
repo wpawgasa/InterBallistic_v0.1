@@ -3,7 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package dti.internalballistics;
 
 /**
@@ -11,13 +10,14 @@ package dti.internalballistics;
  * @author wichai.p
  */
 public class PropellantLayer {
+
     private int layerId;
     private String layerName;
     private String layerMaterial;
     private double burningRate;
     private double pressureExponent;
-    private double density;      
-    private double burningConst; 
+    private double density;
+    private double burningConst;
     private double gasTemp;
     private double gasConst;
     private double heatRatio;
@@ -32,10 +32,32 @@ public class PropellantLayer {
     private double a_factor; //pre-exponent factor
     private double gas;
     private double gasFrac;
-    
-    
 
     public PropellantLayer() {
+    }
+
+    public PropellantLayer(PropellantLayer a) {
+        this.layerId = a.layerId;
+        this.layerName = a.layerName;
+        this.layerMaterial = a.layerMaterial;
+        this.burningRate = a.burningRate;
+        this.pressureExponent = a.pressureExponent;
+        this.density = a.density;
+        this.burningConst = a.burningConst;
+        this.gasTemp = a.gasTemp;
+        this.gasConst = a.gasConst;
+        this.heatRatio = a.heatRatio;
+        this.maxBurningDistance = a.maxBurningDistance;
+        this.burningStartDistance = a.burningStartDistance;
+        this.rb = a.rb; //burnining rate at time t
+        this.rb_m0 = a.rb_m0; //burnining rate at time t
+        this.x = a.x;  //burning distance at time t
+        this.Ap = a.Ap; //burning port area at time t
+        this.peri = a.peri; //periphery at time t
+        this.rbA = a.rbA; //Dummy burning rate at time t
+        this.a_factor = a.a_factor; //pre-exponent factor
+        this.gas = a.gas;
+        this.gasFrac = a.gasFrac;
     }
 
     public int getLayerId() {
@@ -205,8 +227,5 @@ public class PropellantLayer {
     public void setGasFrac(double gasFrac) {
         this.gasFrac = gasFrac;
     }
-    
-    
-    
-    
+
 }

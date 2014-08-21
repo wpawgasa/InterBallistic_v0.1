@@ -2001,13 +2001,19 @@ public class MainWindow extends javax.swing.JFrame {
             cad.calculateCircleLayer(burntLayerCanvas, 1.0, selectedSection);
             DefaultTableModel model = (DefaultTableModel) burningDistanceTable.getModel();
             model.setRowCount(0);
+            List<BurningDistance> burntDistances = new ArrayList<BurningDistance>();
             for (int i = 0; i < selectedSection.getBurntCircleLayer().size(); i++) {
                 InnerCircle circle = selectedSection.getBurntCircleLayer().get(i);
                 model.addRow(new Object[]{circle.getBurntX(), circle.getArea(), circle.getPeri()});
-
+                BurningDistance burntDistance = new BurningDistance();
+                burntDistance.setDistance(circle.getBurntX());
+                burntDistance.setPeripheral(circle.getPeri());
+                burntDistance.setPortArea(circle.getArea());
+                burntDistances.add(burntDistance);
             }
             Vector data = model.getDataVector();
             selectedSection.setBurningList(data);
+            selectedSection.setBurningDistances(burntDistances);
         }
 
     }
@@ -2423,26 +2429,31 @@ public class MainWindow extends javax.swing.JFrame {
             //for each segment, set start burning distance for each layer to 0 and burning rate for each layer in each segment
             double runningLength = 0;
             Segment[] segments = new Segment[N + 1];
-
+            segments[0] = new Segment();
             for (int i = 1; i <= N; i++) {
+                segments[i] = new Segment();
                 runningLength = Ln * i;
                 double totalSectionL = 0;
                 double startSeg = runningLength - Ln;
                 double endSeg = runningLength;
                 for (int j = 0; j < sectionList.size(); j++) {
                     SectionInfo section = sectionList.get(j);
+                    SectionInfo newsection = new SectionInfo(section);
+
                     for (int k = 0; k < section.getLayers().size(); k++) {
                         PropellantLayer l = section.getLayers().get(k);
-                        l.setX(0); //set burning distance to 0
-                        double rb0 = l.getBurningRate();
-                        double n = l.getPressureExponent();
-                        l.setA_factor(rb0 / (Math.pow(P0, n)));
-                        double a_factor = l.getA_factor();
-                        l.setRb(a_factor * Math.pow(Pg, n));
-                        l.setGas(0);
+                        PropellantLayer nl = new PropellantLayer(l);
+                        nl.setX(0); //set burning distance to 0
+                        double rb0 = nl.getBurningRate() / 1000;
+                        double n = nl.getPressureExponent();
+                        nl.setA_factor(rb0 / (Math.pow(P0, n)));
+                        double a_factor = nl.getA_factor();
+                        nl.setRb(a_factor * Math.pow(Pg, n));
+                        nl.setGas(0);
+                        newsection.getLayers().add(nl);
                     }
                     totalSectionL = totalSectionL + section.getLengthSection();
-                    segments[i].getSections().add(section);
+                    segments[i].getSections().add(newsection);
                     if (runningLength <= totalSectionL) {
                         segments[i].getSectionL().add(endSeg - startSeg);
                         break;
@@ -2561,7 +2572,7 @@ public class MainWindow extends javax.swing.JFrame {
                         D0 = 4 * AP0 / Peri0;
                         for (int i = 0; i < segments[0].getSections().get(0).getLayers().size(); i++) {
                             PropellantLayer l = segments[0].getSections().get(0).getLayers().get(i);
-                            B0 = 53 * l.getRb() * l.getDensity() / G0;
+                            B0 = 53 * l.getRb() * l.getDensity() * 1000 / G0;
                             double rb_m0 = l.getRb_m0();
                             double rb = l.getRb();
                             double alpha = l.getBurningConst() / Math.pow(10, 7);
@@ -2612,13 +2623,13 @@ public class MainWindow extends javax.swing.JFrame {
                                     D0 = 4 * curAp / curPeri;
                                     for (int k = 0; k < section.getLayers().size(); k++) {
                                         PropellantLayer l = segments[i].getSections().get(j).getLayers().get(k);
-                                        B0 = 53 * l.getRb() * l.getDensity() / G0;
+                                        B0 = 53 * l.getRb() * l.getDensity() * 1000 / G0;
                                         double rb_m0 = l.getRb_m0();
                                         double rb = l.getRb();
                                         double alpha = l.getBurningConst() / Math.pow(10, 7);
                                         rb = rb_m0 + alpha * (Math.pow(G0, 0.8)) * (Math.pow(D0, -0.2)) * Math.exp(-1 * B0);
                                         l.setRb(rb); //set value for rb[0] in each layer 
-                                        producedM = producedM + l.getRb() * (l.getPeri() + l.getPeri()) / 2 * Ls * l.getDensity();
+                                        producedM = producedM + l.getRb() * (l.getPeri() + l.getPeri()) / 2 * (Ls / 1000) * l.getDensity() * 1000;
 
                                     }
                                 } else {
@@ -2626,7 +2637,7 @@ public class MainWindow extends javax.swing.JFrame {
                                         PropellantLayer l = lastSection.getLayers().get(k);
                                         PropellantLayer cl = section.getLayers().get(k);
 
-                                        producedM = producedM + l.getRb() * (l.getPeri() + cl.getPeri()) / 2 * Ls * l.getDensity();
+                                        producedM = producedM + l.getRb() * (l.getPeri() + cl.getPeri()) / 2 * (Ls / 1000) * l.getDensity() * 1000;
 
                                     }
                                 }
@@ -2644,7 +2655,7 @@ public class MainWindow extends javax.swing.JFrame {
                                         BA = Math.pow(10, 11);
 
                                     } else {
-                                        BA = 53 * l.getRb() * l.getDensity() / GA;
+                                        BA = 53 * l.getRb() * l.getDensity() * 1000 / GA;
 
                                     }
                                     double rb_m0 = l.getRb_m0();
@@ -2659,7 +2670,7 @@ public class MainWindow extends javax.swing.JFrame {
                                         lastRb = l.getRb();
                                         lastPeri = l.getPeri();
                                     }
-                                    cur_mdot = cur_mdot + ((lastRb * lastPeri + l.getRbA() * l.getPeri()) / 2) * Ls * l.getDensity();
+                                    cur_mdot = cur_mdot + ((lastRb * lastPeri + l.getRbA() * l.getPeri()) / 2) * (Ls / 1000) * l.getDensity() * 1000;
                                     //                           mdot[i] = mdot[i-1]+(((rb1[i-1]*Peri1[i-1]+rb1a[i]*Peri1[i])/2)*Ln*rho1 + ((rb2[i-1]*Peri2[i-1]+rb2a[i]*Peri2[i])/2)*Ln*rho2);
 
                                 }
@@ -2668,7 +2679,7 @@ public class MainWindow extends javax.swing.JFrame {
                                 D = 4 * curAp / curPeri;
                                 for (int k = 0; k < section.getLayers().size(); k++) {
                                     PropellantLayer l = section.getLayers().get(k);
-                                    B = 53 * l.getRb() * l.getDensity() / G;
+                                    B = 53 * l.getRb() * l.getDensity() * 1000 / G;
                                     double rb_m0 = l.getRb_m0();
                                     double alpha = l.getBurningConst() / Math.pow(10, 7);
                                     double rb = rb_m0 + alpha * (Math.pow(G, 0.8)) * (Math.pow(D, -0.2)) * Math.exp(-1 * B);
@@ -2726,13 +2737,19 @@ public class MainWindow extends javax.swing.JFrame {
                     double k2 = 1 - Math.pow(101356.5 / P, (Gammix - 1) / Gammix);
                     CF = Math.sqrt(k * k1 * k2);
                     double CStar = Isp * 9.80665 / CF;
-                    System.out.println("mdotN: " + lastSection.getMdot() + ", C*: " + CStar + ", At: " + At);
-                    P = lastSection.getMdot() * CStar / At;
-                    if (Math.abs((Pg - P) / P) < climit) {
-                        isConverged = true;
+
+                    System.out.println("P: " + P + "mdotN: " + lastSection.getMdot() + ", C*: " + CStar + ", At: " + At);
+                    if (!Double.isNaN(CStar)) {
+                        P = lastSection.getMdot() * CStar / At;
+                        if (Math.abs((Pg - P) / P) < climit) {
+                            isConverged = true;
+                        } else {
+                            Pg = P;
+                        }
                     } else {
-                        Pg = P;
+                        Pg = Pg+500;
                     }
+
 //
                 } while (!isConverged);
 
@@ -2786,7 +2803,7 @@ public class MainWindow extends javax.swing.JFrame {
 //                    double out_x1_tail = (double)Math.round(x1[N]*1000*Math.pow(10,precision))/Math.pow(10,precision);
                     double out_P = (double) Math.round(P / 6895);
                     double out_thrust = (double) Math.round(P * At * CF / 9.8 * 2.204 * Math.pow(10, precision)) / Math.pow(10, precision);
-    //                DefaultTableModel outTableModel = (DefaultTableModel) outputWin.outputTable.getModel();
+                    //                DefaultTableModel outTableModel = (DefaultTableModel) outputWin.outputTable.getModel();
                     //                outTableModel.addRow(new Object[]{out_t,out_x1_head,out_x1_mid,out_x1_tail8,out_x1_tail6,out_x1_tail4,out_x1_tail3,out_x1_tail2,out_x1_tail1,out_x1_tail,out_P,out_thrust});
                     //outputWin.trace.addPoint(tprint, out_thrust);
                     traceOutputThrust.addPoint(tprint, out_thrust);
@@ -2795,9 +2812,9 @@ public class MainWindow extends javax.swing.JFrame {
                 }
 //
 //                //P < 50 * 6895
-//                if(t>delta_tprint && (P < 50 * 6895 || t >= ts)) {
-//                    isAborted = true;
-//                }
+                if (t > delta_tprint && (t >= ts)) {
+                    isAborted = true;
+                }
 //
 //            } 
 //        
@@ -2820,7 +2837,7 @@ public class MainWindow extends javax.swing.JFrame {
         }
 
         private void Geom(SectionInfo section) {
-            List<BurningDistance> distanceLayer = section.getBurningList();
+            List<BurningDistance> distanceLayer = section.getBurningDistances();
             List<PropellantLayer> propLayers = section.getLayers();
 //            DefaultTableModel table1 = (DefaultTableModel) propGeoWin.jTable1.getModel();
 //            DefaultTableModel table2 = (DefaultTableModel) propGeoWin.jTable2.getModel();
@@ -2860,7 +2877,7 @@ public class MainWindow extends javax.swing.JFrame {
             for (int i = 0; i < propLayers.size(); i++) {
                 PropellantLayer propLayer = propLayers.get(i);
                 double curX = propLayer.getX(); //get current burnt distance of this layer
-                double maxX = propLayer.getMaxBurningDistance(); //get max burnt distance of this layer
+                double maxX = propLayer.getMaxBurningDistance() / 1000; //get max burnt distance of this layer
 
                 if (curX >= maxX) {
                     propLayer.setPeri(lastLayer.getPeripheral());
@@ -2869,11 +2886,12 @@ public class MainWindow extends javax.swing.JFrame {
                     for (int j = 0; j < distanceLayer.size() - 1; j++) {
                         BurningDistance bdp = distanceLayer.get(j);
                         BurningDistance bdn = distanceLayer.get(j + 1);
-                        if (curX >= bdp.getDistance() && curX < bdn.getDistance()) {
-                            double AP = bdp.getPortArea() + (bdn.getPortArea() - bdp.getPortArea()) / (bdn.getDistance() - bdp.getDistance()) * (curX - bdp.getDistance());
-                            double Peri = bdp.getPeripheral() + (bdn.getPeripheral() - bdp.getPeripheral()) / (bdn.getDistance() - bdp.getDistance()) * (curX - bdp.getDistance());
+                        if (curX >= bdp.getDistance() / 1000 && curX < bdn.getDistance() / 1000) {
+                            double AP = bdp.getPortArea() / 1000000 + (bdn.getPortArea() / 1000000 - bdp.getPortArea() / 1000000) / (bdn.getDistance() / 1000 - bdp.getDistance() / 1000) * (curX - bdp.getDistance() / 1000);
+                            double Peri = bdp.getPeripheral() / 1000 + (bdn.getPeripheral() / 1000 - bdp.getPeripheral() / 1000) / (bdn.getDistance() / 1000 - bdp.getDistance() / 1000) * (curX - bdp.getDistance() / 1000);
                             propLayer.setAp(AP);
                             propLayer.setPeri(Peri);
+                            break;
                         }
                     }
                 }

@@ -52,7 +52,7 @@ public class SectionInfo {
     private List<Point> points = new ArrayList<Point>();
     private List<InnerCircle> burntCircleLayer = new ArrayList<InnerCircle>();
     private Document burntLayerDoc;
-    //private List<BurningDistance> burningList = new ArrayList<BurningDistance>();
+    private List<BurningDistance> burningDistances = new ArrayList<BurningDistance>();
     private Vector burningList = new Vector();
     
     private double mdot;   //Mass flow rate at time t in this segment
@@ -102,6 +102,14 @@ public class SectionInfo {
 //        burningList.add(burningDistance);
     }
 
+    public SectionInfo(SectionInfo another) {
+        //this.layers = another.layers;
+        this.burningDistances = another.burningDistances;
+        this.mdot = another.mdot;
+        this.mdotA = another.mdotA;
+        this.mach = another.mach;
+        this.machA = another.machA;
+    }
     public List<PropellantLayer> getLayers() {
         return layers;
     }
@@ -306,20 +314,16 @@ public class SectionInfo {
         this.center = center;
     }
 
-    /**
-     * @return the burningList
-     */
-//    public List<BurningDistance> getBurningList() {
-//        return burningList;
-//    }
+    public List<BurningDistance> getBurningDistances() {
+        return burningDistances;
+    }
 
-    /**
-     * @param burningList the burningList to set
-     */
-//    public void setBurningList(List<BurningDistance> burningList) {
-//        this.burningList = burningList;
-//    }
-//    
+    public void setBurningDistances(List<BurningDistance> burningDistances) {
+        this.burningDistances = burningDistances;
+    }
+
+
+    
        public void setBurningList(Vector burningList) {
         this.burningList = burningList;
     }
