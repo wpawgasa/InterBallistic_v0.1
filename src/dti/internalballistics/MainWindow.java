@@ -276,9 +276,9 @@ public class MainWindow extends javax.swing.JFrame {
         calBurningDistanceBtn = new javax.swing.JButton();
 
         diameterSpinnerNumberModel = new SpinnerNumberModel(0.0, -1000.0, 1000.0, 0.1);
-        lengthSpinnerNumberModel = new SpinnerNumberModel(0.0, -1000.0, 1000.0, 0.1);
-        decimalNumberModel = new SpinnerNumberModel(0.0, -1000.0, 1000.0, 0.1);
-        decimalNumberModel2 = new SpinnerNumberModel(0.0, -1000.0, 1000.0, 0.1);
+        lengthSpinnerNumberModel = new SpinnerNumberModel(0.0, -10000.0, 10000.0, 0.1);
+        decimalNumberModel = new SpinnerNumberModel(0.0, -10.0, 10.0, 0.01);
+        decimalNumberModel2 = new SpinnerNumberModel(0.0, -10.0, 10.0, 0.01);
         psiNumberModel = new SpinnerNumberModel(0.0, -10000.00000, 10000.00000, 0.00001);
         rocketDiameterSp = new JSpinner(diameterSpinnerNumberModel);
         rocketLengthSp = new JSpinner(lengthSpinnerNumberModel);
@@ -1228,7 +1228,6 @@ public class MainWindow extends javax.swing.JFrame {
         leftGeoPanelLayout.setVerticalGroup(
                 leftGeoPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(leftGeoPanelLayout.createSequentialGroup()
-                        .addContainerGap()
                         .addGroup(leftGeoPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                 .addGroup(leftGeoPanelLayout.createSequentialGroup()
                                         .addGroup(leftGeoPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -2114,6 +2113,7 @@ public class MainWindow extends javax.swing.JFrame {
         //fc.setAcceptAllFileFilterUsed(false);
         int retVal = fc.showOpenDialog(fc);
         DefaultTableModel model = (DefaultTableModel) burningDistanceTable.getModel();
+        List<BurningDistance> burntDistances = new ArrayList<BurningDistance>();
         if (retVal == JFileChooser.APPROVE_OPTION) {
             try {
                 File file = fc.getSelectedFile();
@@ -2124,18 +2124,26 @@ public class MainWindow extends javax.swing.JFrame {
                 String line;
                 fis = new FileInputStream(file);
                 br = new BufferedReader(new InputStreamReader(fis, Charset.forName("UTF-8")));
+                
                 try {
 
                     model.setRowCount(0);
+                    
                     while ((line = br.readLine()) != null) {
                         // Deal with the line
                         //System.out.println(line);//debug code
-                        String[] parts = line.split(",", 3);
+                        //String[] parts = line.split(",", 3);
+                        String[] parts = line.split(",", 6);
                         Double x1d_A = Double.parseDouble(parts[0]);
-                        Double portArea1_A = Double.parseDouble(parts[1]);
-                        Double periphery1_A = Double.parseDouble(parts[2]);
+                        Double portArea1_A = Double.parseDouble(parts[2]);
+                        Double periphery1_A = Double.parseDouble(parts[4]);
 
                         model.addRow(new Object[]{x1d_A, portArea1_A, periphery1_A});
+                        BurningDistance burntDistance = new BurningDistance();
+                        burntDistance.setDistance(x1d_A);
+                        burntDistance.setPeripheral(periphery1_A);
+                        burntDistance.setPortArea(portArea1_A);
+                        burntDistances.add(burntDistance);
 
                     }
                 } catch (IOException ex) {
@@ -2149,6 +2157,7 @@ public class MainWindow extends javax.swing.JFrame {
 
         Vector data = model.getDataVector();
         selectedSection.setBurningList(data);
+        selectedSection.setBurningDistances(burntDistances);
     }
 
     private void savePropDataBtActionPerformed(java.awt.event.ActionEvent evt) {
